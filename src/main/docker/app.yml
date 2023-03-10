@@ -1,0 +1,51 @@
+# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
+version: '3.3'
+services:
+  lucy-app:
+    image: lucy
+    container_name: lucy
+    environment:
+      - _JAVA_OPTIONS=-Xmx8192m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod,api-docs,tls
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://lucy-postgresql:5432/lucy
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://lucy-postgresql:5432/lucy
+      - JHIPSTER_SLEEP=10 # gives time for other services to boot before the application
+      - SERVER_SSL_KEY_STORE_PASSWORD=ENTER_YOUR_SSL_PASSWORD_HERE
+      - SERVER_SSL_KEY_ALIAS=ENTER_SSL_KEY_ALIAS_HERE
+      - APPLICATION_SOURCE_CODE_ARCHIVE_ACTIVE=false
+      #- SPRING_MAIL_HOST=
+      #- SPRING_MAIL_PORT=
+      #- SPRING_MAIL_USERNAME=
+      #- SPRING_MAIL_PASSWORD=
+      #- SPRING_MAIL_TLS=true
+      #- SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=true
+      #- SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=true
+      #- JHIPSTER_MAIL_FROM=
+      #- JHIPSTER_MAIL_BASE_URL=
+      #- APPLICATION_MAIL_RESTRICT_TO_DOMAIN=true
+      #- APPLICATION_MAIL_ALLOWED_DOMAIN=ENTER_YOUR_DOMAIN_HERE
+      #- APPLICATION_FOSSOLOGY_ENABLED=true
+      #- APPLICATION_FOSSOLOGY_URL=
+      #- APPLICATION_FOSSOLOGY_TOKEN=
+      #- APPLICATION_FOSSOLOGY_FOLDER=
+      - APPLICATION_LUCY_DOMAIN=ENTER_THE_URL_OF_LUCY_HERE
+    ports:
+      - 8090:8080
+    volumes:
+    # Mount volumes for ssl certificate, filesArchive and logs folder
+      #- PATH_TO_DIR:/app/resources/config/tls/
+      #- PATH_TO_DIR:/app/resources/filesArchive/
+      #- PATH_TO_DIR:/app/logs/
+    depends_on:
+      - "lucy-postgresql"
+  lucy-postgresql:
+    image: postgres:13.2
+    container_name: lucy_postgreSQL
+    volumes:
+    # Its recommended to mount the database volume
+      #- PATH_TO_DIR:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=lucy
+      - POSTGRES_PASSWORD=lucy123!
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
