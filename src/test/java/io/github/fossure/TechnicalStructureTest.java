@@ -11,7 +11,7 @@ import com.tngtech.archunit.lang.ArchRule;
 import io.github.fossure.config.Constants;
 import io.github.fossure.config.ApplicationProperties;
 
-@AnalyzeClasses(packagesOf = LucyApp.class, importOptions = DoNotIncludeTests.class)
+@AnalyzeClasses(packagesOf = FossureApp.class, importOptions = DoNotIncludeTests.class)
 class TechnicalStructureTest {
 
     // prettier-ignore
@@ -31,7 +31,7 @@ class TechnicalStructureTest {
         .whereLayer("Persistence").mayOnlyBeAccessedByLayers("Service", "Security", "Web", "Config")
         .whereLayer("Domain").mayOnlyBeAccessedByLayers("Persistence", "Service", "Security", "Web", "Config")
 
-        .ignoreDependency(belongToAnyOf(LucyApp.class), alwaysTrue())
+        .ignoreDependency(belongToAnyOf(FossureApp.class), alwaysTrue())
         .ignoreDependency(alwaysTrue(), belongToAnyOf(
             Constants.class,
             ApplicationProperties.class

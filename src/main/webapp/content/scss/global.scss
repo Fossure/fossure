@@ -1,6 +1,68 @@
 @import 'bootstrap-variables';
+@import 'content/scss/vendor';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+
+
+/* ==============================================================
+Sidenav / Content size
+===============================================================*/
+
+.content-xl {
+  margin-left: 85px;
+  padding: 2.2rem 2rem;
+  -webkit-transition: $transition-collapse-margin;
+  -moz-transition: $transition-collapse-margin;
+  -o-transition: $transition-collapse-margin;
+  transition: $transition-collapse-margin;
+}
+
+.content-sm {
+  margin-left: 228px;
+  padding: 2.2rem 2rem;
+  -webkit-transition: $transition-collapse-margin;
+  -moz-transition: $transition-collapse-margin;
+  -o-transition: $transition-collapse-margin;
+  transition: $transition-collapse-margin;
+}
+
+/* ==============================================================
+Sidenav Popover
+===============================================================*/
+
+.active .sidenav-popover {
+  background-color: $fossure-dark;
+}
+
+.sidenav-popover {
+  background-color: $fossure-darker;
+  color: $light;
+  font-weight: $font-weight-semibold;
+  box-shadow: none;
+  border: none;
+  border-radius: 0 2rem 2rem 0;
+  padding: 0 2rem 0 .5rem;
+  transition: none;
+  margin-left: -0.5rem !important;
+}
+
+.sidenav-popover-profile {
+  width: 140px;
+  padding: 0 0 0 .5rem;
+  margin-left: 0 !important;
+}
+
+.sidenav-popover .popover-body {
+  color: shade-color($light, 30%);
+  font-weight: $font-weight-semibold;
+  padding: 10px;
+}
+
+.sidenav-popover .popover-arrow {
+  display: none;
+}
+
+
 
 /* ==============================================================
 Bootstrap tweaks
@@ -118,13 +180,13 @@ Generic styles
   opacity: 1;
 }
 
-.footer {
-  // border-top: 1px solid rgba(0, 0, 0, 0.125);
-}
-
 .hand,
 [jhisortby] {
   cursor: pointer;
+}
+
+.no-hand {
+  cursor: default !important;
 }
 
 /* ==========================================================================
@@ -265,6 +327,174 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 Enter here custom CSS changes -->
 ========================================================================== */
 
+
+/* ==========================================================================
+login
+========================================================================== */
+
+.signin {
+  background: $fossure-lightblue;
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+.register {
+  background: linear-gradient(45deg, rgba(255,78,80,1) 0%, rgba(252,144,58,1) 100%);
+  padding: 1rem 2rem;
+  color: $light;
+}
+
+.signin-logo {
+  background: url('../images/brand/logo-with-name.png') no-repeat center center;
+  background-size: contain;
+  height: 130px;
+}
+
+.dashboard > div:first-child {
+  margin-top: 0;
+}
+
+.dashboard > div {
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+}
+
+.dashboard > div:last-child {
+  margin-bottom: 0;
+}
+
+.insight-sm {
+  display: grid;
+  font-weight: $font-weight-semibold;
+  background: $fossure-lightblue;
+  color: $dark;
+  border-radius: $border-radius;
+  padding: .8rem 1rem;
+  box-shadow: $box-shadow-sm;
+  cursor: pointer;
+  transition: $transition-base;
+  backface-visibility: hidden;
+  position: relative;
+  min-width: 172px;
+  text-align: center;
+}
+
+.insight-sm:hover {
+  transform: scale(1.03);
+  filter: brightness(95%);
+}
+
+.insight-sm *:first-child {
+  font-size: 1.7rem;
+}
+
+.insight-sm *:nth-child(2) {
+  font-size: .8rem;
+  color: $gray-600;
+}
+
+.card .top-right-tooltip {
+  right: .7rem;
+}
+
+.card-dark {
+  background-color: $fossure-darker;
+  color: $light;
+  box-shadow: $box-shadow;
+}
+
+.card-dark .card-title {
+  font-weight: $font-weight-semibold;
+  background: $fossure-dark;
+  border-radius: $border-radius;
+  padding: .5rem 1.2rem;
+}
+
+.card-dark .card-body {
+  padding: 1.4rem;
+}
+
+.card-dark .form-control {
+  border-color: $gray-500;
+}
+
+.card-dark .form-select {
+  border-color: $gray-500;
+}
+
+.card-dark .form-control:focus {
+  box-shadow: 0 .5rem 1rem rgba($black, .5);
+}
+
+.card-dark .form-select:focus {
+  box-shadow: 0 .5rem 1rem rgba($black, .5);
+  background-color: $white;
+}
+
+.form-select:focus {
+  background-color: $white;
+}
+
+.card-search-result-hidden {
+  margin-top: -72px !important;
+  transition: $transition-base;
+  visibility: hidden;
+}
+
+.card-search-result {
+  height: 72px;
+  color: $light;
+  font-size: 1.1rem;
+  font-weight: $font-weight-semibold;
+  text-align: center;
+  margin: auto;
+  margin-top: -1.2rem;
+  width: 90%;
+  border-radius: $border-radius;
+  padding-top: 0.96rem;
+  transition: $transition-base;
+}
+
+.grid-table {
+  cursor: pointer;
+  padding: .6rem 1rem;
+  border-radius: $border-radius;
+}
+
+.grid-table:hover {
+  background-color: $light;
+}
+
+.grid-table:hover fa-icon {
+  color: $fossure-red;
+}
+
+.badge-outline-light {
+  padding: .1rem .5rem;
+  border: 1px solid $gray-500;
+  color: $gray-500;
+  border-radius: $border-radius;
+}
+
+.notifications {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
+
+.toast {
+  margin-top: 1rem;
+  border-radius: $border-radius;
+}
+
+.toast .btn-close {
+  filter: invert(100%) grayscale(100%) brightness(200%);
+}
+
+.tab-content {
+  background-color: unset !important;
+}
+
 .long-text {
   white-space: pre-line;
   max-height: 140px;
@@ -339,7 +569,7 @@ pre {
 .popover-body-export {
   background-color: $info;
   color: white;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   padding: 0.5rem 0.75rem 0;
   border-radius: $border-radius;
 }
@@ -405,9 +635,13 @@ pre {
   box-shadow: $input-box-shadow;
 }
 
-.form-control:focus {
-  box-shadow: none;
+.form-floating > label {
+  color: $gray-600;
 }
+
+//.form-control:focus {
+//  box-shadow: none;
+//}
 
 .input-group-checkbox-append {
   background-color: $input-bg-color;
@@ -459,7 +693,7 @@ pre {
   border-radius: 0 0 $border-radius $border-radius;
 }
 
-.lucy-card-row {
+.fossure-card-row {
   border-radius: 0.8rem 0.8rem 0.8rem 0.8rem;
   border: 0;
   box-shadow: 0 0 10px $gray-200;
@@ -468,11 +702,11 @@ pre {
   backface-visibility: hidden;
 }
 
-.lucy-card-row:hover {
+.fossure-card-row:hover {
   transform: scale(1.03);
 }
 
-.lucy-card-header-row {
+.fossure-card-header-row {
   background: $primary-gradient;
   color: $white;
   border-radius: 0.8rem 0 0 0.8rem !important;
@@ -480,7 +714,7 @@ pre {
   cursor: pointer;
 }
 
-.lucy-card-detail-row {
+.fossure-card-detail-row {
   margin-top: -1.2rem;
   padding: 2rem 1rem 1rem 1rem;
   z-index: 1;
@@ -489,7 +723,7 @@ pre {
   border-radius: 0.8rem;
 }
 
-.lucy-card-sm {
+.fossure-card-sm {
   text-align: center;
   background: $primary-gradient;
   box-shadow: 0 0 10px $gray-200;
@@ -503,16 +737,16 @@ pre {
   backface-visibility: hidden;
 }
 
-.lucy-card-sm:hover {
+.fossure-card-sm:hover {
   transform: scale(1.03);
 }
 
-.lucy-card {
+.fossure-card {
   box-shadow: $box-shadow-sm;
   border: 0;
 }
 
-.lucy-card-header {
+.fossure-card-header {
   background: $primary-gradient;
   color: $white;
   border-bottom: 0;
@@ -520,31 +754,31 @@ pre {
   padding: 0.5rem 1.4rem;
 }
 
-.lucy-card-header-white {
+.fossure-card-header-white {
   background: $white;
   border-bottom: 0;
   font-weight: 501;
   padding: 0.5rem 1.4rem;
 }
 
-.lucy-card-header-white-with-border {
+.fossure-card-header-white-with-border {
   background: $white;
   border-bottom: 2px solid $gray-200;
   font-weight: 501;
   padding: 0.5rem 1.4rem;
 }
 
-.lucy-card-body-sm {
+.fossure-card-body-sm {
   padding: 0.5rem;
 }
 
-.lucy-card-footer {
+.fossure-card-footer {
   border-top: 0;
   padding: 0.5rem 1.4rem;
   font-size: 90%;
 }
 
-.lucy-card-footer-more {
+.fossure-card-footer-more {
   max-height: 78px;
   overflow: hidden;
   padding-bottom: 1rem;
@@ -558,7 +792,7 @@ pre {
   }
 }
 
-.lucy-card-footer-less {
+.fossure-card-footer-less {
   max-height: 500px;
   overflow: hidden;
   padding-bottom: 1rem;

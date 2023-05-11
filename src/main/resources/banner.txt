@@ -1,11 +1,8 @@
 
-  ${AnsiColor.BLUE} _
-  ${AnsiColor.BLUE}| |
-  ${AnsiColor.BLUE}| |    _   _  ___ _   _
-  ${AnsiColor.BLUE}| |   | | | |/ __| | | |
-  ${AnsiColor.BLUE}| |___| |_| | (__| |_| |
-  ${AnsiColor.BLUE}\_____/\__,_|\___|\__, |
-  ${AnsiColor.BLUE}                   __/ |
-  ${AnsiColor.BLUE}                  |___/
+  ${AnsiColor.BLUE} _____
+  ${AnsiColor.BLUE}|  ___|__  ___ ___ _   _ _ __ ___
+  ${AnsiColor.BLUE}| |_ / _ \/ __/ __| | | | '__/ _ \
+  ${AnsiColor.BLUE}|  _| (_) \__ \__ \ |_| | | |  __/
+  ${AnsiColor.BLUE}|_|  \___/|___/___/\__,_|_|  \___|
 
-${AnsiColor.BRIGHT_BLUE}:: Lucy :: Running Spring Boot ${spring-boot.version} ::
+${AnsiColor.BRIGHT_BLUE}:: Fossure :: Running Spring Boot ${spring-boot.version} ::

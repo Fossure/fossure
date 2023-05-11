@@ -8,7 +8,7 @@ import { LoginComponent } from './login.component';
 
 @Component({
   selector: 'jhi-login-custom',
-  templateUrl: './login-custom.component.html',
+  templateUrl: './login-custom.component.html'
 })
 export class LoginCustomComponent extends LoginComponent {
   @ViewChild('username', { static: false })

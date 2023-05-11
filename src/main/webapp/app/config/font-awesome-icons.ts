@@ -86,6 +86,9 @@ import {
   faBoltLightning,
   faAngleUp,
   faAngleDown,
+  faRightFromBracket,
+  faGear,
+  faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const fontAwesomeIcons = [
@@ -176,4 +179,7 @@ export const fontAwesomeIcons = [
   faBoltLightning,
   faAngleUp,
   faAngleDown,
+  faRightFromBracket,
+  faGear,
+  faChevronRight,
 ];

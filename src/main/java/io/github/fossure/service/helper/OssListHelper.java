@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import io.github.fossure.config.Constants;
 import io.github.fossure.domain.*;
-import net.regnology.lucy.domain.*;
+import io.github.fossure.domain.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;

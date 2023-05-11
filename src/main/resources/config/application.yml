@@ -92,7 +92,7 @@ management:
 
 spring:
   application:
-    name: lucy
+    name: fossure
   profiles:
     # The commented value for `active` can be replaced with valid Spring profiles to load.
     # Otherwise, it will be filled in by maven when building the JAR file
@@ -140,13 +140,13 @@ spring:
       matching-strategy: ant_path_matcher
   task:
     execution:
-      thread-name-prefix: lucy-task-
+      thread-name-prefix: fossure-task-
       pool:
         core-size: 2
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: lucy-scheduling-
+      thread-name-prefix: fossure-scheduling-
       pool:
         size: 2
   thymeleaf:
@@ -192,19 +192,19 @@ jhipster:
   #   allow-credentials: true
   #   max-age: 1800
   mail:
-    from: lucy@localhost
+    from: fossure@localhost
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/**
     management-include-pattern: ${server.servlet.context-path:}/management/**
-    title: Lucy API
-    description: Lucy API documentation
+    title: Fossure API
+    description: Fossure API documentation
     version: 0.6.3
     terms-of-service-url:
     contact-name:
     contact-url:
     contact-email:
     license: MIT
-    license-url: https://github.com/Regnology/lucy/blob/main/LICENSE
+    license-url: https://github.com/Fossure/fossure/blob/main/LICENSE
   security:
     content-security-policy: "default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:"
 # ===================================================================
@@ -232,5 +232,5 @@ application:
     upload-password:
   upload:
     limit: 8000 # In megabyte
-  lucy:
+  fossure:
     domain:

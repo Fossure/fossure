@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { errorRoute } from './layouts/error/error.route';
 import { navbarRoute } from './layouts/navbar/navbar.route';
+import { sidenavRoute } from './layouts/sidenav/sidenav.route';
 import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { Authority } from 'app/config/authority.constants';
 
@@ -33,6 +34,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
           loadChildren: () => import(`./entities/entity-routing-custom.module`).then(m => m.EntityRoutingCustomModule),
         },
         navbarRoute,
+        sidenavRoute,
         ...errorRoute,
       ],
       { enableTracing: DEBUG_INFO_ENABLED }

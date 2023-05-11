@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 
-import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE, EMAIL_DOMAIN_INVALID_KEY } from 'app/config/error.constants';
+import { EMAIL_ALREADY_USED_KEY, LOGIN_ALREADY_USED_KEY, EMAIL_DOMAIN_INVALID_KEY } from 'app/config/error.constants';
 import { RegisterService } from './register.service';
 
 @Component({
@@ -65,9 +65,9 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   private processError(response: HttpErrorResponse): void {
-    if (response.status === 400 && response.error.type === LOGIN_ALREADY_USED_TYPE) {
+    if (response.status === 400 && response.error.errorKey === LOGIN_ALREADY_USED_KEY) {
       this.errorUserExists = true;
-    } else if (response.status === 400 && response.error.type === EMAIL_ALREADY_USED_TYPE) {
+    } else if (response.status === 400 && response.error.errorKey === EMAIL_ALREADY_USED_KEY) {
       this.errorEmailExists = true;
     } else if (response.status === 400 && response.error.errorKey === EMAIL_DOMAIN_INVALID_KEY) {
       this.errorEmailDomainInvalid = true;

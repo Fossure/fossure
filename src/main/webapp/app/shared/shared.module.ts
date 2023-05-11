@@ -14,9 +14,13 @@ import { ItemCountComponent } from './pagination/item-count.component';
 import { CopyrightModalComponent } from './modals/copyright-modal/copyright-modal.component';
 import { UrlTransformationPipe } from './url/string-to-url.pipe';
 import { LibraryLabelPipe } from './label/library-label.pipe';
+import { FirstCapitalLetterPipe } from './text/first-capital-letter.pipe';
+import { ShortenedNumberPipe } from './number/shortened-number.pipe';
+import { NotificationComponent } from './notification/notification/notification.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [SharedLibsModule],
+  imports: [SharedLibsModule, RouterModule],
   declarations: [
     AlertComponent,
     AlertErrorComponent,
@@ -32,6 +36,9 @@ import { LibraryLabelPipe } from './label/library-label.pipe';
     CopyrightModalComponent,
     UrlTransformationPipe,
     LibraryLabelPipe,
+    FirstCapitalLetterPipe,
+    ShortenedNumberPipe,
+    NotificationComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -48,6 +55,9 @@ import { LibraryLabelPipe } from './label/library-label.pipe';
     ItemCountComponent,
     UrlTransformationPipe,
     LibraryLabelPipe,
+    FirstCapitalLetterPipe,
+    ShortenedNumberPipe,
+    NotificationComponent,
   ],
 })
 export class SharedModule {}

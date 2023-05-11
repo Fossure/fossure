@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lucy": {
+    "fossure": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -32,6 +32,13 @@
             "assets": [
               "src/main/webapp/content",
               "src/main/webapp/favicon.ico",
+              "src/main/webapp/favicon.png",
+              "src/main/webapp/favicon-16x16.png",
+              "src/main/webapp/favicon-32x32.png",
+              "src/main/webapp/apple-touch-icon.png",
+              "src/main/webapp/safari-pinned-tab.svg",
+              "src/main/webapp/android-chrome-192x192.png",
+              "src/main/webapp/android-chrome-512x512.png",
               "src/main/webapp/manifest.webapp",
               "src/main/webapp/robots.txt",
               {
@@ -84,15 +91,15 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "lucy:build:development",
+            "browserTarget": "fossure:build:development",
             "port": 4200
           },
           "configurations": {
             "production": {
-              "browserTarget": "lucy:build:production"
+              "browserTarget": "fossure:build:production"
             },
             "development": {
-              "browserTarget": "lucy:build:development"
+              "browserTarget": "fossure:build:development"
             }
           },
           "defaultConfiguration": "development"

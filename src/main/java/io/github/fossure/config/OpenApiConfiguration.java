@@ -13,7 +13,7 @@ import tech.jhipster.config.apidoc.customizer.JHipsterOpenApiCustomizer;
 @Profile(JHipsterConstants.SPRING_PROFILE_API_DOCS)
 public class OpenApiConfiguration {
 
-    public static final String API_FIRST_PACKAGE = "net.regnology.lucy.web.api";
+    public static final String API_FIRST_PACKAGE = "io.github.fossure.web.api";
 
     @Bean
     @ConditionalOnMissingBean(name = "apiFirstGroupedOpenAPI")

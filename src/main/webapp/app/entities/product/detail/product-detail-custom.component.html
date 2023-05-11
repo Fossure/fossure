@@ -33,7 +33,7 @@
           <hr />
           <div class="row gy-3">
             <div
-              class="col-auto card lucy-card product-overview-card ms-5"
+              class="col-auto card fossure-card product-overview-card ms-5"
               placement="top"
               ngbTooltip="Number of libraries in the product with percentage change to the previous version (if available)."
               container="body"
@@ -64,7 +64,7 @@
             </div>
 
             <div
-              class="col-auto card lucy-card product-overview-card ms-5"
+              class="col-auto card fossure-card product-overview-card ms-5"
               placement="top"
               ngbTooltip="Number of different licenses in the product with percentage change to the previous version (if available)."
               container="body"
@@ -95,7 +95,7 @@
             </div>
 
             <div
-              class="col-auto card lucy-card product-overview-card ms-5"
+              class="col-auto card fossure-card product-overview-card ms-5"
               placement="top"
               [ngbTooltip]="reviewedLibrariesTooltip"
               container="body"
@@ -115,12 +115,12 @@
         </div>
 
         <div class="col-auto me-3">
-          <div class="card lucy-card text-center">
-            <div class="card-header lucy-card-header-white">Delivery Status</div>
+          <div class="card fossure-card text-center">
+            <div class="card-header fossure-card-header-white">Delivery Status</div>
             <div [ngSwitch]="product.delivered">
-              <div *ngSwitchCase="true" class="card-body lucy-card-body-sm bg-success text-white">Delivered</div>
-              <div *ngSwitchCase="false" class="card-body lucy-card-body-sm card-body-risk bg-secondary text-white">In Development</div>
-              <div *ngSwitchCase="true" class="card-footer lucy-card-footer bg-white">
+              <div *ngSwitchCase="true" class="card-body fossure-card-body-sm bg-success text-white">Delivered</div>
+              <div *ngSwitchCase="false" class="card-body fossure-card-body-sm card-body-risk bg-secondary text-white">In Development</div>
+              <div *ngSwitchCase="true" class="card-footer fossure-card-footer bg-white">
                 {{ product.deliveredDate | formatMediumDatetime }}
               </div>
             </div>
@@ -128,7 +128,7 @@
         </div>
 
         <div class="col-auto">
-          <div class="card lucy-card">
+          <div class="card fossure-card">
             <div class="card-body">
               <div class="row">
                 <div class="col">
@@ -590,9 +590,9 @@
                             *ngIf="addLibraryForm.get('libraries')!.value && addLibraryForm.get('libraries')!.value.length > 0"
                           >
                             <ng-container>
-                              <div class="card lucy-card">
-                                <div class="card-header lucy-card-header">Libraries to be added</div>
-                                <div class="card-body lucy-card-body-sm">
+                              <div class="card fossure-card">
+                                <div class="card-header fossure-card-header">Libraries to be added</div>
+                                <div class="card-body fossure-card-body-sm">
                                   <div class="selected-values">
                                     <span *ngFor="let library of addLibraryForm.get('libraries')!.value; let i = index">
                                       <button class="badge btn-secondary btn-badge btn" (click)="removeLibraryFromAddLibraryForm(i)">
@@ -1298,8 +1298,8 @@
             <div class="row justify-content-center">
               <!-- START card OSS List -->
               <div class="col-lg col-md-8 col-sm-9 mb-3">
-                <div class="card lucy-card">
-                  <div class="card-header lucy-card-header-white-with-border">
+                <div class="card fossure-card">
+                  <div class="card-header fossure-card-header-white-with-border">
                     OSS List
                     <div class="btn-group btn-group-sm" style="float: right">
                       <label class="btn btn-outline-dark" [ngClass]="{ active: ossFormat === 'CSV' }" style="width: 80px; line-height: 1">
@@ -1313,7 +1313,7 @@
                     </div>
                   </div>
 
-                  <div class="card-body lucy-card-body">
+                  <div class="card-body fossure-card-body">
                     <div class="mb-3">
                       <div class="text-muted">Options</div>
                       <div class="form-check form-check-inline">
@@ -1359,7 +1359,7 @@
                     </button>
                   </div>
 
-                  <div class="card-footer lucy-card-footer" [ngClass]="!showMoreOss ? 'lucy-card-footer-more' : 'lucy-card-footer-less'">
+                  <div class="card-footer fossure-card-footer" [ngClass]="!showMoreOss ? 'fossure-card-footer-more' : 'fossure-card-footer-less'">
                     <div class="text-muted btn-more" (click)="showMoreOss = !showMoreOss">{{ !showMoreOss ? 'More' : 'Less' }}</div>
                     <p>Download the OSS list as a CSV or HTML file and choose between the options:</p>
                     <p>
@@ -1375,9 +1375,9 @@
 
               <!-- START card License Text Archive -->
               <div class="col-lg col-md-8 col-sm-9 mb-3">
-                <div class="card lucy-card">
-                  <div class="card-header lucy-card-header-white-with-border">License Text Archive</div>
-                  <div class="card-body lucy-card-body">
+                <div class="card fossure-card">
+                  <div class="card-header fossure-card-header-white-with-border">License Text Archive</div>
+                  <div class="card-body fossure-card-body">
                     <button class="btn btn-primary btn-sm" style="width: 100%" (click)="downloadZip()" [disabled]="isDownloadingZip">
                       <div *ngIf="isDownloadingZip" class="spinner-border spinner-border-sm" role="status"></div>
                       <fa-icon *ngIf="!isDownloadingZip" icon="file-download"></fa-icon>
@@ -1385,7 +1385,7 @@
                       <span *ngIf="isDownloadingZip">Loading</span>
                     </button>
                   </div>
-                  <div class="card-footer lucy-card-footer">
+                  <div class="card-footer fossure-card-footer">
                     Download an archive with the license texts of each library which needs to be published.
                   </div>
                 </div>
@@ -1394,8 +1394,8 @@
 
               <!-- START card Source Code Archive -->
               <div class="col-lg col-md-8 col-sm-9 mb-3">
-                <div class="card lucy-card">
-                  <div class="card-header lucy-card-header-white-with-border">
+                <div class="card fossure-card">
+                  <div class="card-header fossure-card-header-white-with-border">
                     Source Code Archive
                     <div class="btn-group btn-group-sm" style="float: right">
                       <label
@@ -1431,7 +1431,7 @@
                       </label>
                     </div>
                   </div>
-                  <div class="card-body lucy-card-body">
+                  <div class="card-body fossure-card-body">
                     <!-- START row Options -->
                     <div class="row mb-3">
                       <div class="col">
@@ -1476,7 +1476,7 @@
                     </div>
                     <!-- END row Download button -->
                   </div>
-                  <div class="card-footer lucy-card-footer" [ngClass]="!showMoreSca ? 'lucy-card-footer-more' : 'lucy-card-footer-less'">
+                  <div class="card-footer fossure-card-footer" [ngClass]="!showMoreSca ? 'fossure-card-footer-more' : 'fossure-card-footer-less'">
                     <div class="text-muted btn-more" (click)="showMoreSca = !showMoreSca">{{ !showMoreSca ? 'More' : 'Less' }}</div>
                     <p>
                       Download<span *jhiHasAnyAuthority="['ROLE_USER', 'ROLE_ADMIN']">
@@ -1502,9 +1502,9 @@
               <div class="w-100"></div>
 
               <div *jhiHasAnyAuthority="['ROLE_USER', 'ROLE_ADMIN']" class="col-lg col-md-8 col-sm-9 mb-3">
-                <div class="card lucy-card">
-                  <div class="card-header lucy-card-header-white-with-border">Transfer To Target</div>
-                  <div class="card-body lucy-card-body">
+                <div class="card fossure-card">
+                  <div class="card-header fossure-card-header-white-with-border">Transfer To Target</div>
+                  <div class="card-body fossure-card-body">
                     <div class="row mb-3">
                       <div class="col">
                         <div class="text-muted">Target URL</div>
@@ -1525,7 +1525,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="card-footer lucy-card-footer">
+                  <div class="card-footer fossure-card-footer">
                     Transfer the &quot;Full&quot; and &quot;Publish&quot; <b>OSS list</b> as a CSV and HTML file and the
                     <b>license text archive</b> to the specified URL.
                   </div>

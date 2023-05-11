@@ -68,7 +68,7 @@ public class FossologyResource {
     }
 
     /**
-     * {@code GET  /fossology/config} : Provide the configuration in Lucy of Fossology.
+     * {@code GET  /fossology/config} : Provide the configuration in Fossure of Fossology.
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body configuration.
      */

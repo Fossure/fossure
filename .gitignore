@@ -156,10 +156,10 @@ Desktop.ini
 ######################
 /coverage/
 /.nyc_output/
-/.vs/lucy/v17/.suo
+/.vs/fossure/v17/.suo
 /.vscode/launch.json
-/.vs/lucy/project-colors.json
+/.vs/fossure/project-colors.json
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
-/.vs/lucy/v17/workspaceFileList.bin
+/.vs/fossure/v17/workspaceFileList.bin
 /package-lock.json

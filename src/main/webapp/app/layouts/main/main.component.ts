@@ -1,17 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
-
+import { SidenavService } from 'app/layouts/sidenav/sidenav.service'
 import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-main',
-  templateUrl: './main.component.html',
+  templateUrl: './main.component.html'
 })
 export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
+  isSidenavCollapsed = true;
+
+  constructor(
+    private accountService: AccountService,
+    private titleService: Title,
+    private router: Router,
+    private sidenavService: SidenavService
+  ) {}
 
   ngOnInit(): void {
+    const sidenavState = localStorage.getItem('sidenav.collapsed');
+    if (sidenavState) {
+      this.isSidenavCollapsed = JSON.parse(sidenavState);
+    }
+
     // try to log in automatically
     this.accountService.identity().subscribe();
 
@@ -20,7 +32,17 @@ export class MainComponent implements OnInit {
         this.updateTitle();
       }
     });
+
+    this.sidenavService.sidenavCollapsed$.subscribe(isCollapsed => {
+      /* eslint-disable */
+      console.log(`MAIN | Log from subscribed isCollapsed: ${isCollapsed}`);
+      this.isSidenavCollapsed = isCollapsed;
+    });
+
+    /* eslint-disable */
+    console.log(`MAIN | Log isCollapsed property: ${this.isSidenavCollapsed}`);
   }
+
 
   private getPageTitle(routeSnapshot: ActivatedRouteSnapshot): string {
     const title: string = routeSnapshot.data['pageTitle'] ?? '';
@@ -33,7 +55,7 @@ export class MainComponent implements OnInit {
   private updateTitle(): void {
     let pageTitle = this.getPageTitle(this.router.routerState.snapshot.root);
     if (!pageTitle) {
-      pageTitle = 'Lucy';
+      pageTitle = 'Fossure';
     }
     this.titleService.setTitle(pageTitle);
   }

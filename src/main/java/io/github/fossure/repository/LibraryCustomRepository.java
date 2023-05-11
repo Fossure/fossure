@@ -53,4 +53,10 @@ public interface LibraryCustomRepository extends LibraryRepository, LibraryRepos
         "where :license member of library.licenseToPublishes or :license member of library.licenseOfFiles"
     )
     List<Library> findAllByLicenseToPublishAndLicenseOfFiles(@Param("license") License license);
+
+    @Query("select count(library) from Library library where :license member of library.licenseToPublishes")
+    long countByLicenseToPublishContainsLicense(@Param("license") License license);
+
+    @Query("select count(library) from Library library where :unknown member of library.licenseToPublishes or :nonLicensed member of library.licenseToPublishes")
+    long countByUnidentifiedLicense(@Param("unknown") License unknown, @Param("nonLicensed") License nonLicensed);
 }

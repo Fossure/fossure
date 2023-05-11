@@ -1,0 +1,46 @@
+<div class="notifications toast-container" role="alert">
+  <div *ngFor="let notification of notifications">
+    <ngb-toast [autohide]="false" (hidden)="close(notification)">
+      <ng-template ngbToastHeader>
+        <div class="me-auto fw-bolder">
+          {{ notification.title }}
+        </div>
+      </ng-template>
+
+      <ng-container [ngSwitch]="notification.type">
+        <a *ngSwitchCase="notificationType.COMPONENT" class="row mb-2 grid-table" [routerLink]="['/library', notification.data.id, 'view']">
+          <div class="col-6 align-self-center">
+            <span class="fw-semibold text-dark">{{ notification.data.artifactId }}</span
+            ><br />
+            <span class="text-muted">{{ notification.data.version }}</span>
+            <span class="badge-outline-light" style="font-size: 0.7rem">{{ notification.data.type }}</span>
+          </div>
+          <div class="col-4 align-self-center text-center">
+            <span class="badge" [ngStyle]="{ 'background-color': notification.data.libraryRisk?.color }">{{
+              notification.data.libraryRisk?.name
+            }}</span>
+          </div>
+          <div class="col-2 align-self-center text-end text-dark">
+            <fa-icon icon="chevron-right"></fa-icon>
+          </div>
+        </a>
+        <a *ngSwitchCase="notificationType.LICENSE" class="row mb-2 grid-table" [routerLink]="['/license', notification.data.id, 'view']">
+          <div class="col-6 align-self-center">
+            <span class="fw-semibold text-dark">{{ notification.data.shortIdentifier }}</span
+            ><br />
+            <span class="text-muted">{{ notification.data.lastReviewedBy?.login }}</span>
+          </div>
+          <div class="col-4 align-self-center text-center">
+            <span class="badge" [ngStyle]="{ 'background-color': notification.data.licenseRisk?.color }">{{
+              notification.data.licenseRisk?.name
+            }}</span>
+          </div>
+          <div class="col-2 align-self-center text-end text-dark">
+            <fa-icon icon="chevron-right"></fa-icon>
+          </div>
+        </a>
+        <div *ngSwitchCase="notificationType.TEXT" class="fw-semibold">{{ notification.data }}</div>
+      </ng-container>
+    </ngb-toast>
+  </div>
+</div>

@@ -1,6 +1,8 @@
 package io.github.fossure.service;
 
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.JoinType;
 
 import io.github.fossure.domain.*;
@@ -8,7 +10,6 @@ import io.github.fossure.repository.LicenseCustomRepository;
 import io.github.fossure.repository.LicenseRepository;
 import io.github.fossure.service.criteria.LicenseCriteria;
 import io.github.fossure.service.criteria.LicenseCustomCriteria;
-import net.regnology.lucy.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -113,12 +114,12 @@ public class LicenseQueryCustomService extends LicenseQueryService {
             if (criteria.getLastReviewedDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLastReviewedDate(), License_.lastReviewedDate));
             }
-            if (criteria.getLastReviewedById() != null) {
+            if (criteria.getLastReviewedByLogin() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getLastReviewedById(),
-                            root -> root.join(License_.lastReviewedBy, JoinType.LEFT).get(User_.id)
+                            criteria.getLastReviewedByLogin(),
+                            root -> root.join(License_.lastReviewedBy, JoinType.LEFT).get(User_.login)
                         )
                     );
             }
@@ -161,6 +162,15 @@ public class LicenseQueryCustomService extends LicenseQueryService {
                         buildSpecification(
                             criteria.getLibraryFilesId(),
                             root -> root.join(License_.libraryFiles, JoinType.LEFT).get(Library_.id)
+                        )
+                    );
+            }
+            if (criteria.getName() != null && criteria.getName().getEquals() != null) {
+                specification =
+                    specification.and((root, query, cb) -> 
+                        cb.or(
+                            cb.equal(cb.upper(root.get(License_.fullName)), criteria.getName().getEquals().toUpperCase()),
+                            cb.equal(cb.upper(root.get(License_.shortIdentifier)), criteria.getName().getEquals().toUpperCase())
                         )
                     );
             }

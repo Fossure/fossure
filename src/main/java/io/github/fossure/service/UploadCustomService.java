@@ -19,8 +19,6 @@ import io.github.fossure.service.exceptions.LicenseAlreadyExistException;
 import io.github.fossure.service.exceptions.LicenseException;
 import io.github.fossure.service.exceptions.UploadException;
 import io.github.fossure.service.upload.*;
-import net.regnology.lucy.domain.*;
-import net.regnology.lucy.service.upload.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;

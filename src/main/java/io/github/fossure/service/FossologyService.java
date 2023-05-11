@@ -84,8 +84,8 @@ public class FossologyService {
         ApplicationProperties.Fossology fossologyProperties = applicationProperties.getFossology();
 
         String lUrl;
-        if (!StringUtils.isBlank(applicationProperties.getLucy().getDomain())) {
-            lUrl = applicationProperties.getLucy().getDomain() + lucyEndpointForFileDownload + libraryLabel;
+        if (!StringUtils.isBlank(applicationProperties.getFossure().getDomain())) {
+            lUrl = applicationProperties.getFossure().getDomain() + lucyEndpointForFileDownload + libraryLabel;
         } else {
             fossology.setStatus(FossologyStatus.FAILURE);
             libraryService.saveAndFlush(library);

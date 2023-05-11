@@ -19,14 +19,14 @@ public interface LicenseConflictCustomRepository extends LicenseConflictReposito
 
     @Query(
         "select licenseConflict from LicenseConflict licenseConflict where licenseConflict.firstLicenseConflict.id = :licenseId " +
-        "and licenseConflict.compatibility = net.regnology.lucy.domain.enumeration.CompatibilityState.Incompatible"
+        "and licenseConflict.compatibility = io.github.fossure.domain.enumeration.CompatibilityState.Incompatible"
     )
     List<LicenseConflict> findIncompatibleLicenseConflictsByLicenseId(@Param("licenseId") Long licenseId);
 
     @Query(
         "select licenseConflict from LicenseConflict licenseConflict where licenseConflict.firstLicenseConflict.id = :firstLicenseId " +
         "and licenseConflict.secondLicenseConflict.id = :secondLicenseId " +
-        "and licenseConflict.compatibility = net.regnology.lucy.domain.enumeration.CompatibilityState.Incompatible"
+        "and licenseConflict.compatibility = io.github.fossure.domain.enumeration.CompatibilityState.Incompatible"
     )
     Optional<LicenseConflict> findIncompatibleLicenseConflict(
         @Param("firstLicenseId") Long firstLicenseId,

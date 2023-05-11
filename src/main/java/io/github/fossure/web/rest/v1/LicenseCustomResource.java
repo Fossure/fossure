@@ -163,7 +163,7 @@ public class LicenseCustomResource extends LicenseResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of licenses in body.
      */
     @GetMapping("/licenses")
-    public ResponseEntity<List<License>> getAllLicenses(LicenseCustomCriteria criteria, @ParameterObject Pageable pageable) {
+    public ResponseEntity<List<License>> getAllLicenses(@ParameterObject LicenseCustomCriteria criteria, @ParameterObject Pageable pageable) {
         log.debug("REST request to get Licenses by criteria: {}", criteria);
         Page<License> page = licenseQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

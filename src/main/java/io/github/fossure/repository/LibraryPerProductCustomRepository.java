@@ -36,7 +36,7 @@ public interface LibraryPerProductCustomRepository extends LibraryPerProductRepo
     Optional<LibraryPerProduct> findByProductIdAndLibraryId(@Param("productId") Long productId, @Param("libraryId") Long libraryId);
 
     @Query(
-        "select new net.regnology.lucy.domain.statistics.CountOccurrences(licenses.license.shortIdentifier, count(*)) " +
+        "select new io.github.fossure.domain.statistics.CountOccurrences(licenses.license.shortIdentifier, count(*)) " +
         "from LibraryPerProduct lpp left join lpp.library.licenses licenses where lpp.product.id = :productId " +
         "group by licenses.license.shortIdentifier order by count(*) desc"
     )

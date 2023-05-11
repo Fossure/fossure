@@ -1,12 +1,12 @@
 {
-  "name": "lucy",
+  "name": "fossure",
   "version": "0.6.3",
   "private": true,
-  "description": "Lucy is a component analysis platform to minimize the risk of license infringements and to support and optimize the license compliance process.",
-  "homepage": "https://github.com/Regnology/lucy",
+  "description": "Fossure is a component analysis platform to minimize the risk of license infringements and to support and optimize the license compliance process.",
+  "homepage": "https://github.com/Fossure/fossure",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Regnology/lucy.git"
+    "url": "https://github.com/Fossure/fossure.git"
   },
   "license": "MIT",
   "scripts": {
@@ -17,7 +17,7 @@
     "backend:info": "./mvnw -ntp enforcer:display-info --batch-mode",
     "backend:nohttp:test": "./mvnw -ntp checkstyle:check --batch-mode",
     "backend:start": "./mvnw -Dskip.installnodenpm -Dskip.npm",
-    "backend:unit:test": "./mvnw -ntp -Dskip.installnodenpm -Dskip.npm verify --batch-mode -Dlogging.level.ROOT=OFF -Dlogging.level.org.zalando=OFF -Dlogging.level.tech.jhipster=OFF -Dlogging.level.net.regnology.lucy=OFF -Dlogging.level.org.springframework=OFF -Dlogging.level.org.springframework.web=OFF -Dlogging.level.org.springframework.security=OFF",
+    "backend:unit:test": "./mvnw -ntp -Dskip.installnodenpm -Dskip.npm verify --batch-mode -Dlogging.level.ROOT=OFF -Dlogging.level.org.zalando=OFF -Dlogging.level.tech.jhipster=OFF -Dlogging.level.io.github.fossure=OFF -Dlogging.level.org.springframework=OFF -Dlogging.level.org.springframework.web=OFF -Dlogging.level.org.springframework.security=OFF",
     "build": "npm run webapp:prod --",
     "build-watch": "concurrently 'npm run webapp:build:dev -- --watch' npm:backend:start",
     "ci:backend:test": "npm run backend:info && npm run backend:doc:test && npm run backend:nohttp:test && npm run backend:unit:test -- -P$npm_package_config_default_environment",
@@ -25,7 +25,7 @@
     "ci:e2e:prepare": "npm run ci:e2e:prepare:docker",
     "ci:e2e:prepare:docker": "npm run docker:db:up && npm run docker:others:up && docker ps -a",
     "preci:e2e:server:start": "npm run docker:db:await --if-present && npm run docker:others:await --if-present",
-    "ci:e2e:server:start": "java -jar target/e2e.$npm_package_config_packaging --spring.profiles.active=e2e,$npm_package_config_default_environment -Dlogging.level.ROOT=OFF -Dlogging.level.org.zalando=OFF -Dlogging.level.tech.jhipster=OFF -Dlogging.level.net.regnology.lucy=OFF -Dlogging.level.org.springframework=OFF -Dlogging.level.org.springframework.web=OFF -Dlogging.level.org.springframework.security=OFF --logging.level.org.springframework.web=ERROR",
+    "ci:e2e:server:start": "java -jar target/e2e.$npm_package_config_packaging --spring.profiles.active=e2e,$npm_package_config_default_environment -Dlogging.level.ROOT=OFF -Dlogging.level.org.zalando=OFF -Dlogging.level.tech.jhipster=OFF -Dlogging.level.io.github.fossure=OFF -Dlogging.level.org.springframework=OFF -Dlogging.level.org.springframework.web=OFF -Dlogging.level.org.springframework.security=OFF --logging.level.org.springframework.web=ERROR",
     "ci:e2e:teardown": "npm run ci:e2e:teardown:docker",
     "ci:e2e:teardown:docker": "npm run docker:db:down --if-present && npm run docker:others:down && docker ps -a",
     "ci:frontend:build": "npm run webapp:build:$npm_package_config_default_environment",
@@ -80,6 +80,7 @@
   },
   "dependencies": {
     "@angular/animations": "14.2.0",
+    "@angular/cdk": "^14.2.0",
     "@angular/common": "14.2.0",
     "@angular/compiler": "14.2.0",
     "@angular/core": "14.2.0",
@@ -91,10 +92,10 @@
     "@fortawesome/angular-fontawesome": "0.11.1",
     "@fortawesome/fontawesome-svg-core": "6.2.0",
     "@fortawesome/free-solid-svg-icons": "6.2.0",
-    "@ng-bootstrap/ng-bootstrap": "13.0.0",
+    "@ng-bootstrap/ng-bootstrap": "13.1.1",
     "@popperjs/core": "2.11.6",
-    "@swimlane/ngx-charts": "20.1.0",
-    "bootstrap": "5.2.0",
+    "@swimlane/ngx-charts": "20.1.2",
+    "bootstrap": "5.2.2",
     "dayjs": "1.11.5",
     "ngx-infinite-scroll": "14.0.0",
     "ngx-webstorage": "10.0.1",

@@ -314,7 +314,6 @@ export class ProductDetailCustomComponent extends ProductDetailComponent impleme
     this.activatedRoute.data.subscribe(({ product }) => {
       this.product = product;
       this.uploadStateType = this.product?.uploadState ?? UploadState.SUCCESSFUL;
-      this.isLoading = true;
     });
 
     this.licenseRiskService

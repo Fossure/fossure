@@ -216,7 +216,7 @@ public class ProductResource {
             .build();
     }
 
-    /* Legacy code. Necessary for the Jenkins Lucy plugin */
+    /* Legacy code. Necessary for the Jenkins Fossure plugin */
 
     /**
      * {@code POST  /products/:id/add-libraries} : Add manually libraries to a product.

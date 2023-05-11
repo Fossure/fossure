@@ -39,7 +39,7 @@ public interface LicenseCustomRepository extends LicenseRepository, LicenseRepos
     List<LicenseConflict> fetchLicenseConflicts(@Param("id") Long id);*/
 
     @Query(
-        value = "select new net.regnology.lucy.service.dto.LicenseConflictSimpleDTO(" +
+        value = "select new io.github.fossure.service.dto.LicenseConflictSimpleDTO(" +
         "conflicts.id, conflicts.secondLicenseConflict.id, conflicts.secondLicenseConflict.fullName, " +
         "conflicts.secondLicenseConflict.shortIdentifier, conflicts.compatibility, conflicts.comment) " +
         "from License license left join license.licenseConflicts conflicts " +
@@ -48,7 +48,7 @@ public interface LicenseCustomRepository extends LicenseRepository, LicenseRepos
     List<LicenseConflictSimpleDTO> fetchLicenseConflicts(@Param("id") Long id);
 
     @Query(
-        value = "select new net.regnology.lucy.service.dto.LicenseConflictWithRiskDTO(" +
+        value = "select new io.github.fossure.service.dto.LicenseConflictWithRiskDTO(" +
         "conflicts.id, conflicts.secondLicenseConflict.id, conflicts.secondLicenseConflict.fullName, " +
         "conflicts.secondLicenseConflict.shortIdentifier, conflicts.compatibility, conflicts.comment, conflicts.secondLicenseConflict.licenseRisk) " +
         "from License license left join license.licenseConflicts conflicts " +
@@ -57,7 +57,7 @@ public interface LicenseCustomRepository extends LicenseRepository, LicenseRepos
     List<LicenseConflictWithRiskDTO> fetchLicenseConflictsWithRisk(@Param("id") Long id);
 
     @Query(
-        "select new net.regnology.lucy.service.dto.LicenseSimpleDTO(license.id, license.fullName, license.shortIdentifier) " +
+        "select new io.github.fossure.service.dto.LicenseSimpleDTO(license.id, license.fullName, license.shortIdentifier) " +
         "from License license order by license.shortIdentifier"
     )
     List<LicenseSimpleDTO> findAllSimpleDTO();

@@ -2,7 +2,7 @@
   "generator-jhipster": {
     "applicationType": "monolith",
     "authenticationType": "jwt",
-    "baseName": "lucy",
+    "baseName": "fossure",
     "blueprints": [],
     "buildTool": "maven",
     "cacheProvider": "ehcache",
@@ -44,12 +44,12 @@
     "messageBroker": false,
     "nativeLanguage": "en",
     "otherModules": [],
-    "packageFolder": "net/regnology/lucy",
-    "packageName": "net.regnology.lucy",
+    "packageFolder": "io/github/fossure",
+    "packageName": "io.github.fossure",
     "pages": [],
     "prodDatabaseType": "postgresql",
     "promptValues": {
-      "packageName": "net.regnology.lucy"
+      "packageName": "io.github.fossure"
     },
     "reactive": false,
     "searchEngine": false,

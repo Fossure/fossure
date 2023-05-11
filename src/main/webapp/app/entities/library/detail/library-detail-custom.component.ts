@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpResponse } from '@angular/common/http';
 
 import { ILibrary } from '../library.model';
-import { ILicense } from 'app/entities/license/license.model';
-import { ILicenseRisk } from 'app/entities/license-risk/license-risk.model';
 import { IRequirement } from 'app/entities/requirement/requirement.model';
 import { ICopyright } from 'app/core/copyright/copyright.model';
 import { DataUtils } from 'app/core/util/data-util.service';

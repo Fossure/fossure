@@ -6,7 +6,6 @@ import javax.persistence.criteria.JoinType;
 import io.github.fossure.domain.*;
 import io.github.fossure.repository.LicenseRepository;
 import io.github.fossure.service.criteria.LicenseCriteria;
-import net.regnology.lucy.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -116,12 +115,12 @@ public class LicenseQueryService extends QueryService<License> {
                         )
                     );
             }
-            if (criteria.getLastReviewedById() != null) {
+            if (criteria.getLastReviewedByLogin() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getLastReviewedById(),
-                            root -> root.join(License_.lastReviewedBy, JoinType.LEFT).get(User_.id)
+                            criteria.getLastReviewedByLogin(),
+                            root -> root.join(License_.lastReviewedBy, JoinType.LEFT).get(User_.login)
                         )
                     );
             }

@@ -22,11 +22,9 @@ import io.github.fossure.service.exceptions.LicenseAlreadyExistException;
 import io.github.fossure.service.exceptions.LicenseException;
 import io.github.fossure.service.helper.net.HttpHelper;
 import io.github.fossure.config.Constants;
-import net.regnology.lucy.domain.*;
 import io.github.fossure.domain.enumeration.CompatibilityState;
 import io.github.fossure.domain.enumeration.ExportFormat;
 import io.github.fossure.domain.enumeration.LinkType;
-import net.regnology.lucy.repository.*;
 import io.github.fossure.service.dto.LicenseConflictSimpleDTO;
 import io.github.fossure.service.dto.LicenseConflictWithRiskDTO;
 import org.apache.commons.csv.CSVFormat;
@@ -198,6 +196,14 @@ public class LicenseCustomService extends LicenseService {
         }
 
         return licenseRepository.save(license);
+    }
+
+    /** 
+     * Count all the licenses.
+     * @return the number of licenses.
+    */
+    public long count() {
+        return licenseRepository.count();
     }
 
     /**

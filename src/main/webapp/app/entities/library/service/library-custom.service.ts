@@ -5,7 +5,6 @@ import dayjs from 'dayjs/esm';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ILibrary } from '../library.model';
-import { ILicense } from 'app/entities/license/license.model';
 import { ICopyright } from 'app/core/copyright/copyright.model';
 import { ILibraryErrorLog } from 'app/entities/library-error-log/library-error-log.model';
 import { LogStatus } from 'app/entities/enumerations/log-status.model';
@@ -20,6 +19,11 @@ export class LibraryCustomService extends LibraryService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {
     super(http, applicationConfigService);
+  }
+
+  count(req?: any): Observable<HttpResponse<number>> {
+    const options = createRequestOption(req);
+    return this.http.get<number>(`${this.resourceUrl}/count`, { params: options, observe: 'response' });
   }
 
   export(req?: any): Observable<HttpResponse<IFile>> {

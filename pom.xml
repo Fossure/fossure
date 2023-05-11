@@ -5,30 +5,25 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.regnology.lucy</groupId>
-    <artifactId>lucy</artifactId>
+    <groupId>io.github.fossure</groupId>
+    <artifactId>fossure</artifactId>
     <version>0.6.3</version>
     <packaging>jar</packaging>
 
-    <name>Lucy</name>
+    <name>Fossure</name>
     <description>
-        Lucy is a component analysis platform to minimize the risk of license infringements and to support and optimize
+        Fossure is a component analysis platform to minimize the risk of license infringements and to support and optimize
         the license compliance process.
     </description>
-    <url>https://github.com/Regnology/lucy</url>
+    <url>https://github.com/Fossure/fossure</url>
     <inceptionYear>2021</inceptionYear>
 
     <licenses>
         <license>
             <name>MIT</name>
-            <url>https://github.com/Regnology/lucy/blob/main/LICENSE</url>
+            <url>https://github.com/Fossure/fossure/blob/main/LICENSE</url>
         </license>
     </licenses>
-
-    <organization>
-        <name>Regnology GmbH</name>
-        <url>https://www.regnology.net/en/</url>
-    </organization>
 
     <developers>
         <developer>
@@ -43,14 +38,14 @@
 
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/Regnology/lucy/issues</url>
+        <url>https://github.com/Fossure/fossure/issues</url>
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git@github.com:Regnology/lucy.git</connection>
-        <developerConnection>scm:git:git@github.com:Regnology/lucy.git</developerConnection>
+        <connection>scm:git:git@github.com:Fossure/fossure.git</connection>
+        <developerConnection>scm:git:git@github.com:Fossure/fossure.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/Regnology/lucy.git</url>
+        <url>https://github.com/Fossure/fossure.git</url>
     </scm>
 
     <repositories>
@@ -75,7 +70,7 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <start-class>net.regnology.lucy.LucyApp</start-class>
+        <start-class>io.github.fossure.FossureApp</start-class>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx1G</argLine>
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <run.addResources>false</run.addResources>
@@ -710,7 +705,7 @@
                             </platforms>
                         </from>
                         <to>
-                            <image>lucy:${project.version}</image>
+                            <image>fossure:${project.version}</image>
                         </to>
                         <container>
                             <entrypoint>
@@ -902,14 +897,14 @@
                             <configuration>
                                 <inputSpec>${project.basedir}/src/main/resources/swagger/api.yml</inputSpec>
                                 <generatorName>spring</generatorName>
-                                <apiPackage>net.regnology.lucy.web.api</apiPackage>
-                                <modelPackage>net.regnology.lucy.service.api.dto</modelPackage>
+                                <apiPackage>io.github.fossure.web.api</apiPackage>
+                                <modelPackage>io.github.fossure.service.api.dto</modelPackage>
                                 <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                                 <importMappings>Problem=org.zalando.problem.Problem</importMappings>
                                 <skipValidateSpec>false</skipValidateSpec>
                                 <configOptions>
                                     <delegatePattern>true</delegatePattern>
-                                    <title>lucy</title>
+                                    <title>fossure</title>
                                 </configOptions>
                             </configuration>
                         </execution>
@@ -1128,11 +1123,11 @@
                                 <changeLogFile>${project.basedir}/src/main/resources/config/liquibase/master.xml</changeLogFile>
                                 <diffChangeLogFile>${project.basedir}/src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                                 <driver>org.h2.Driver</driver>
-                                <url>jdbc:h2:file:${project.build.directory}/h2db/db/lucy</url>
+                                <url>jdbc:h2:file:${project.build.directory}/h2db/db/fossure</url>
                                 <defaultSchemaName></defaultSchemaName>
-                                <username>lucy</username>
+                                <username>fossure</username>
                                 <password></password>
-                                <referenceUrl>hibernate:spring:net.regnology.lucy.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
+                                <referenceUrl>hibernate:spring:io.github.fossure.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                                 <verbose>true</verbose>
                                 <logging>debug</logging>
                                 <contexts>!test</contexts>

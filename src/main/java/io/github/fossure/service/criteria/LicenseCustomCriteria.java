@@ -21,6 +21,8 @@ public class LicenseCustomCriteria extends LicenseCriteria {
 
     private StringFilter requirementShortText;
 
+    private StringFilter name;
+
     public LicenseCustomCriteria() {
         super();
     }
@@ -28,6 +30,7 @@ public class LicenseCustomCriteria extends LicenseCriteria {
     public LicenseCustomCriteria(LicenseCustomCriteria other) {
         super(other);
         this.requirementShortText = other.requirementShortText == null ? null : other.requirementShortText.copy();
+        this.name = other.name == null ? null : other.name.copy();
     }
 
     @Override
@@ -50,6 +53,21 @@ public class LicenseCustomCriteria extends LicenseCriteria {
         this.requirementShortText = requirementShortText;
     }
 
+    public StringFilter getName() {
+        return name;
+    }
+
+    public StringFilter name() {
+        if (name == null) {
+            name = new StringFilter();
+        }
+        return name;
+    }
+
+    public void setName(StringFilter name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -68,11 +86,12 @@ public class LicenseCustomCriteria extends LicenseCriteria {
             Objects.equals(getOther(), that.getOther()) &&
             Objects.equals(getReviewed(), that.getReviewed()) &&
             Objects.equals(getLastReviewedDate(), that.getLastReviewedDate()) &&
-            Objects.equals(getLastReviewedById(), that.getLastReviewedById()) &&
+            Objects.equals(getLastReviewedByLogin(), that.getLastReviewedByLogin()) &&
             Objects.equals(getLicenseRiskId(), that.getLicenseRiskId()) &&
             Objects.equals(getRequirementShortText(), that.getRequirementShortText()) &&
             Objects.equals(getLibraryPublishId(), that.getLibraryPublishId()) &&
             Objects.equals(getLibraryFilesId(), that.getLibraryFilesId()) &&
+            Objects.equals(getName(), that.getName()) &&
             Objects.equals(getDistinct(), that.getDistinct())
         );
     }
@@ -88,11 +107,12 @@ public class LicenseCustomCriteria extends LicenseCriteria {
             getOther(),
             getReviewed(),
             getLastReviewedDate(),
-            getLastReviewedById(),
+            getLastReviewedByLogin(),
             getLicenseRiskId(),
             getRequirementShortText(),
             getLibraryPublishId(),
             getLibraryFilesId(),
+            getName(),
             getDistinct()
         );
     }
@@ -109,11 +129,12 @@ public class LicenseCustomCriteria extends LicenseCriteria {
             (getOther() != null ? "other=" + getOther() + ", " : "") +
             (getReviewed() != null ? "reviewed=" + getReviewed() + ", " : "") +
             (getLastReviewedDate() != null ? "lastReviewedDate=" + getLastReviewedDate() + ", " : "") +
-            (getLastReviewedById() != null ? "lastReviewedById=" + getLastReviewedById() + ", " : "") +
+            (getLastReviewedByLogin() != null ? "lastReviewedById=" + getLastReviewedByLogin() + ", " : "") +
             (getLicenseRiskId() != null ? "licenseRiskId=" + getLicenseRiskId() + ", " : "") +
             (getRequirementShortText() != null ? "requirementShortText=" + getRequirementShortText() + ", " : "") +
             (getLibraryPublishId() != null ? "libraryPublishId=" + getLibraryPublishId() + ", " : "") +
             (getLibraryFilesId() != null ? "libraryFilesId=" + getLibraryFilesId() + ", " : "") +
+            (getName() != null ? "name=" + getName() + ", " : "") +
             (getDistinct() != null ? "distinct=" + getDistinct() + ", " : "") +
             "}";
     }

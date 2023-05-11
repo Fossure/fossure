@@ -44,7 +44,7 @@ public class LicenseCriteria implements Serializable, Criteria {
 
     private LongFilter licenseConflictId;
 
-    private LongFilter lastReviewedById;
+    private StringFilter lastReviewedByLogin;
 
     private LongFilter licenseRiskId;
 
@@ -68,7 +68,7 @@ public class LicenseCriteria implements Serializable, Criteria {
         this.reviewed = other.reviewed == null ? null : other.reviewed.copy();
         this.lastReviewedDate = other.lastReviewedDate == null ? null : other.lastReviewedDate.copy();
         this.licenseConflictId = other.licenseConflictId == null ? null : other.licenseConflictId.copy();
-        this.lastReviewedById = other.lastReviewedById == null ? null : other.lastReviewedById.copy();
+        this.lastReviewedByLogin = other.lastReviewedByLogin == null ? null : other.lastReviewedByLogin.copy();
         this.licenseRiskId = other.licenseRiskId == null ? null : other.licenseRiskId.copy();
         this.requirementId = other.requirementId == null ? null : other.requirementId.copy();
         this.libraryPublishId = other.libraryPublishId == null ? null : other.libraryPublishId.copy();
@@ -216,19 +216,19 @@ public class LicenseCriteria implements Serializable, Criteria {
         this.licenseConflictId = licenseConflictId;
     }
 
-    public LongFilter getLastReviewedById() {
-        return lastReviewedById;
+    public StringFilter getLastReviewedByLogin() {
+        return lastReviewedByLogin;
     }
 
-    public LongFilter lastReviewedById() {
-        if (lastReviewedById == null) {
-            lastReviewedById = new LongFilter();
+    public StringFilter lastReviewedByLogin() {
+        if (lastReviewedByLogin == null) {
+            lastReviewedByLogin = new StringFilter();
         }
-        return lastReviewedById;
+        return lastReviewedByLogin;
     }
 
-    public void setLastReviewedById(LongFilter lastReviewedById) {
-        this.lastReviewedById = lastReviewedById;
+    public void setLastReviewedByLogin(StringFilter lastReviewedByLogin) {
+        this.lastReviewedByLogin = lastReviewedByLogin;
     }
 
     public LongFilter getLicenseRiskId() {
@@ -318,7 +318,7 @@ public class LicenseCriteria implements Serializable, Criteria {
             Objects.equals(reviewed, that.reviewed) &&
             Objects.equals(lastReviewedDate, that.lastReviewedDate) &&
             Objects.equals(licenseConflictId, that.licenseConflictId) &&
-            Objects.equals(lastReviewedById, that.lastReviewedById) &&
+            Objects.equals(lastReviewedByLogin, that.lastReviewedByLogin) &&
             Objects.equals(licenseRiskId, that.licenseRiskId) &&
             Objects.equals(requirementId, that.requirementId) &&
             Objects.equals(libraryPublishId, that.libraryPublishId) &&
@@ -339,7 +339,7 @@ public class LicenseCriteria implements Serializable, Criteria {
             reviewed,
             lastReviewedDate,
             licenseConflictId,
-            lastReviewedById,
+            lastReviewedByLogin,
             licenseRiskId,
             requirementId,
             libraryPublishId,
@@ -361,7 +361,7 @@ public class LicenseCriteria implements Serializable, Criteria {
             (reviewed != null ? "reviewed=" + reviewed + ", " : "") +
             (lastReviewedDate != null ? "lastReviewedDate=" + lastReviewedDate + ", " : "") +
             (licenseConflictId != null ? "licenseConflictId=" + licenseConflictId + ", " : "") +
-            (lastReviewedById != null ? "lastReviewedById=" + lastReviewedById + ", " : "") +
+            (lastReviewedByLogin != null ? "lastReviewedByLogin=" + lastReviewedByLogin + ", " : "") +
             (licenseRiskId != null ? "licenseRiskId=" + licenseRiskId + ", " : "") +
             (requirementId != null ? "requirementId=" + requirementId + ", " : "") +
             (libraryPublishId != null ? "libraryPublishId=" + libraryPublishId + ", " : "") +

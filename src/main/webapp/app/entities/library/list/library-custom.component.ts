@@ -36,6 +36,7 @@ export class LibraryCustomComponent extends LibraryComponent {
     artifactId: [],
     version: [],
     license: [],
+    reviewed: [],
   });
 
   constructor(
@@ -58,7 +59,8 @@ export class LibraryCustomComponent extends LibraryComponent {
         'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
         'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
         'version.contains': this.searchForm.get('version')?.value ?? null,
-        'linkedLicenseShortIdentifier.contains': this.searchForm.get('license')?.value ?? null,
+        'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
+        'reviewed.equals': this.searchForm.get('reviewed')?.value ?? null,
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -107,7 +109,7 @@ export class LibraryCustomComponent extends LibraryComponent {
         'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
         'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
         'version.contains': this.searchForm.get('version')?.value ?? null,
-        'linkedLicenseShortIdentifier.contains': this.searchForm.get('license')?.value ?? null,
+        'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
         sort: super.sort(),
         page: 0,
         size: this.itemsPerPage,
@@ -139,12 +141,14 @@ export class LibraryCustomComponent extends LibraryComponent {
       const groupId = params.get('groupId.contains');
       const artifactId = params.get('artifactId.contains');
       const version = params.get('version.contains');
-      const linkedLicenseShortIdentifier = params.get('linkedLicenseShortIdentifier.contains');
+      const linkedLicenseShortIdentifier = params.get('linkedLicenseShortIdentifier.in');
+      const reviewed = params.get('reviewed.equals');
 
       this.searchForm.get('groupId')?.setValue(groupId);
       this.searchForm.get('artifactId')?.setValue(artifactId);
       this.searchForm.get('version')?.setValue(version);
       this.searchForm.get('license')?.setValue(linkedLicenseShortIdentifier);
+      this.searchForm.get('reviewed')?.setValue(reviewed);
 
       if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
         this.predicate = predicate;
@@ -163,7 +167,8 @@ export class LibraryCustomComponent extends LibraryComponent {
           'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
           'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
           'version.contains': this.searchForm.get('version')?.value ?? null,
-          'linkedLicenseShortIdentifier.contains': this.searchForm.get('license')?.value ?? null,
+          'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
+          'reviewed.equals': this.searchForm.get('reviewed')?.value ?? null,
           page: this.page,
           size: this.itemsPerPage,
           sort: this.predicate + ',' + (this.ascending ? ASC : DESC),

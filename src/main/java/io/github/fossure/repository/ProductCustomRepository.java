@@ -18,4 +18,7 @@ public interface ProductCustomRepository extends ProductRepository {
 
     @Query("select product from Product product where product.identifier = :identifier and product.delivered = false")
     Optional<Product> findByIdAndDeliveredIsFalse(@Param("identifier") String identifier);
+
+    @Query("select count(product) from Product product where product.delivered = false")
+    long countAllByDeliveredIsFalse();
 }

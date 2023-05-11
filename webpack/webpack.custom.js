@@ -18,8 +18,7 @@ module.exports = async (config, options, targetOptions) => {
         extensions: ['js', 'ts'],
       }),
       new WebpackNotifierPlugin({
-        title: 'Lucy',
-        contentImage: path.join(__dirname, 'logo-jhipster.png'),
+        title: 'Fossure'
       })
     );
   }
@@ -39,7 +38,7 @@ module.exports = async (config, options, targetOptions) => {
           https: tls,
           proxy: {
             // For production
-            //target: `http${tls ? 's' : ''}://localhost:${targetOptions.target === 'serve' ? '4200' : '8080'}/lucy`,
+            //target: `http${tls ? 's' : ''}://localhost:${targetOptions.target === 'serve' ? '4200' : '8080'}/fossure`,
             // For development
             target: `http${tls ? 's' : ''}://localhost:${targetOptions.target === 'serve' ? '4200' : '8080'}/`,
             ws: true,

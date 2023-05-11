@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/v1")
-public class AccountCustomResource extends AccountResource {
+public class AccountCustomResource {
 
     private static final Logger log = LoggerFactory.getLogger(AccountCustomResource.class);
 
@@ -43,7 +43,6 @@ public class AccountCustomResource extends AccountResource {
         MailCustomService mailService,
         UserCustomService userCustomService
     ) {
-        super(userRepository, userService, mailService);
         this.mailService = mailService;
         this.userCustomService = userCustomService;
     }

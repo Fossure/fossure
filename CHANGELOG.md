@@ -9,14 +9,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Upload to products by URL. Lucy downloads a specified URL and processes the file with the corresponding asset loader.
+- Upload to products by URL. Fossure downloads a specified URL and processes the file with the corresponding asset loader.
 - Added "application/octet-stream" type for the archive loader.
 - Automatic search for Maven licenses on central.sonatype.dev.
 - Automatic search for NPM licenses on registry.npmjs.org.
 
 ### Changed
 
-- Make Lucy ready for release on Github!
+- Make Fossure ready for release on Github!
 - Rewritten archive loader to process a file from an input stream (upload by URL).
   Files larger than 4 GB can be processed now (BETA).
 - Set <validCheckSum> tag for some Liquibase changelogs.
@@ -140,7 +140,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Regular expressions can be used.
 - New API endpoint to get the product with state "In Development".
 - Create new product based on a previous version.
-- Start scans from Lucy for Fossology.
+- Start scans from Fossure for Fossology.
 - Start using changelog!
 
 ### Changed

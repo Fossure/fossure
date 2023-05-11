@@ -1,13 +1,5 @@
 package io.github.fossure.web.rest.v1;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Objects;
-import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import io.github.fossure.web.rest.errors.BadRequestAlertException;
 import io.github.fossure.domain.File;
 import io.github.fossure.domain.Fossology;
 import io.github.fossure.domain.Library;
@@ -16,18 +8,31 @@ import io.github.fossure.domain.helper.Copyright;
 import io.github.fossure.repository.LibraryCustomRepository;
 import io.github.fossure.service.LibraryCustomService;
 import io.github.fossure.service.LibraryQueryCustomService;
+import io.github.fossure.service.criteria.LibraryCustomCriteria;
 import io.github.fossure.service.exceptions.ArchiveException;
 import io.github.fossure.service.exceptions.ExportException;
 import io.github.fossure.service.exceptions.LibraryException;
 import io.github.fossure.web.rest.LibraryResource;
+import io.github.fossure.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 
 /**
  * Custom REST controller for managing {@link Library}
@@ -47,7 +52,7 @@ public class LibraryCustomResource extends LibraryResource {
 
     private final LibraryCustomService libraryService;
 
-    private final LibraryCustomRepository libraryRepository;
+    private final LibraryQueryCustomService libraryQueryService;
 
     public LibraryCustomResource(
         LibraryCustomService libraryService,
@@ -56,7 +61,7 @@ public class LibraryCustomResource extends LibraryResource {
     ) {
         super(libraryService, libraryRepository, libraryQueryService);
         this.libraryService = libraryService;
-        this.libraryRepository = libraryRepository;
+        this.libraryQueryService = libraryQueryService;
     }
 
     /**
@@ -138,6 +143,36 @@ public class LibraryCustomResource extends LibraryResource {
         @NotNull @RequestBody Library library
     ) throws URISyntaxException {
         return super.partialUpdateLibrary(id, library);
+    }
+
+    /**
+     * {@code GET  /libraries} : get all the libraries.
+     *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of libraries in body.
+     */
+    @GetMapping("/libraries")
+    public ResponseEntity<List<Library>> getAllLibraries(
+        @org.springdoc.api.annotations.ParameterObject LibraryCustomCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get Libraries by criteria: {}", criteria);
+        Page<Library> page = libraryQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /libraries/count} : count all the libraries.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/libraries/count")
+    public ResponseEntity<Long> countLibraries(LibraryCustomCriteria criteria) {
+        log.debug("REST request to count Libraries by criteria: {}", criteria);
+        return ResponseEntity.ok().body(libraryQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -9,3 +9,7 @@ export interface Search {
 }
 
 export interface SearchWithPagination extends Search, Pagination {}
+
+export interface QueryParams {
+  param1: string;
+}

@@ -25,6 +25,7 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 import { HomeCustomModule } from 'app/home/home-custom.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SidenavComponent } from './layouts/sidenav/sidenav.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
   ],
-  declarations: [MainComponent, NavbarComponent, NavbarCustomComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+  declarations: [MainComponent, NavbarComponent, NavbarCustomComponent, ErrorComponent, PageRibbonComponent, FooterComponent, SidenavComponent],
   bootstrap: [MainComponent],
 })
 export class AppModule {

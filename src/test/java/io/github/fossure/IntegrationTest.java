@@ -11,6 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SpringBootTest(classes = LucyApp.class)
+@SpringBootTest(classes = FossureApp.class)
 public @interface IntegrationTest {
 }

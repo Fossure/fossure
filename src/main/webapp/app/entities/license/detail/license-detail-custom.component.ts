@@ -80,7 +80,7 @@ export class LicenseDetailCustomComponent extends LicenseDetailComponent {
     }
   }
 
-  asIsOrder(a, b): number {
+  asIsOrder(): number {
     return 0;
   }
 

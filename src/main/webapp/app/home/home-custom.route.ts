@@ -6,7 +6,7 @@ export const HOME_CUSTOM_ROUTE: Route = {
   path: '',
   component: HomeCustomComponent,
   data: {
-    pageTitle: 'Lucy',
+    pageTitle: 'Fossure',
   },
   canActivate: [UserRouteAccessService],
 };

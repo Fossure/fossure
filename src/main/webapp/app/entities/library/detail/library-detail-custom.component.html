@@ -58,7 +58,7 @@
             <div class="col-auto library-review-fields">
               <div class="row py-1" placement="right" [ngbTooltip]="reviewTooltip">
                 <div
-                  class="card lucy-card pt-1 pb-1"
+                  class="card fossure-card pt-1 pb-1"
                   [ngClass]="{ 'bg-success': library.reviewed === true, 'bg-secondary': library.reviewed === false }"
                 >
                   <span *ngIf="library.reviewed; else notReviewed"><fa-icon icon="user-check"></fa-icon> Review done</span>
@@ -69,7 +69,7 @@
               </div>
               <div class="row" placement="right" [ngbTooltip]="reviewDeepScanTooltip">
                 <div
-                  class="card lucy-card pt-1 pb-1"
+                  class="card fossure-card pt-1 pb-1"
                   [ngClass]="{ 'bg-success': library.reviewedDeepScan === true, 'bg-secondary': library.reviewedDeepScan === false }"
                 >
                   <span *ngIf="library.reviewedDeepScan; else notDeepScanReviewed"
@@ -100,8 +100,8 @@
           </div>
         </div>
         <div class="col-auto me-3">
-          <div class="card lucy-card text-center">
-            <div class="card-header lucy-card-header-white">
+          <div class="card fossure-card text-center">
+            <div class="card-header fossure-card-header-white">
               <fa-icon class="me-1" icon="shield-alt"></fa-icon>
               License Risk
             </div>
@@ -115,7 +115,7 @@
           </div>
         </div>
         <div class="col-auto">
-          <div class="card lucy-card">
+          <div class="card fossure-card">
             <div class="card-body">
               <div class="row">
                 <div class="col">

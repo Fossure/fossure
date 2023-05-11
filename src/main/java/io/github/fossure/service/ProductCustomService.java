@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
-import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.http.HttpResponse;
@@ -22,6 +21,7 @@ import java.util.stream.Stream;
 import javax.persistence.EntityManager;
 
 import io.github.fossure.domain.*;
+import io.github.fossure.domain.File;
 import io.github.fossure.domain.enumeration.*;
 import io.github.fossure.repository.LicenseRiskCustomRepository;
 import io.github.fossure.repository.ProductCustomRepository;
@@ -36,8 +36,6 @@ import io.github.fossure.service.pipeline.Pipeline;
 import io.github.fossure.service.upload.*;
 import io.github.fossure.config.ApplicationProperties;
 import io.github.fossure.config.Constants;
-import net.regnology.lucy.domain.*;
-import net.regnology.lucy.domain.enumeration.*;
 import io.github.fossure.domain.helper.BasicAuthentication;
 import io.github.fossure.domain.helper.DifferenceView;
 import io.github.fossure.domain.helper.Upload;
@@ -45,10 +43,8 @@ import io.github.fossure.domain.statistics.CountOccurrences;
 import io.github.fossure.domain.statistics.ProductOverview;
 import io.github.fossure.domain.statistics.ProductStatistic;
 import io.github.fossure.domain.statistics.Series;
-import net.regnology.lucy.service.exceptions.*;
 import io.github.fossure.service.helper.LicenseZipHelper;
 import io.github.fossure.service.helper.OssListHelper;
-import net.regnology.lucy.service.upload.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.io.FileUtils;
@@ -184,6 +180,15 @@ public class ProductCustomService extends ProductService {
         log.debug("Request to delete Product : {}", id);
         libraryPerProductService.deleteByProduct(id);
         productRepository.deleteById(id);
+    }
+
+    /**
+     * Count all products.
+     * @return the number of products.
+     */
+    public long count() {
+        log.debug("Request to count all Products");
+        return productRepository.count();
     }
 
     /**

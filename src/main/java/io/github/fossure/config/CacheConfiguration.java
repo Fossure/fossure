@@ -1,10 +1,7 @@
 package io.github.fossure.config;
 
-import java.time.Duration;
-
 import io.github.fossure.domain.*;
 import io.github.fossure.repository.UserRepository;
-import net.regnology.lucy.domain.*;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
 import org.ehcache.config.builders.ExpiryPolicyBuilder;
 import org.ehcache.config.builders.ResourcePoolsBuilder;
@@ -21,6 +18,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tech.jhipster.config.JHipsterProperties;
 import tech.jhipster.config.cache.PrefixedKeyGenerator;
+
+import java.time.Duration;
 
 @Configuration
 @EnableCaching

@@ -11,7 +11,7 @@ import java.util.*;
 
 import io.github.fossure.domain.*;
 import io.github.fossure.service.exceptions.UploadException;
-import net.regnology.lucy.domain.*;
+import io.github.fossure.domain.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;

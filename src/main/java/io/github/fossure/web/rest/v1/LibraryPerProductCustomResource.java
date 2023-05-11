@@ -104,7 +104,7 @@ public class LibraryPerProductCustomResource extends LibraryPerProductResource {
      */
     @GetMapping("/library-per-products")
     public ResponseEntity<List<LibraryPerProduct>> getAllLibraryPerProducts(
-        LibraryPerProductCustomCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject LibraryPerProductCustomCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get LibraryPerProducts by criteria: {}", criteria);

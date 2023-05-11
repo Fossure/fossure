@@ -43,9 +43,9 @@ public class LoggingAspect {
      * Pointcut that matches all Spring beans in the application's main packages.
      */
     @Pointcut(
-        "within(net.regnology.lucy.repository..*)" +
-        " || within(net.regnology.lucy.service..*)" +
-        " || within(net.regnology.lucy.web.rest..*)"
+        "within(io.github.fossure.repository..*)" +
+        " || within(io.github.fossure.service..*)" +
+        " || within(io.github.fossure.web.rest..*)"
     )
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.

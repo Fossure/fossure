@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Properties specific to Lucy.
+ * Properties specific to Fossure.
  * <p>
  * Properties are configured in the {@code application.yml} file.
  * See {@link tech.jhipster.config.JHipsterProperties} for a good example.
@@ -15,7 +15,7 @@ public class ApplicationProperties {
 
     private final Logger log = LoggerFactory.getLogger(ApplicationProperties.class);
 
-    private final ApplicationProperties.Lucy lucy = new ApplicationProperties.Lucy();
+    private final Fossure fossure = new Fossure();
     private final ApplicationProperties.Logging logging = new ApplicationProperties.Logging();
     private final ApplicationProperties.Mail mail = new ApplicationProperties.Mail();
     private final ApplicationProperties.SourceCodeArchive sourceCodeArchive = new ApplicationProperties.SourceCodeArchive();
@@ -25,8 +25,8 @@ public class ApplicationProperties {
 
     public ApplicationProperties() {}
 
-    public Lucy getLucy() {
-        return lucy;
+    public Fossure getFossure() {
+        return fossure;
     }
 
     public Logging getLogging() {
@@ -49,7 +49,7 @@ public class ApplicationProperties {
         return upload;
     }
 
-    public static class Lucy {
+    public static class Fossure {
 
         private String domain;
 

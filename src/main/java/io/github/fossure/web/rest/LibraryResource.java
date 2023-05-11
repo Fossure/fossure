@@ -144,36 +144,6 @@ public class LibraryResource {
     }
 
     /**
-     * {@code GET  /libraries} : get all the libraries.
-     *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of libraries in body.
-     */
-    @GetMapping("/libraries")
-    public ResponseEntity<List<Library>> getAllLibraries(
-        LibraryCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get Libraries by criteria: {}", criteria);
-        Page<Library> page = libraryQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /libraries/count} : count all the libraries.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/libraries/count")
-    public ResponseEntity<Long> countLibraries(LibraryCriteria criteria) {
-        log.debug("REST request to count Libraries by criteria: {}", criteria);
-        return ResponseEntity.ok().body(libraryQueryService.countByCriteria(criteria));
-    }
-
-    /**
      * {@code GET  /libraries/:id} : get the "id" library.
      *
      * @param id the id of the library to retrieve.

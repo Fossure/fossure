@@ -4,19 +4,49 @@
  * https://github.com/twbs/bootstrap/blob/v5.1.3/scss/_variables.scss can be overwritten here
  * Make sure not to add !default to values here
  */
-
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+
+/***************************
+Custom variables
+****************************/
+
+$fossure-red: #ff4e50;
+$fossure-orange: #fc903a;
+$fossure-yellow: #f9d423;
+$fossure-turquoise: #00b3ce;
+$fossure-blue: #00b3ce;
+$fossure-darkblue: #007adf;
+$fossure-dark: #182239;
+$fossure-darker: #151e32;
+$fossure-lightblue: #e5ecff;
+
+$pastel-colors: (
+  (
+    'green': #dfffd8,
+    'blue': #b4e4ff,
+    'red': #f7c8e0,
+    'orange': #b4e4ff,
+  )
+);
+
+$transition-collapse-margin: margin 0.35s ease;
+
+$gradient-dark: linear-gradient(45deg, rgba(21, 30, 50, 1) 0%, rgba(36, 49, 78, 1) 100%);
+
+/***************************/
 
 // Colors:
 // Grayscale and brand colors for use across Bootstrap.
 
-$primary: #17a1ee;
+$primary: $fossure-darkblue;
 $secondary: $gray-600;
 $success: #28a745;
-$info: #3ebaa3;
+$info: $fossure-blue;
 $warning: #ffc107;
 $danger: #dc3545;
+$light: #f2f2f2;
+$dark: $gray-800;
 
 $theme-colors: (
   (
@@ -28,6 +58,13 @@ $theme-colors: (
     'danger': $danger,
     'light': $light,
     'dark': $dark,
+    'pastel-green': #acea9f,
+    'pastel-blue': #b4e4ff,
+    'pastel-red': #f7c8e0,
+    'pastel-orange': #f9e2af,
+    'pastel-violet': #ad7be9,
+    'lightblue': $fossure-lightblue,
+    'fs-red': $fossure-red,
   )
 );
 
@@ -53,16 +90,17 @@ $enable-print-styles: true;
 // Components:
 // Define common padding and border radius sizes and more.
 
-$border-radius: 0.15rem;
-$border-radius-lg: 0.125rem;
-$border-radius-sm: 0.1rem;
+$border-radius: 0.8rem;
+$border-radius-lg: 1rem;
+$border-radius-sm: 0.6rem;
 
 $box-shadow-sm: 0 0.15rem 0.4rem rgba($black, 0.09);
 
 // Body:
 // Settings for the `<body>` element.
 
-$body-bg: #edf0f4;
+$body-bg: $white;
+$body-color: $dark;
 
 // Typography:
 // Font, line-height, and color for body text, headings, and more.
@@ -72,20 +110,41 @@ $font-size-base: 1rem;
 $dropdown-link-hover-color: white;
 $dropdown-link-hover-bg: #343a40;
 
+// Card
+$card-bg: $white;
+$card-border-radius: $border-radius;
+$card-box-shadow: $box-shadow-sm;
+$card-inner-border-radius: subtract($card-border-radius, $card-border-width);
+
 // Form
-$input-bg-color: $gray-100;
+$input-bg-color: lighten(#335062, 20%);
 
-$input-bg: $input-bg-color;
-$input-color: $gray-800;
-$input-border-color: $input-bg-color;
-$input-box-shadow: 1px 1px 2px rgba($black, 0.075);
+$input-bg: $light;
+$input-color: $dark;
+$input-border-radius: $border-radius;
+$input-border-color: $gray-300;
+$input-border-width: 2px;
+$input-box-shadow: 0 0 00 rgba($black, 0);
 
-$input-placeholder-color: $gray-500;
+$input-placeholder-color: $gray-600;
 
-$input-focus-bg: white;
-$input-focus-box-shadow: none;
+$input-focus-bg: $white;
+$input-focus-color: $input-color;
+$input-focus-box-shadow: $box-shadow;
+$input-focus-border-color: transparent;
+$input-focus-width: 0;
 
 $input-group-addon-border-color: $input-group-addon-bg;
+
+$form-select-bg: $input-bg;
+$form-select-box-shadow: $input-box-shadow;
+$form-select-border-radius: $input-border-radius;
+$form-select-border-width: $input-border-width;
+
+$form-select-focus-box-shadow: $input-focus-box-shadow;
+$form-select-focus-border-color: $input-focus-border-color;
+
+$form-floating-padding-x: 1.2rem;
 
 $custom-file-bg: $input-bg;
 $custom-file-color: $input-color;
@@ -118,4 +177,31 @@ $pagination-active-border-color: $pagination-active-bg;
 // Tooltip
 $tooltip-font-size: $font-size-sm;
 $tooltip-color: $white;
-$tooltip-bg: $black;
+$tooltip-bg: $fossure-darker;
+$tooltip-padding-y: $spacer * 0.5;
+$tooltip-padding-x: $spacer * 1;
+$tooltip-max-width: 250px;
+
+// Button
+$btn-box-shadow: none;
+$btn-padding-y: 0.4rem;
+$btn-border-radius: $border-radius;
+$btn-border-radius-sm: $border-radius-sm;
+$btn-border-radius-lg: $border-radius;
+$btn-font-size-lg: $btn-font-size;
+$btn-padding-x-lg: $btn-padding-x;
+$btn-padding-y-lg: 0.55rem;
+
+// Badge
+$badge-border-radius: $border-radius;
+
+// Toast
+$toast-max-width: 500px;
+$toast-color: $dark;
+$toast-background-color: rgba($light, 1);
+$toast-header-color: $light;
+$toast-header-background-color: rgba($fossure-dark, 0.85);
+$toast-padding-x: 1rem;
+$toast-padding-y: 0.75rem;
+$toast-border-radius: $border-radius;
+$toast-font-size: 1rem;

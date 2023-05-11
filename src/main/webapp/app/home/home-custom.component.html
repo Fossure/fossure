@@ -1,135 +1,306 @@
-<div class="card jh-card">
-  <div class="text-center mb-3">
-    <h1>Lucy</h1>
+<jhi-notification></jhi-notification>
+
+<div class="container-fluid dashboard">
+  <div class="row align-items-start g-3">
+    <div class="col">
+      <h4>Hi {{ account?.login }},</h4>
+      <h2 class="fw-semibold">Welcome Home 👋</h2>
+    </div>
+
+    <div class="col-md-12 col-lg-9 col-xl-8">
+      <div class="row g-4">
+        <div class="col-sm-12 col-lg-7">
+          <form name="componentSearchForm" role="form" novalidate (ngSubmit)="componentSearch()" [formGroup]="componentSearchForm">
+            <div class="container-fluid position-relative">
+              <div class="row justify-content-end g-3">
+                <div class="form-floating col-md-8">
+                  <input type="text" class="form-control" id="componentNameInput" placeholder="name" formControlName="name" />
+                  <label for="componentNameInput">Search component e.g. @angular/cli@15.2.6</label>
+                </div>
+
+                <div class="form-floating col-sm">
+                  <select class="form-select" id="componentTypeSelect" aria-label="Select component type" formControlName="type">
+                    <option [ngValue]="null">Choose type</option>
+                    <option value="MAVEN">maven</option>
+                    <option value="NPM">npm</option>
+                    <option value="NUGET">nuget</option>
+                    <option value="PYPI">pypi</option>
+                    <option value="GOLANG">golang</option>
+                    <option value="ALPINE">alpine</option>
+                    <option value="APACHE">apache</option>
+                    <option value="BITBUCKET">bitbucket</option>
+                    <option value="CARGO">cargo</option>
+                    <option value="COMPOSER">composer</option>
+                    <option value="DEB">deb</option>
+                    <option value="DOCKER">docker</option>
+                    <option value="GEM">gem</option>
+                    <option value="GENERIC">generic</option>
+                    <option value="GITHUB">github</option>
+                    <option value="GRADLE">gradle</option>
+                    <option value="HEX">hex</option>
+                    <option value="JAR">jar</option>
+                    <option value="JAVA">java</option>
+                    <option value="JS">js</option>
+                    <option value="POM">pom</option>
+                    <option value="RPM">rpm</option>
+                    <option value="XSD">xsd</option>
+                    <option value="ZIP">zip</option>
+                    <option value="UNKNOWN">unknown</option>
+                  </select>
+                  <label for="componentTypeSelect">Type</label>
+                </div>
+                <div class="col-md-auto align-self-center">
+                  <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="componentSearchForm.invalid">
+                    <fa-icon icon="search"></fa-icon>
+                  </button>
+                </div>
+              </div>
+              <fa-icon
+                class="position-absolute top-0 end-0 text-secondary"
+                icon="question-circle"
+                [ngbTooltip]="checkComponentTooltip"
+                container="body"
+              ></fa-icon>
+              <ng-template #checkComponentTooltip>
+                Search for a component.<br />Use the purl syntax: <b>groupId/artifactId@version</b><br>or<br><b>artifactId@version</b>
+              </ng-template>
+              <div
+                *ngIf="
+                  componentSearchForm.get('name')!.invalid &&
+                  (componentSearchForm.get('name')!.dirty || componentSearchForm.get('name')!.touched)
+                "
+              >
+                <small class="form-text text-danger" *ngIf="componentSearchForm.get('name')?.errors?.pattern">
+                  Component name doesn't match the search pattern. groupId/artifactId@version
+                </small>
+              </div>
+              <small class="form-text text-danger" *ngIf="componentSearchFormEmptyError === true">
+                To start your search, please fill out the component name and type.
+              </small>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-sm-12 col-lg-5">
+          <form name="licenseSearchForm" role="form" novalidate (ngSubmit)="licenseSearch()" [formGroup]="licenseSearchForm">
+            <div class="container-fluid position-relative">
+              <div class="row justify-content-end g-3">
+                <div class="form-floating col">
+                  <input type="text" class="form-control" id="licenseNameInput" placeholder="name" formControlName="name" />
+                  <label for="licenseNameInput">Search license</label>
+                </div>
+                <div class="col-md-auto align-self-center">
+                  <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="licenseSearchForm.invalid">
+                    <fa-icon icon="search"></fa-icon>
+                  </button>
+                </div>
+              </div>
+              <fa-icon
+                class="position-absolute top-0 end-0 text-secondary"
+                icon="question-circle"
+                [ngbTooltip]="checkLicenseTooltip"
+                container="body"
+              >
+              </fa-icon>
+              <ng-template #checkLicenseTooltip> Search for a license.<br />Full name or short identifier can be used. </ng-template>
+              <small class="form-text text-danger" *ngIf="licenseSearchFormEmptyError === true">
+                To start your search, please fill out the license name.
+              </small>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row">
+
+  <div class="row g-3 justify-content-center">
+    <div class="col-md-auto">
+      <div class="insight-sm" routerLink="product">
+        <span>{{ insights?.totalActiveProjects }} / {{ insights?.totalProjects }}</span>
+        <span>Active / Projects</span>
+        <fa-icon
+          class="position-absolute top-0 end-0 text-secondary"
+          icon="question-circle"
+          transform="shrink-6"
+          ngbTooltip="Projects currently under development / Total number of products"
+          container="body"
+        ></fa-icon>
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <div class="insight-sm" routerLink="library">
+        <span>{{ insights?.totalComponents | shortenedNumber: 2 }}</span>
+        <span>Components</span>
+        <fa-icon
+          class="position-absolute top-0 end-0 text-secondary"
+          icon="question-circle"
+          transform="shrink-6"
+          ngbTooltip="Total number of components"
+          container="body"
+        ></fa-icon>
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <div
+        class="insight-sm"
+        routerLink="library"
+        [queryParams]="{ 'linkedLicenseShortIdentifier.in': 'Unknown,Non-Licensed', page: 1, size: 50 }"
+      >
+        <span>{{ insights?.totalUnidentifiedComponents }}</span>
+        <span>Unidentified</span>
+        <fa-icon
+          class="position-absolute top-0 end-0 text-secondary"
+          icon="question-circle"
+          transform="shrink-6"
+          ngbTooltip="Total number of components with 'Unknown' or 'Non-licensed' licenses"
+          container="body"
+        ></fa-icon>
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <div class="insight-sm" routerLink="library" [queryParams]="{ 'reviewed.equals': 'true', page: 1, size: 50 }">
+        <span>{{ insights?.percentageReviewedComponents ?? 0 }}%</span>
+        <span>Reviewed Components</span>
+        <fa-icon
+          class="position-absolute top-0 end-0 text-secondary"
+          icon="question-circle"
+          transform="shrink-6"
+          ngbTooltip="Total number of reviewed components"
+          container="body"
+        ></fa-icon>
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <div class="insight-sm" routerLink="license">
+        <span>{{ insights?.totalLicenses }}</span>
+        <span>Licenses</span>
+        <fa-icon
+          class="position-absolute top-0 end-0 text-secondary"
+          icon="question-circle"
+          transform="shrink-6"
+          ngbTooltip="Total number of licenses"
+          container="body"
+        ></fa-icon>
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <div class="insight-sm" routerLink="license" [queryParams]="{ 'reviewed.equals': 'true', page: 1, size: 50 }">
+        <span>{{ insights?.percentageReviewedLicenses ?? 0 }}%</span>
+        <span>Reviewed Licenses</span>
+        <fa-icon
+          class="position-absolute top-0 end-0 text-secondary"
+          icon="question-circle"
+          transform="shrink-6"
+          ngbTooltip="Total number of reviewed licenses"
+          container="body"
+        ></fa-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-5 gy-lg-3">
     <!-- Projects -->
-    <div class="col-xl mb-3">
-      <div class="card lucy-card-row flex-row">
-        <div routerLink="product" class="card-img-left lucy-card-header-row d-flex align-items-center">
-          <fa-icon icon="sitemap" size="2x"></fa-icon>
+    <div class="col-lg-4">
+      <div class="row mb-3">
+        <div class="col">
+          <h4 class="fw-semibold">Last Updated Projects</h4>
         </div>
-        <div class="card-body">
-          <h5 class="card-title"><a routerLink="product" class="card-link">Products</a></h5>
-          <p class="card-text">Track usage of libraries in your product. Find analytics and various reports to download.</p>
+        <div class="col-auto text-end">
+          <a class="text-muted fw-normal" routerLink="product">View all</a>
         </div>
       </div>
-      <div class="card lucy-card-detail-row">
-        <span class="text-center text-muted" *ngIf="!products || products?.length === 0">Cannot load preview</span>
-        <table *ngIf="products && products.length > 0" class="table table-sm mb-0">
-          <thead>
-            <tr>
-              <th>Last updated product</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let product of products" data-cy="productTable">
-              <td>
-                <a [routerLink]="['/product', product.id, 'view']">{{ product.name }} {{ product.version }}</a>
-              </td>
-              <td>{{ product.lastUpdatedDate | formatMediumDate }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="row text-center" *ngIf="!products || products?.length === 0">
+        <span class="text-muted">No products found.<br /><a [routerLink]="['/product', 'new']">Create your first product 👈</a></span>
+      </div>
+      <div class="row mb-2 grid-table" *ngFor="let product of products" [routerLink]="['/product', product.id, 'view']">
+        <div class="col-5 align-self-center">
+          <span class="fw-semibold">{{ product.name }}</span
+          ><br /><span class="text-muted">{{ product.version }}</span>
+        </div>
+        <div class="col-3 align-self-center">{{ product.lastUpdatedDate | formatMediumDate }}</div>
+        <div class="col-2 align-self-center text-center">
+          <span [ngSwitch]="product.uploadState">
+            <span *ngSwitchCase="'SUCCESSFUL'" class="badge text-bg-success" placement="top" ngbTooltip="Upload was successful">OK</span>
+            <span *ngSwitchCase="'PROCESSING'" class="badge text-bg-warning" placement="top" ngbTooltip="Upload is processing"
+              >Processing</span
+            >
+            <span *ngSwitchCase="'FAILURE'" class="badge text-bg-danger" placement="top" ngbTooltip="Upload failed. Check logs!"
+              >Failure</span
+            >
+          </span>
+        </div>
+        <div class="col-2 align-self-center text-end">
+          <fa-icon icon="chevron-right"></fa-icon>
+        </div>
       </div>
     </div>
+
     <!-- Libraries -->
-    <div class="col-xl mb-3">
-      <div class="card lucy-card-row flex-row">
-        <div routerLink="library" class="card-img-left lucy-card-header-row d-flex align-items-center">
-          <fa-icon icon="cubes" size="2x"></fa-icon>
+    <div class="col-lg-4">
+      <div class="row mb-3">
+        <div class="col">
+          <h4 class="fw-semibold">New Components</h4>
         </div>
-        <div class="card-body">
-          <h5 class="card-title"><a routerLink="library" class="card-link">Libraries</a></h5>
-          <p class="card-text">Browse through the whole library database and check if the library is compliant with our policies.</p>
+        <div class="col-auto text-end">
+          <a class="text-muted fw-normal" routerLink="library">View all</a>
         </div>
       </div>
-      <div class="card lucy-card-detail-row">
-        <span class="text-center text-muted" *ngIf="!libraries || libraries?.length === 0">Cannot load preview</span>
-        <table *ngIf="libraries && libraries.length > 0" class="table table-sm mb-0">
-          <thead>
-            <tr>
-              <th>New library</th>
-              <th class="text-center">Risk</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let library of libraries" data-cy="libraryTable">
-              <td>
-                <a [routerLink]="['/library', library.id, 'view']"
-                  >{{
-                    library?.artifactId && library.artifactId!.length > 22 ? (library.artifactId | slice: 0:22) + '..' : library.artifactId
-                  }}
-                  {{ library?.version && library.version!.length > 10 ? (library.version | slice: 0:10) + '..' : library.version }}</a
-                >
-              </td>
-              <td class="text-center">
-                <span
-                  class="rectangle-sm"
-                  [ngStyle]="{ 'background-color': library.libraryRisk?.color }"
-                  placement="top"
-                  [ngbTooltip]="library.libraryRisk?.name"
-                ></span>
-              </td>
-              <td>{{ library.createdDate | formatMediumDate }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="row text-center" *ngIf="!libraries || libraries?.length === 0">
+        <span class="text-muted">No components found.</span>
+      </div>
+      <div class="row mb-2 grid-table" *ngFor="let library of libraries" [routerLink]="['/library', library.id, 'view']">
+        <div class="col-5 align-self-center">
+          <span class="fw-semibold">{{ library.artifactId }}</span
+          ><br />
+          <span class="text-muted">{{ library.version }}</span>
+          <span class="badge-outline-light" style="font-size: 0.7rem">{{ library.type }}</span>
+        </div>
+        <div class="col-3 align-self-center">{{ library.createdDate | formatMediumDate }}</div>
+        <div class="col-2 align-self-center text-center">
+          <span
+            class="rectangle-sm"
+            [ngStyle]="{ 'background-color': library.libraryRisk?.color }"
+            placement="top"
+            [ngbTooltip]="library.libraryRisk?.name"
+          ></span>
+        </div>
+        <div class="col-2 align-self-center text-end">
+          <fa-icon icon="chevron-right"></fa-icon>
+        </div>
       </div>
     </div>
+
     <!-- Licenses -->
-    <div class="col-xl mb-3">
-      <div class="card lucy-card-row flex-row">
-        <div routerLink="license" class="card-img-left lucy-card-header-row d-flex align-items-center">
-          <fa-icon icon="gavel" size="2x"></fa-icon>
+    <div class="col-lg-4">
+      <div class="row mb-3">
+        <div class="col">
+          <h4 class="fw-semibold">Last Reviewed Licenses</h4>
         </div>
-        <div class="card-body">
-          <h5 class="card-title"><a routerLink="license" class="card-link">Licenses</a></h5>
-          <p class="card-text">Learn more about licenses. See which risks it bears and requirements that have to be fulfilled.</p>
+        <div class="col-auto text-end">
+          <a class="text-muted fw-normal" routerLink="license">View all</a>
         </div>
       </div>
-      <div class="card lucy-card-detail-row">
-        <span class="text-center text-muted" *ngIf="!licenses || licenses?.length === 0">Cannot load preview</span>
-        <table *ngIf="licenses && licenses.length > 0" class="table table-sm mb-0">
-          <thead>
-            <tr>
-              <th>Last reviewed license</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let license of licenses" data-cy="licensesTable">
-              <td>
-                <a [routerLink]="['/license', license.id, 'view']">{{
-                  license?.shortIdentifier && license.shortIdentifier!.length > 40
-                    ? (license.shortIdentifier | slice: 0:40) + '..'
-                    : license.shortIdentifier
-                }}</a>
-              </td>
-              <td>{{ license.lastReviewedDate | formatMediumDate }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="row text-center" *ngIf="!licenses || licenses?.length === 0">
+        <span class="text-muted">No licenses found.</span>
       </div>
-    </div>
-  </div>
-
-  <hr />
-
-  <div class="row justify-content-md-center mt-3">
-    <div class="col-md-3 mb-3">
-      <div routerLink="license-risk" class="card lucy-card-sm">
-        <fa-icon icon="shield-alt" size="2x"></fa-icon>
-        <h5>Risks</h5>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div routerLink="requirement" class="card lucy-card-sm">
-        <fa-icon icon="tasks" size="2x"></fa-icon>
-        <h5>Requirements</h5>
+      <div class="row mb-2 grid-table" *ngFor="let license of licenses" [routerLink]="['/license', license.id, 'view']">
+        <div class="col-5 align-self-center">
+          <span class="fw-semibold">{{ license.shortIdentifier }}</span
+          ><br />
+          <span class="text-muted">{{ license?.lastReviewedBy?.login }}</span>
+        </div>
+        <div class="col-3 align-self-center">{{ license.lastReviewedDate | formatMediumDate }}</div>
+        <div class="col-2 align-self-center text-center">
+          <span
+            class="rectangle-sm"
+            [ngStyle]="{ 'background-color': license.licenseRisk?.color }"
+            placement="top"
+            [ngbTooltip]="license.licenseRisk?.name"
+          ></span>
+        </div>
+        <div class="col-2 align-self-center text-end">
+          <fa-icon icon="chevron-right"></fa-icon>
+        </div>
       </div>
     </div>
   </div>

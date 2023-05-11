@@ -31,7 +31,6 @@ import io.github.fossure.domain.LicensePerLibrary;
 import io.github.fossure.domain.enumeration.ExportFormat;
 import io.github.fossure.domain.enumeration.LogSeverity;
 import io.github.fossure.domain.helper.Copyright;
-import net.regnology.lucy.service.exceptions.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
@@ -189,7 +188,36 @@ public class LibraryCustomService extends LibraryService {
 
         return savedLibrary;
     }
+    
+    /** 
+     * Count all the libraries.
+     * @return the number of libraries.
+    */
+    public long count() {
+        return libraryRepository.count();
+    }
 
+
+    /**
+     * Count all the libraries with has an unidentified license (Unknown or Non-Licensed).
+     *
+     * @param unknown the unknown license.
+     * @param nonLicensed the non-licensed license.
+     * @return the number of libraries.
+     */
+    public long countByUnidentifiedLicense(License unknown, License nonLicensed) {
+        return libraryRepository.countByUnidentifiedLicense(unknown, nonLicensed);
+    }
+
+    /**
+     * Count all the libraries with a specific license.
+     *
+     * @param license the license to search for.
+     * @return the number of libraries.
+     */
+    public long countByLicenseToPublishContainsLicense(License license) {
+        return libraryRepository.countByLicenseToPublishContainsLicense(license);
+    }
     /**
      * Get all the libraries with eager load of many-to-many relationships.
      *
@@ -254,6 +282,15 @@ public class LibraryCustomService extends LibraryService {
         for (LicensePerLibrary lpp : library.getLicenses()) {
             Optional<License> optionalLicense = licenseService.findOne(lpp.getLicense().getId());
             optionalLicense.ifPresent(lpp::setLicense);
+        }
+
+        for (License license : library.getLicenseToPublishes()) {
+            if (license.getLicenseRisk() == null) {
+                Optional<License> optionalLicense = licenseService.findOne(license.getId());
+                if (optionalLicense.isPresent()) {
+                    license.setLicenseRisk(optionalLicense.get().getLicenseRisk());
+                }
+            }
         }
 
         if (

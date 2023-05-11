@@ -3,7 +3,7 @@ function setupProxy({ tls }) {
     {
       context: ['/api', '/services', '/management', '/v3/api-docs', '/h2-console', '/auth', '/health'],
       // For production
-      //target: `http${tls ? 's' : ''}://localhost:8080/lucy`,
+      //target: `http${tls ? 's' : ''}://localhost:8080/fossure`,
       // For development
       target: `http${tls ? 's' : ''}://localhost:8080/`,
       secure: false,

@@ -6,7 +6,6 @@ import javax.persistence.criteria.JoinType;
 import io.github.fossure.domain.*;
 import io.github.fossure.repository.LibraryPerProductCustomRepository;
 import io.github.fossure.service.criteria.LibraryPerProductCustomCriteria;
-import net.regnology.lucy.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

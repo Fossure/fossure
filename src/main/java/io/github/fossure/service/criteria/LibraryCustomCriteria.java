@@ -1,5 +1,6 @@
 package io.github.fossure.service.criteria;
 
+import java.io.Serializable;
 import java.util.Objects;
 import io.github.fossure.domain.Library;
 import io.github.fossure.web.rest.LibraryResource;
@@ -15,7 +16,7 @@ import tech.jhipster.service.filter.StringFilter;
  * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
  * fix type specific filters.
  */
-public class LibraryCustomCriteria extends LibraryCriteria {
+public class LibraryCustomCriteria extends LibraryCriteria implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
