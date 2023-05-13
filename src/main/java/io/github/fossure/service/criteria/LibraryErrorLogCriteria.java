@@ -1,17 +1,18 @@
 package io.github.fossure.service.criteria;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.fossure.domain.LibraryErrorLog;
 import io.github.fossure.domain.enumeration.LogSeverity;
 import io.github.fossure.domain.enumeration.LogStatus;
-import io.github.fossure.web.rest.LibraryErrorLogResource;
+import io.github.fossure.web.rest.v1.LibraryErrorLogResource;
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.InstantFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link LibraryErrorLog} entity. This class is used

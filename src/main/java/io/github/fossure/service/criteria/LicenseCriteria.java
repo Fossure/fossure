@@ -1,16 +1,13 @@
 package io.github.fossure.service.criteria;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.fossure.domain.License;
-import io.github.fossure.web.rest.LicenseResource;
+import io.github.fossure.web.rest.v1.LicenseResource;
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
-import tech.jhipster.service.filter.BooleanFilter;
-import tech.jhipster.service.filter.Filter;
-import tech.jhipster.service.filter.LocalDateFilter;
-import tech.jhipster.service.filter.LongFilter;
-import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.*;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link License} entity. This class is used
@@ -56,6 +53,10 @@ public class LicenseCriteria implements Serializable, Criteria {
 
     private Boolean distinct;
 
+    private StringFilter requirementShortText;
+
+    private StringFilter name;
+
     public LicenseCriteria() {}
 
     public LicenseCriteria(LicenseCriteria other) {
@@ -74,6 +75,8 @@ public class LicenseCriteria implements Serializable, Criteria {
         this.libraryPublishId = other.libraryPublishId == null ? null : other.libraryPublishId.copy();
         this.libraryFilesId = other.libraryFilesId == null ? null : other.libraryFilesId.copy();
         this.distinct = other.distinct;
+        this.requirementShortText = other.requirementShortText == null ? null : other.requirementShortText.copy();
+        this.name = other.name == null ? null : other.name.copy();
     }
 
     @Override
@@ -299,6 +302,36 @@ public class LicenseCriteria implements Serializable, Criteria {
         this.distinct = distinct;
     }
 
+    public StringFilter getRequirementShortText() {
+        return requirementShortText;
+    }
+
+    public void setRequirementShortText(StringFilter requirementShortText) {
+        this.requirementShortText = requirementShortText;
+    }
+
+    public StringFilter requirementShortText() {
+        if (requirementShortText == null) {
+            requirementShortText = new StringFilter();
+        }
+        return requirementShortText;
+    }
+
+    public StringFilter getName() {
+        return name;
+    }
+
+    public void setName(StringFilter name) {
+        this.name = name;
+    }
+
+    public StringFilter name() {
+        if (name == null) {
+            name = new StringFilter();
+        }
+        return name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -323,7 +356,9 @@ public class LicenseCriteria implements Serializable, Criteria {
             Objects.equals(requirementId, that.requirementId) &&
             Objects.equals(libraryPublishId, that.libraryPublishId) &&
             Objects.equals(libraryFilesId, that.libraryFilesId) &&
-            Objects.equals(distinct, that.distinct)
+            Objects.equals(distinct, that.distinct) &&
+            Objects.equals(requirementShortText, that.requirementShortText) &&
+            Objects.equals(name, that.name)
         );
     }
 
@@ -344,7 +379,9 @@ public class LicenseCriteria implements Serializable, Criteria {
             requirementId,
             libraryPublishId,
             libraryFilesId,
-            distinct
+            distinct,
+            requirementShortText,
+            name
         );
     }
 
@@ -367,6 +404,8 @@ public class LicenseCriteria implements Serializable, Criteria {
             (libraryPublishId != null ? "libraryPublishId=" + libraryPublishId + ", " : "") +
             (libraryFilesId != null ? "libraryFilesId=" + libraryFilesId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
+            (requirementShortText != null ? "requirementShortText=" + requirementShortText + ", " : "") +
+            (name != null ? "name=" + name + ", " : "") +
             "}";
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST controller for communication with Dashboard.
+ * REST controller for dashboard data.
  */
 @RestController
 @RequestMapping("/api/v1")

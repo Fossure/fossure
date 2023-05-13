@@ -1,17 +1,14 @@
 package io.github.fossure.service.criteria;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.fossure.domain.Library;
 import io.github.fossure.domain.enumeration.LibraryType;
-import io.github.fossure.web.rest.LibraryResource;
+import io.github.fossure.web.rest.v1.LibraryResource;
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
-import tech.jhipster.service.filter.BooleanFilter;
-import tech.jhipster.service.filter.Filter;
-import tech.jhipster.service.filter.LocalDateFilter;
-import tech.jhipster.service.filter.LongFilter;
-import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.*;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link Library} entity. This class is used
@@ -100,6 +97,12 @@ public class LibraryCriteria implements Serializable, Criteria {
 
     private Boolean distinct;
 
+    private StringFilter linkedLicenseShortIdentifier;
+
+    private LibraryErrorLogCriteria.LogStatusFilter errorLogStatus;
+
+    private StringFilter licenseToPublishShortIdentifier;
+
     public LibraryCriteria() {}
 
     public LibraryCriteria(LibraryCriteria other) {
@@ -131,6 +134,10 @@ public class LibraryCriteria implements Serializable, Criteria {
         this.licenseToPublishId = other.licenseToPublishId == null ? null : other.licenseToPublishId.copy();
         this.licenseOfFilesId = other.licenseOfFilesId == null ? null : other.licenseOfFilesId.copy();
         this.distinct = other.distinct;
+        this.linkedLicenseShortIdentifier = other.linkedLicenseShortIdentifier == null ? null : other.linkedLicenseShortIdentifier.copy();
+        this.errorLogStatus = other.errorLogStatus == null ? null : other.errorLogStatus.copy();
+        this.licenseToPublishShortIdentifier =
+            other.licenseToPublishShortIdentifier == null ? null : other.licenseToPublishShortIdentifier.copy();
     }
 
     @Override
@@ -551,6 +558,51 @@ public class LibraryCriteria implements Serializable, Criteria {
         this.distinct = distinct;
     }
 
+    public StringFilter getLinkedLicenseShortIdentifier() {
+        return linkedLicenseShortIdentifier;
+    }
+
+    public void setLinkedLicenseShortIdentifier(StringFilter linkedLicenseShortIdentifier) {
+        this.linkedLicenseShortIdentifier = linkedLicenseShortIdentifier;
+    }
+
+    public StringFilter linkedLicenseShortIdentifier() {
+        if (linkedLicenseShortIdentifier == null) {
+            linkedLicenseShortIdentifier = new StringFilter();
+        }
+        return linkedLicenseShortIdentifier;
+    }
+
+    public LibraryErrorLogCriteria.LogStatusFilter getErrorLogStatus() {
+        return errorLogStatus;
+    }
+
+    public void setErrorLogStatus(LibraryErrorLogCriteria.LogStatusFilter errorLogStatus) {
+        this.errorLogStatus = errorLogStatus;
+    }
+
+    public LibraryErrorLogCriteria.LogStatusFilter errorLogStatus() {
+        if (errorLogStatus == null) {
+            errorLogStatus = new LibraryErrorLogCriteria.LogStatusFilter();
+        }
+        return errorLogStatus;
+    }
+
+    public StringFilter getLicenseToPublishShortIdentifier() {
+        return licenseToPublishShortIdentifier;
+    }
+
+    public void setLicenseToPublishShortIdentifier(StringFilter licenseToPublishShortIdentifier) {
+        this.licenseToPublishShortIdentifier = licenseToPublishShortIdentifier;
+    }
+
+    public StringFilter licenseToPublishShortIdentifier() {
+        if (licenseToPublishShortIdentifier == null) {
+            licenseToPublishShortIdentifier = new StringFilter();
+        }
+        return licenseToPublishShortIdentifier;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -588,7 +640,10 @@ public class LibraryCriteria implements Serializable, Criteria {
             Objects.equals(lastReviewedDeepScanById, that.lastReviewedDeepScanById) &&
             Objects.equals(licenseToPublishId, that.licenseToPublishId) &&
             Objects.equals(licenseOfFilesId, that.licenseOfFilesId) &&
-            Objects.equals(distinct, that.distinct)
+            Objects.equals(distinct, that.distinct) &&
+            Objects.equals(linkedLicenseShortIdentifier, that.linkedLicenseShortIdentifier) &&
+            Objects.equals(licenseToPublishShortIdentifier, that.licenseToPublishShortIdentifier) &&
+            Objects.equals(errorLogStatus, that.errorLogStatus)
         );
     }
 
@@ -622,7 +677,10 @@ public class LibraryCriteria implements Serializable, Criteria {
             lastReviewedDeepScanById,
             licenseToPublishId,
             licenseOfFilesId,
-            distinct
+            distinct,
+            linkedLicenseShortIdentifier,
+            licenseToPublishShortIdentifier,
+            errorLogStatus
         );
     }
 
@@ -658,6 +716,9 @@ public class LibraryCriteria implements Serializable, Criteria {
             (licenseToPublishId != null ? "licenseToPublishId=" + licenseToPublishId + ", " : "") +
             (licenseOfFilesId != null ? "licenseOfFilesId=" + licenseOfFilesId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
+            (linkedLicenseShortIdentifier != null ? "licenseShortIdentifier=" + linkedLicenseShortIdentifier + ", " : "") +
+            (licenseToPublishShortIdentifier != null ? "licenseToPublishShortIdentifier=" + licenseToPublishShortIdentifier + ", " : "") +
+            (errorLogStatus != null ? "errorLogStatus=" + errorLogStatus + ", " : "") +
             "}";
     }
 }

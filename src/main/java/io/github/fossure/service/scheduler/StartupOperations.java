@@ -1,26 +1,17 @@
 package io.github.fossure.service.scheduler;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.regex.Pattern;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import io.github.fossure.domain.*;
-import io.github.fossure.repository.*;
-import io.github.fossure.service.exceptions.LibraryException;
-import io.github.fossure.service.helper.urlparsing.LicenseURLparser;
-import io.github.fossure.service.helper.urlparsing.SourceURLparser;
-import io.github.fossure.service.helper.urlparsing.URLparserHelper;
 import io.github.fossure.config.Constants;
 import io.github.fossure.domain.*;
 import io.github.fossure.domain.enumeration.CompatibilityState;
 import io.github.fossure.repository.*;
-import io.github.fossure.service.LibraryCustomService;
-import io.github.fossure.service.LibraryQueryCustomService;
-import io.github.fossure.service.LicenseCustomService;
-import io.github.fossure.service.criteria.LibraryCustomCriteria;
+import io.github.fossure.service.LibraryService;
+import io.github.fossure.service.LicenseService;
+import io.github.fossure.service.criteria.LibraryCriteria;
+import io.github.fossure.service.criteria.query.LibraryQueryService;
+import io.github.fossure.service.exceptions.LibraryException;
+import io.github.fossure.service.helper.urlparsing.LicenseURLparser;
+import io.github.fossure.service.helper.urlparsing.SourceURLparser;
+import io.github.fossure.service.helper.urlparsing.URLparserHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
@@ -33,6 +24,13 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import tech.jhipster.service.filter.StringFilter;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.regex.Pattern;
+
 @Component
 public class StartupOperations {
 
@@ -42,28 +40,28 @@ public class StartupOperations {
     private EntityManager entityManager;
 
     @Autowired
-    private LibraryCustomService libraryService;
+    private LibraryService libraryService;
 
     @Autowired
-    private LibraryCustomRepository libraryRepository;
+    private LibraryRepository libraryRepository;
 
     @Autowired
-    private LicenseCustomRepository licenseRepository;
+    private LicenseRepository licenseRepository;
 
     @Autowired
-    private LicenseCustomService licenseService;
+    private LicenseService licenseService;
 
     @Autowired
-    private LibraryQueryCustomService libraryQueryService;
+    private LibraryQueryService libraryQueryService;
 
     @Autowired
-    private LicenseConflictCustomRepository licenseConflictRepository;
+    private LicenseConflictRepository licenseConflictRepository;
 
     @Autowired
-    private LicenseNamingMappingCustomRepository licenseNamingMappingCustomRepository;
+    private LicenseNamingMappingRepository licenseNamingMappingRepository;
 
     @Autowired
-    private GenericLicenseUrlCustomRepository genericLicenseUrlCustomRepository;
+    private GenericLicenseUrlRepository genericLicenseUrlRepository;
 
     // @Scheduled(fixedDelay = 10000000, initialDelay = 1000)
     @Async
@@ -99,7 +97,7 @@ public class StartupOperations {
 
     @Async
     public void reevaluateUnknownLicenses() {
-        LibraryCustomCriteria libraryCriteria = new LibraryCustomCriteria();
+        LibraryCriteria libraryCriteria = new LibraryCriteria();
         StringFilter filter = new StringFilter();
         filter.setContains(licenseService.getUnknownLicense().getShortIdentifier());
         libraryCriteria.setLinkedLicenseShortIdentifier(filter);
@@ -433,16 +431,16 @@ public class StartupOperations {
     //@Scheduled(fixedDelay = 1000000000, initialDelay = 5000)
     public void removeDoubleBackslashFromLicenseMapping() {
         log.info("Start removing double backslashes from License Naming Mapping and Generic License Urls..");
-        List<LicenseNamingMapping> licenseNamingMappings = licenseNamingMappingCustomRepository.findAll();
+        List<LicenseNamingMapping> licenseNamingMappings = licenseNamingMappingRepository.findAll();
         for (LicenseNamingMapping licenseNamingMapping : licenseNamingMappings) {
             licenseNamingMapping.setRegex(licenseNamingMapping.getRegex().replaceAll("\\\\\\\\", "\\\\"));
-            licenseNamingMappingCustomRepository.save(licenseNamingMapping);
+            licenseNamingMappingRepository.save(licenseNamingMapping);
         }
 
-        List<GenericLicenseUrl> genericLicenseUrls = genericLicenseUrlCustomRepository.findAll();
+        List<GenericLicenseUrl> genericLicenseUrls = genericLicenseUrlRepository.findAll();
         for (GenericLicenseUrl genericLicenseUrl : genericLicenseUrls) {
             genericLicenseUrl.setUrl(genericLicenseUrl.getUrl().replaceAll("\\\\\\\\", "\\\\"));
-            genericLicenseUrlCustomRepository.save(genericLicenseUrl);
+            genericLicenseUrlRepository.save(genericLicenseUrl);
         }
         log.info("Finished removing double backslashes from License Naming Mapping and Generic License Urls!");
     }

@@ -1,15 +1,16 @@
 package io.github.fossure.service.criteria;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.fossure.domain.LicensePerLibrary;
 import io.github.fossure.domain.enumeration.LinkType;
-import io.github.fossure.web.rest.LicensePerLibraryResource;
+import io.github.fossure.web.rest.v1.LicensePerLibraryResource;
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link LicensePerLibrary} entity. This class is used

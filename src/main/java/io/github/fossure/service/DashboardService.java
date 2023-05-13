@@ -1,9 +1,12 @@
 package io.github.fossure.service;
 
 import io.github.fossure.domain.statistics.Dashboard;
-import io.github.fossure.service.criteria.LibraryCustomCriteria;
-import io.github.fossure.service.criteria.LicenseCustomCriteria;
-import io.github.fossure.service.criteria.ProductCustomCriteria;
+import io.github.fossure.service.criteria.LibraryCriteria;
+import io.github.fossure.service.criteria.LicenseCriteria;
+import io.github.fossure.service.criteria.ProductCriteria;
+import io.github.fossure.service.criteria.query.LibraryQueryService;
+import io.github.fossure.service.criteria.query.LicenseQueryService;
+import io.github.fossure.service.criteria.query.ProductQueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,20 +17,20 @@ public class DashboardService {
 
     private static final Logger log = LoggerFactory.getLogger(DashboardService.class);
 
-    private final ProductCustomService productService;
-    private final ProductQueryCustomService productQueryService;
-    private final LibraryCustomService libraryService;
-    private final LibraryQueryCustomService libraryQueryService;
-    private final LicenseCustomService licenseService;
-    private final LicenseQueryCustomService licenseQueryService;
+    private final ProductService productService;
+    private final ProductQueryService productQueryService;
+    private final LibraryService libraryService;
+    private final LibraryQueryService libraryQueryService;
+    private final LicenseService licenseService;
+    private final LicenseQueryService licenseQueryService;
 
     public DashboardService(
-        ProductCustomService productService,
-        ProductQueryCustomService productQueryService,
-        LibraryCustomService libraryService,
-        LibraryQueryCustomService libraryQueryService,
-        LicenseCustomService licenseService,
-        LicenseQueryCustomService licenseQueryService
+        ProductService productService,
+        ProductQueryService productQueryService,
+        LibraryService libraryService,
+        LibraryQueryService libraryQueryService,
+        LicenseService licenseService,
+        LicenseQueryService licenseQueryService
     ) {
         this.productService = productService;
         this.productQueryService = productQueryService;
@@ -49,7 +52,7 @@ public class DashboardService {
         long totalProjects = productService.count();
 
         // Count all active projects
-        ProductCustomCriteria productCriteria = new ProductCustomCriteria();
+        ProductCriteria productCriteria = new ProductCriteria();
         productCriteria.setDelivered(falseFilter);
         long totalActiveProjects = productQueryService.countByCriteria(productCriteria);
 
@@ -63,7 +66,7 @@ public class DashboardService {
         );
 
         // Count all reviewed libraries
-        LibraryCustomCriteria libraryCriteria = new LibraryCustomCriteria();
+        LibraryCriteria libraryCriteria = new LibraryCriteria();
         libraryCriteria.setReviewed(trueFilter);
         long totalReviewedLibraries = libraryQueryService.countByCriteria(libraryCriteria);
 
@@ -71,7 +74,7 @@ public class DashboardService {
         long totalLicenses = licenseService.count();
 
         // Count all reviewed licenses
-        LicenseCustomCriteria licenseCriteria = new LicenseCustomCriteria();
+        LicenseCriteria licenseCriteria = new LicenseCriteria();
         licenseCriteria.setReviewed(trueFilter);
         long totalReviewedLicenses = licenseQueryService.countByCriteria(licenseCriteria);
 

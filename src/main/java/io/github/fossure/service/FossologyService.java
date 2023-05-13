@@ -47,7 +47,7 @@ public class FossologyService {
     }
 
     @Async("fossologyTaskExecutor")
-    public void upload(Library library, LibraryCustomService libraryService, String libraryUrl, String libraryLabel)
+    public void upload(Library library, LibraryService libraryService, String libraryUrl, String libraryLabel)
         throws IOException, ParseException {
         log.info("Start to analyse library {} with Fossology", library.getId());
 

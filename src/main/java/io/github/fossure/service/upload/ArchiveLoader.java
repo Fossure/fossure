@@ -12,7 +12,7 @@ import io.github.fossure.domain.File;
 import io.github.fossure.domain.Library;
 import io.github.fossure.domain.enumeration.LibraryType;
 import io.github.fossure.domain.helper.PackageInfo;
-import io.github.fossure.service.LibraryCustomService;
+import io.github.fossure.service.LibraryService;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.json.simple.JSONArray;
@@ -25,10 +25,10 @@ import org.slf4j.LoggerFactory;
 public class ArchiveLoader implements AssetLoader<Library> {
 
     private final Logger log = LoggerFactory.getLogger(ArchiveLoader.class);
-    private final LibraryCustomService libraryService;
+    private final LibraryService libraryService;
     private final Set<Library> globalList = new HashSet<>(256);
 
-    public ArchiveLoader(LibraryCustomService libraryService) {
+    public ArchiveLoader(LibraryService libraryService) {
         this.libraryService = libraryService;
     }
 

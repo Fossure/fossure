@@ -1,12 +1,13 @@
 package io.github.fossure.service.criteria;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.fossure.domain.LibraryPerProduct;
-import io.github.fossure.web.rest.LibraryPerProductResource;
+import io.github.fossure.web.rest.v1.LibraryPerProductResource;
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.*;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link LibraryPerProduct} entity. This class is used
@@ -38,6 +39,18 @@ public class LibraryPerProductCriteria implements Serializable, Criteria {
 
     private Boolean distinct;
 
+    private StringFilter artifactId;
+
+    private StringFilter licensesShortIdentifier;
+
+    private LongFilter libraryRiskId;
+
+    private StringFilter errorLogMessage;
+
+    private LibraryErrorLogCriteria.LogStatusFilter errorLogStatus;
+
+    private LocalDateFilter libraryCreatedDate;
+
     public LibraryPerProductCriteria() {}
 
     public LibraryPerProductCriteria(LibraryPerProductCriteria other) {
@@ -49,6 +62,12 @@ public class LibraryPerProductCriteria implements Serializable, Criteria {
         this.libraryId = other.libraryId == null ? null : other.libraryId.copy();
         this.productId = other.productId == null ? null : other.productId.copy();
         this.distinct = other.distinct;
+        this.artifactId = other.artifactId == null ? null : other.artifactId.copy();
+        this.licensesShortIdentifier = other.licensesShortIdentifier == null ? null : other.licensesShortIdentifier.copy();
+        this.libraryRiskId = other.libraryRiskId == null ? null : other.libraryRiskId.copy();
+        this.errorLogMessage = other.errorLogMessage == null ? null : other.errorLogMessage.copy();
+        this.errorLogStatus = other.errorLogStatus == null ? null : other.errorLogStatus.copy();
+        this.libraryCreatedDate = other.libraryCreatedDate == null ? null : other.libraryCreatedDate.copy();
     }
 
     @Override
@@ -169,6 +188,96 @@ public class LibraryPerProductCriteria implements Serializable, Criteria {
         this.distinct = distinct;
     }
 
+    public StringFilter getArtifactId() {
+        return artifactId;
+    }
+
+    public void setArtifactId(StringFilter artifactId) {
+        this.artifactId = artifactId;
+    }
+
+    public StringFilter artifactId() {
+        if (artifactId == null) {
+            artifactId = new StringFilter();
+        }
+        return artifactId;
+    }
+
+    public StringFilter getLicensesShortIdentifier() {
+        return licensesShortIdentifier;
+    }
+
+    public void setLicensesShortIdentifier(StringFilter licensesShortIdentifier) {
+        this.licensesShortIdentifier = licensesShortIdentifier;
+    }
+
+    public StringFilter licensesShortIdentifier() {
+        if (licensesShortIdentifier == null) {
+            licensesShortIdentifier = new StringFilter();
+        }
+        return licensesShortIdentifier;
+    }
+
+    public LongFilter getLibraryRiskId() {
+        return libraryRiskId;
+    }
+
+    public void setLibraryRiskId(LongFilter libraryRiskId) {
+        this.libraryRiskId = libraryRiskId;
+    }
+
+    public LongFilter licenseRiskId() {
+        if (libraryRiskId == null) {
+            libraryRiskId = new LongFilter();
+        }
+        return libraryRiskId;
+    }
+
+    public StringFilter getErrorLogMessage() {
+        return errorLogMessage;
+    }
+
+    public void setErrorLogMessage(StringFilter errorLogMessage) {
+        this.errorLogMessage = errorLogMessage;
+    }
+
+    public StringFilter errorLogMessage() {
+        if (errorLogMessage == null) {
+            errorLogMessage = new StringFilter();
+        }
+        return errorLogMessage;
+    }
+
+    public LibraryErrorLogCriteria.LogStatusFilter getErrorLogStatus() {
+        return errorLogStatus;
+    }
+
+    public void setErrorLogStatus(LibraryErrorLogCriteria.LogStatusFilter errorLogStatus) {
+        this.errorLogStatus = errorLogStatus;
+    }
+
+    public LibraryErrorLogCriteria.LogStatusFilter errorLogStatus() {
+        if (errorLogStatus == null) {
+            errorLogStatus = new LibraryErrorLogCriteria.LogStatusFilter();
+        }
+        return errorLogStatus;
+    }
+
+    public LocalDateFilter getLibraryCreatedDate() {
+        return libraryCreatedDate;
+    }
+
+    public void setLibraryCreatedDate(LocalDateFilter libraryCreatedDate) {
+        this.libraryCreatedDate = libraryCreatedDate;
+    }
+
+    public LocalDateFilter libraryCreatedDate() {
+        if (libraryCreatedDate == null) {
+            libraryCreatedDate = new LocalDateFilter();
+        }
+        return libraryCreatedDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -186,13 +295,35 @@ public class LibraryPerProductCriteria implements Serializable, Criteria {
             Objects.equals(comment, that.comment) &&
             Objects.equals(libraryId, that.libraryId) &&
             Objects.equals(productId, that.productId) &&
-            Objects.equals(distinct, that.distinct)
+            Objects.equals(distinct, that.distinct) &&
+            Objects.equals(artifactId, that.artifactId) &&
+            Objects.equals(licensesShortIdentifier, that.licensesShortIdentifier) &&
+            Objects.equals(libraryRiskId, that.libraryRiskId) &&
+            Objects.equals(errorLogMessage, that.errorLogMessage) &&
+            Objects.equals(errorLogStatus, that.errorLogStatus) &&
+            Objects.equals(libraryCreatedDate, that.libraryCreatedDate)
+
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, addedDate, addedManually, hideForPublishing, comment, libraryId, productId, distinct);
+        return Objects.hash(
+            id,
+            addedDate,
+            addedManually,
+            hideForPublishing,
+            comment,
+            libraryId,
+            productId,
+            distinct,
+            artifactId,
+            licensesShortIdentifier,
+            libraryRiskId,
+            errorLogMessage,
+            errorLogStatus,
+            libraryCreatedDate
+        );
     }
 
     // prettier-ignore
@@ -207,6 +338,12 @@ public class LibraryPerProductCriteria implements Serializable, Criteria {
             (libraryId != null ? "libraryId=" + libraryId + ", " : "") +
             (productId != null ? "productId=" + productId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
+            (artifactId != null ? "artifactId=" + artifactId + ", " : "") +
+            (licensesShortIdentifier != null ? "licensesShortIdentifier=" + licensesShortIdentifier + ", " : "") +
+            (libraryRiskId != null ? "libraryRiskId=" + libraryRiskId + ", " : "") +
+            (errorLogMessage != null ? "errorLogMessage=" + errorLogMessage + ", " : "") +
+            (errorLogStatus != null ? "errorLogStatus=" + errorLogStatus + ", " : "") +
+            (libraryCreatedDate != null ? "libraryCreatedDate=" + libraryCreatedDate + ", " : "") +
             "}";
     }
 }

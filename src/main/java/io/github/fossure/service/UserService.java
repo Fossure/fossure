@@ -1,22 +1,20 @@
 package io.github.fossure.service;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import io.github.fossure.repository.AuthorityRepository;
-import io.github.fossure.repository.UserRepository;
-import io.github.fossure.service.exceptions.EmailAlreadyUsedException;
-import io.github.fossure.service.exceptions.InvalidPasswordException;
-import io.github.fossure.service.exceptions.UsernameAlreadyUsedException;
+import io.github.fossure.config.ApplicationProperties;
 import io.github.fossure.config.Constants;
 import io.github.fossure.domain.Authority;
 import io.github.fossure.domain.User;
+import io.github.fossure.repository.AuthorityRepository;
+import io.github.fossure.repository.UserRepository;
 import io.github.fossure.security.AuthoritiesConstants;
 import io.github.fossure.security.SecurityUtils;
 import io.github.fossure.service.dto.AdminUserDTO;
 import io.github.fossure.service.dto.UserDTO;
+import io.github.fossure.service.exceptions.EmailAlreadyUsedException;
+import io.github.fossure.service.exceptions.InvalidEmailException;
+import io.github.fossure.service.exceptions.InvalidPasswordException;
+import io.github.fossure.service.exceptions.UsernameAlreadyUsedException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -27,6 +25,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -45,16 +48,20 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
+    private final ApplicationProperties applicationProperties;
+
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        ApplicationProperties applicationProperties
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.applicationProperties = applicationProperties;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -122,7 +129,13 @@ public class UserService {
         newUser.setFirstName(userDTO.getFirstName());
         newUser.setLastName(userDTO.getLastName());
         if (userDTO.getEmail() != null) {
-            newUser.setEmail(userDTO.getEmail().toLowerCase());
+            String email = userDTO.getEmail().toLowerCase();
+
+            if (this.isEmailDomainInvalid(email)) throw new InvalidEmailException(
+                "Only a \"" + applicationProperties.getMail().getAllowedDomain() + "\" email address is allowed!"
+            );
+
+            newUser.setEmail(email);
         }
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
@@ -131,7 +144,7 @@ public class UserService {
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
-        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        authorityRepository.findById(AuthoritiesConstants.READONLY).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
@@ -325,5 +338,27 @@ public class UserService {
         if (user.getEmail() != null) {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
+    }
+
+    /**
+     * Validate an email address if the property "application.mail.restrict-to-domain" is true.
+     * If the property is false, every email is valid.
+     *
+     * @param email Email address
+     * @return true if the email doesn't match the restricted domain or is empty.
+     * False if the property is disabled or the restricted domain does match with the email.
+     * <br>
+     * <i>Example:<br></i>
+     * restrict-to-domain: <b>true</b><br>
+     * allowed-domain: <b>@test.com</b><br>
+     * Valid email: <b>max.mustermann@test.com</b><br>
+     * Invalid email: <b>max.mustermann@fail.com</b>
+     */
+    public boolean isEmailDomainInvalid(String email) {
+        if (applicationProperties.getMail().isRestrictToDomain()) {
+            return StringUtils.isBlank(email) || !email.endsWith(applicationProperties.getMail().getAllowedDomain().toLowerCase());
+        }
+
+        return false;
     }
 }

@@ -1,12 +1,8 @@
 package io.github.fossure.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.SortedSet;
-
-import io.github.fossure.repository.LicensePerLibraryRepository;
 import io.github.fossure.domain.Library;
 import io.github.fossure.domain.LicensePerLibrary;
+import io.github.fossure.repository.LicensePerLibraryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -14,8 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.SortedSet;
+
 /**
- * Service Implementation for managing {@link LicensePerLibrary}.
+ * Service implementation for managing {@link LicensePerLibrary}.
  */
 @Service
 @Transactional
@@ -122,5 +122,15 @@ public class LicensePerLibraryService {
     public void delete(Long id) {
         log.debug("Request to delete LicensePerLibrary : {}", id);
         licensePerLibraryRepository.deleteById(id);
+    }
+
+    /**
+     * Delete all licensePerLibraries by library ID.
+     *
+     * @param id the id of the library.
+     */
+    public void deleteByLibraryId(Long id) {
+        log.debug("Request to delete LicensePerLibrary where Library ID : {}", id);
+        licensePerLibraryRepository.deleteByLibraryId(id);
     }
 }

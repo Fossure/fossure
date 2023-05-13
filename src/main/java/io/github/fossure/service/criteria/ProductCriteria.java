@@ -1,18 +1,14 @@
 package io.github.fossure.service.criteria;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.fossure.domain.Product;
 import io.github.fossure.domain.enumeration.UploadState;
-import io.github.fossure.web.rest.ProductResource;
+import io.github.fossure.web.rest.v1.ProductResource;
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
-import tech.jhipster.service.filter.BooleanFilter;
-import tech.jhipster.service.filter.Filter;
-import tech.jhipster.service.filter.InstantFilter;
-import tech.jhipster.service.filter.LocalDateFilter;
-import tech.jhipster.service.filter.LongFilter;
-import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.*;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link Product} entity. This class is used
