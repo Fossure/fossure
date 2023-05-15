@@ -10,8 +10,7 @@ import { SidenavService } from 'app/layouts/sidenav/sidenav.service';
 
 @Component({
   selector: 'jhi-sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  templateUrl: './sidenav.component.html'
 })
 export class SidenavComponent implements OnInit {
   isSidenavCollapsed = true;
