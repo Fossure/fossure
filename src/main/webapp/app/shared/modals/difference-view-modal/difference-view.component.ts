@@ -3,14 +3,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
-import { ProductCustomService } from '../../../entities/product/service/product-custom.service';
+import { ProductService } from '../../../entities/product/service/product.service';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { IProduct } from '../../../entities/product/product.model';
 import { ActivatedRoute } from '@angular/router';
 import { IDifferenceView } from './difference-view.model';
 import { ASC } from '../../../config/pagination.constants';
 import { ILibrary } from '../../../entities/library/library.model';
-import { LibraryCustomService } from '../../../entities/library/service/library-custom.service';
+import { LibraryService } from '../../../entities/library/service/library.service';
 
 @Component({
   selector: 'jhi-difference-view',
@@ -42,10 +42,10 @@ export class DifferenceViewComponent implements OnInit {
   });
 
   constructor(
-    protected productService: ProductCustomService,
+    protected productService: ProductService,
     protected fb: UntypedFormBuilder,
     protected activatedRoute: ActivatedRoute,
-    protected libraryService: LibraryCustomService
+    protected libraryService: LibraryService
   ) {}
 
   ngOnInit(): void {

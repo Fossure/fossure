@@ -7,7 +7,7 @@
 
     <groupId>io.github.fossure</groupId>
     <artifactId>fossure</artifactId>
-    <version>0.6.3</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>Fossure</name>
@@ -16,7 +16,7 @@
         the license compliance process.
     </description>
     <url>https://github.com/Fossure/fossure</url>
-    <inceptionYear>2021</inceptionYear>
+    <inceptionYear>2023</inceptionYear>
 
     <licenses>
         <license>

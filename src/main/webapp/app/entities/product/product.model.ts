@@ -1,6 +1,6 @@
-import dayjs from 'dayjs/esm';
-import { ILibraryPerProduct } from 'app/entities/library-per-product/library-per-product.model';
 import { UploadState } from 'app/entities/enumerations/upload-state.model';
+import { ILibraryPerProduct } from 'app/entities/library-per-product/library-per-product.model';
+import dayjs from 'dayjs/esm';
 
 export interface IProduct {
   id?: number;

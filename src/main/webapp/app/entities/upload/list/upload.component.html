@@ -1,11 +1,10 @@
-<div>
+<div class="card jh-card">
   <h2 id="page-heading" data-cy="UploadHeading">
     <span>Uploads</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Refresh List</span>
       </button>
 
       <button
@@ -29,11 +28,11 @@
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="uploads && uploads.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
+    <table class="table table-sm" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="file"><span>File</span> <fa-icon icon="sort"></fa-icon></th>
+          <!--<th scope="col" jhiSortBy="file"><span>File</span> <fa-icon icon="sort"></fa-icon></th>-->
           <th scope="col" jhiSortBy="entityToUpload"><span>Entity To Upload</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="record"><span>Record</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="overwriteData"><span>Overwrite Data</span> <fa-icon icon="sort"></fa-icon></th>
@@ -46,29 +45,22 @@
           <td>
             <a [routerLink]="['/upload', upload.id, 'view']">{{ upload.id }}</a>
           </td>
-          <td>
+          <!--<td>
             <a *ngIf="upload.file" (click)="openFile(upload.file, upload.fileContentType)">open</a>
             <span *ngIf="upload.file">{{ upload.fileContentType }}, {{ byteSize(upload.file) }}</span>
-          </td>
+          </td>-->
           <td>{{ upload.entityToUpload }}</td>
           <td>{{ upload.record }}</td>
           <td>{{ upload.overwriteData }}</td>
           <td>{{ upload.uploadedDate | formatMediumDate }}</td>
-          <td class="text-end">
+          <td class="text-right">
             <div class="btn-group">
-              <button type="submit" [routerLink]="['/upload', upload.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
-
-              <button type="submit" [routerLink]="['/upload', upload.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button type="submit" [routerLink]="['/upload', upload.id, 'edit']" class="btn btn-primary" data-cy="entityEditButton">
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(upload)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button type="submit" (click)="delete(upload)" class="btn btn-danger" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
               </button>
             </div>
           </td>
@@ -78,11 +70,11 @@
   </div>
 
   <div *ngIf="uploads && uploads.length > 0">
-    <div class="d-flex justify-content-center">
+    <div class="row justify-content-center mb-2">
       <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
     </div>
 
-    <div class="d-flex justify-content-center">
+    <div class="row justify-content-center">
       <ngb-pagination
         [collectionSize]="totalItems"
         [(page)]="ngbPaginationPage"

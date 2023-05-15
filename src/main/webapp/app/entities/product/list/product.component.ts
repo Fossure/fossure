@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest } from 'rxjs';
 
-import { IProduct } from '../product.model';
-
+import { UntypedFormBuilder } from '@angular/forms';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
-import { ProductService } from '../service/product.service';
-import { ProductDeleteDialogComponent } from '../delete/product-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
+import { ProductDeleteDialogComponent } from 'app/entities/product/delete/product-delete-dialog.component';
+import { ProductService } from 'app/entities/product/service/product.service';
+import { DifferenceViewComponent } from '../../../shared/modals/difference-view-modal/difference-view.component';
+import { IProduct } from '../product.model';
 
 @Component({
   selector: 'jhi-product',
@@ -25,13 +26,34 @@ export class ProductComponent implements OnInit {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  @ViewChild(DifferenceViewComponent, { static: true })
+  differenceView?: DifferenceViewComponent;
+
+  searchForm = this.fb.group({
+    name: [],
+    identifier: [],
+    version: [],
+    hideDelivered: true,
+  });
+
   constructor(
     protected productService: ProductService,
     protected activatedRoute: ActivatedRoute,
     protected dataUtils: DataUtils,
     protected router: Router,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected fb: UntypedFormBuilder
   ) {}
+
+  ngOnInit(): void {
+    this.handleNavigation();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        // close all open modals
+        this.modalService.dismissAll();
+      }
+    });
+  }
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     this.isLoading = true;
@@ -39,6 +61,10 @@ export class ProductComponent implements OnInit {
 
     this.productService
       .query({
+        'name.contains': this.searchForm.get('name')?.value ?? null,
+        'identifier.contains': this.searchForm.get('identifier')?.value ?? null,
+        'version.contains': this.searchForm.get('version')?.value ?? null,
+        'delivered.equals': this.searchForm.get('hideDelivered')?.value === true ? false : null,
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -53,10 +79,6 @@ export class ProductComponent implements OnInit {
           this.onError();
         },
       });
-  }
-
-  ngOnInit(): void {
-    this.handleNavigation();
   }
 
   trackId(index: number, item: IProduct): number {
@@ -82,6 +104,17 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  search(): void {
+    this.loadPage(1, false);
+  }
+
+  openDifferenceViewModal(content: any): void {
+    this.modalService.open(content, {
+      scrollable: true,
+      size: 'xl',
+    });
+  }
+
   protected sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
     if (this.predicate !== 'id') {
@@ -97,6 +130,20 @@ export class ProductComponent implements OnInit {
       const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === ASC;
+
+      const name = params.get('name');
+      const identifier = params.get('identifier');
+      const version = params.get('version');
+      const hideDelivered = params.get('hideDelivered');
+
+      this.searchForm.get('name')?.setValue(name);
+      this.searchForm.get('identifier')?.setValue(identifier);
+      this.searchForm.get('version')?.setValue(version);
+
+      if (hideDelivered === 'false') {
+        this.searchForm.get('hideDelivered')?.setValue(false);
+      }
+
       if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
         this.predicate = predicate;
         this.ascending = ascending;
@@ -111,6 +158,10 @@ export class ProductComponent implements OnInit {
     if (navigate) {
       this.router.navigate(['/product'], {
         queryParams: {
+          name: this.searchForm.get('name')?.value ?? null,
+          identifier: this.searchForm.get('identifier')?.value ?? null,
+          version: this.searchForm.get('version')?.value ?? null,
+          hideDelivered: this.searchForm.get('hideDelivered')?.value === true ? null : false,
           page: this.page,
           size: this.itemsPerPage,
           sort: this.predicate + ',' + (this.ascending ? ASC : DESC),

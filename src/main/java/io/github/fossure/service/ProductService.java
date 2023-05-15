@@ -73,8 +73,6 @@ public class ProductService {
 
     private final LibraryPerProductService libraryPerProductService;
 
-    private final LicenseService licenseService;
-
     private final LibraryService libraryService;
 
     private final RequirementRepository requirementRepository;
@@ -92,7 +90,6 @@ public class ProductService {
     public ProductService(
         ProductRepository productRepository,
         LibraryPerProductService libraryPerProductService,
-        LicenseService licenseService,
         RequirementRepository requirementRepository,
         LicenseRiskRepository licenseRiskRepository,
         LibraryService libraryService,
@@ -103,7 +100,6 @@ public class ProductService {
     ) {
         this.productRepository = productRepository;
         this.libraryPerProductService = libraryPerProductService;
-        this.licenseService = licenseService;
         this.libraryService = libraryService;
         this.requirementRepository = requirementRepository;
         this.licenseRiskRepository = licenseRiskRepository;
@@ -1083,25 +1079,10 @@ public class ProductService {
                     libraryCounter.incrementAndGet();
 
                     try {
-                        //library.setLicenseUrl("");
-                        //library.setSourceCodeUrl("");
-
                         if (library.getLastReviewedBy() != null) {
                             Optional<User> optionalUser = userRepository.findOneByLogin(library.getLastReviewedBy().getLogin());
                             optionalUser.ifPresent(library::setLastReviewedBy);
                         }
-
-                        // TODO: linkedLicenses field
-
-                        /*Optional<String> licenseToPublish = library.getLicenseToPublishes().stream().map(License::getFullName).findFirst();
-                        if (licenseToPublish.isPresent()) {
-                            library.setLicenseToPublishes(licenseService.findShortIdentifier(licenseToPublish.get()));
-                        }
-
-                        Optional<String> licenseOfFiles = library.getLicenseOfFiles().stream().map(License::getFullName).findFirst();
-                        if (licenseOfFiles.isPresent()) {
-                            library.setLicenseOfFiles(licenseService.findShortIdentifier(licenseOfFiles.get()));
-                        }*/
 
                         library = libraryService.saveWithCheck(library);
                     } catch (LibraryException e) {
@@ -1112,8 +1093,6 @@ public class ProductService {
                         libraryService.licenseAutocomplete(dbLibrary);
                         //libraryService.hasIncompatibleLicenses(library);
                         libraryService.removeGenericLicenseUrl(dbLibrary);
-                        // library.setLicenseUrl("");
-                        // library.setSourceCodeUrl("");
                         libraryService.urlAutocomplete(dbLibrary);
                         libraryService.licenseTextAutocomplete(library);
                         libraryService.copyrightAutocomplete(dbLibrary);

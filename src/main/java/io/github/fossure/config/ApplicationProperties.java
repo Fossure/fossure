@@ -1,7 +1,5 @@
 package io.github.fossure.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -12,8 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
-
-    private final Logger log = LoggerFactory.getLogger(ApplicationProperties.class);
 
     private final Fossure fossure = new Fossure();
     private final ApplicationProperties.Logging logging = new ApplicationProperties.Logging();

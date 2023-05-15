@@ -9,13 +9,15 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ILicense, getLicenseIdentifier } from '../license.model';
+import { IFile } from 'app/core/file/file.model';
+import { ILicenseConflict } from '../../license-conflict/license-conflict.model';
 
 export type EntityResponseType = HttpResponse<ILicense>;
 export type EntityArrayResponseType = HttpResponse<ILicense[]>;
 
 @Injectable({ providedIn: 'root' })
 export class LicenseService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/licenses');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/licenses');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -55,6 +57,28 @@ export class LicenseService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  count(req?: any): Observable<HttpResponse<number>> {
+    const options = createRequestOption(req);
+    return this.http.get<number>(`${this.resourceUrl}/count`, { params: options, observe: 'response' });
+  }
+
+  export(req?: any): Observable<HttpResponse<IFile>> {
+    const options = createRequestOption(req);
+    return this.http.get<IFile>(`${this.resourceUrl}/export`, { params: options, observe: 'response' });
+  }
+
+  fetchLicenseConflicts(id: number): Observable<HttpResponse<ILicenseConflict[]>> {
+    return this.http.get<ILicenseConflict[]>(`${this.resourceUrl}/${id}/license-conflicts`, { observe: 'response' });
+  }
+
+  fetchLicenseConflictsWithRisk(id: number): Observable<HttpResponse<ILicenseConflict[]>> {
+    return this.http.get<ILicenseConflict[]>(`${this.resourceUrl}/${id}/license-conflicts-with-risk`, { observe: 'response' });
+  }
+
+  allLicenseNames(): Observable<HttpResponse<ILicense[]>> {
+    return this.http.get<ILicense[]>(`${this.resourceUrl}/license-names`, { observe: 'response' });
   }
 
   addLicenseToCollectionIfMissing(licenseCollection: ILicense[], ...licensesToCheck: (ILicense | null | undefined)[]): ILicense[] {

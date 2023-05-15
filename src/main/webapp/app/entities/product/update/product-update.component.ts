@@ -1,25 +1,27 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import dayjs from 'dayjs/esm';
 import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+import dayjs from 'dayjs/esm';
 
+import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
+import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { UploadState } from 'app/entities/enumerations/upload-state.model';
+import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IProduct, Product } from '../product.model';
 import { ProductService } from '../service/product.service';
-import { AlertError } from 'app/shared/alert/alert-error.model';
-import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
-import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
-import { UploadState } from 'app/entities/enumerations/upload-state.model';
 
 @Component({
   selector: 'jhi-product-update',
   templateUrl: './product-update.component.html',
 })
 export class ProductUpdateComponent implements OnInit {
+  productsSharedCollection: IProduct[] = [];
+
   isSaving = false;
   uploadStateValues = Object.keys(UploadState);
 
@@ -89,6 +91,10 @@ export class ProductUpdateComponent implements OnInit {
     }
   }
 
+  trackProductById(index: number, item: IProduct): number {
+    return item.id!;
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IProduct>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -109,23 +115,40 @@ export class ProductUpdateComponent implements OnInit {
   }
 
   protected updateForm(product: IProduct): void {
-    this.editForm.patchValue({
-      id: product.id,
-      name: product.name,
-      identifier: product.identifier,
-      version: product.version,
-      createdDate: product.createdDate,
-      lastUpdatedDate: product.lastUpdatedDate,
-      targetUrl: product.targetUrl,
-      uploadState: product.uploadState,
-      disclaimer: product.disclaimer,
-      delivered: product.delivered,
-      deliveredDate: product.deliveredDate ? product.deliveredDate.format(DATE_TIME_FORMAT) : null,
-      contact: product.contact,
-      comment: product.comment,
-      previousProductId: product.previousProductId,
-      uploadFilter: product.uploadFilter,
-    });
+    this.productService
+      .count({
+        'identifier.equals': product.identifier,
+        'version.notEquals': product.version,
+      })
+      .subscribe((count: HttpResponse<number>) => {
+        this.productService
+          .query({
+            'identifier.equals': product.identifier,
+            'version.notEquals': product.version,
+            page: 0,
+            size: count.body,
+          })
+          .subscribe((res: HttpResponse<IProduct[]>) => {
+            this.productsSharedCollection = res.body ?? [];
+            this.editForm.patchValue({
+              id: product.id,
+              name: product.name,
+              identifier: product.identifier,
+              version: product.version,
+              createdDate: product.createdDate,
+              lastUpdatedDate: product.lastUpdatedDate,
+              targetUrl: product.targetUrl,
+              uploadState: product.uploadState,
+              delivered: product.delivered,
+              deliveredDate: product.deliveredDate,
+              contact: product.contact,
+              comment: product.comment,
+              disclaimer: product.disclaimer,
+              previousProductId: this.productsSharedCollection.find((ele: IProduct) => ele.id === product.previousProductId) ?? null,
+              uploadFilter: product.uploadFilter,
+            });
+          });
+      });
   }
 
   protected createFromForm(): IProduct {
@@ -146,7 +169,7 @@ export class ProductUpdateComponent implements OnInit {
         : undefined,
       contact: this.editForm.get(['contact'])!.value,
       comment: this.editForm.get(['comment'])!.value,
-      previousProductId: this.editForm.get(['previousProductId'])!.value,
+      previousProductId: (this.editForm.get(['previousProductId'])?.value as IProduct | undefined)?.id,
       uploadFilter: this.editForm.get(['uploadFilter'])!.value,
     };
   }

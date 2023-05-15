@@ -7,11 +7,12 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.StringJoiner;
 
-import io.github.fossure.domain.*;
-import io.github.fossure.service.exceptions.UploadException;
-import io.github.fossure.domain.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -19,6 +20,13 @@ import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.github.fossure.domain.File;
+import io.github.fossure.domain.License;
+import io.github.fossure.domain.LicenseRisk;
+import io.github.fossure.domain.Requirement;
+import io.github.fossure.domain.User;
+import io.github.fossure.service.exceptions.UploadException;
 
 public class LicenseCsvLoader implements AssetLoader<License> {
 

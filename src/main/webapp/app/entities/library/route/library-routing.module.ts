@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { LibraryComponent } from '../list/library.component';
 import { LibraryDetailComponent } from '../detail/library-detail.component';
+import { LibraryComponent } from '../list/library.component';
 import { LibraryUpdateComponent } from '../update/library-update.component';
 import { LibraryRoutingResolveService } from './library-routing-resolve.service';
 
@@ -30,6 +30,9 @@ const libraryRoute: Routes = [
     resolve: {
       library: LibraryRoutingResolveService,
     },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +40,9 @@ const libraryRoute: Routes = [
     component: LibraryUpdateComponent,
     resolve: {
       library: LibraryRoutingResolveService,
+    },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
     },
     canActivate: [UserRouteAccessService],
   },

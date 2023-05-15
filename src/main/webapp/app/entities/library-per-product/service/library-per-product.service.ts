@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
@@ -15,7 +15,7 @@ export type EntityArrayResponseType = HttpResponse<ILibraryPerProduct[]>;
 
 @Injectable({ providedIn: 'root' })
 export class LibraryPerProductService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/library-per-products');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/library-per-products');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -40,6 +40,7 @@ export class LibraryPerProductService {
     return this.http
       .patch<ILibraryPerProduct>(`${this.resourceUrl}/${getLibraryPerProductIdentifier(libraryPerProduct) as number}`, copy, {
         observe: 'response',
+        headers: new HttpHeaders({ 'Content-Type': 'application/merge-patch+json' }),
       })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }

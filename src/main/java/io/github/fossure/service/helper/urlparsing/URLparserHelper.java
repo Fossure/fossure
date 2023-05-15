@@ -8,7 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import io.github.fossure.service.exceptions.GithubRateLimitException;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -16,8 +16,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import io.github.fossure.service.exceptions.GithubRateLimitException;
 
 public class URLparserHelper {
 
@@ -25,8 +25,6 @@ public class URLparserHelper {
         LICENSE,
         SOURCE,
     }
-
-    private final Logger log = LoggerFactory.getLogger(URLparserHelper.class);
 
     //Constants
     SourceURLparser sourceParser = new SourceURLparser();

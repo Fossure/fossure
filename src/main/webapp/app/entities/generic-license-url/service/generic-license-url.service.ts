@@ -12,7 +12,7 @@ export type EntityArrayResponseType = HttpResponse<IGenericLicenseUrl[]>;
 
 @Injectable({ providedIn: 'root' })
 export class GenericLicenseUrlService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/generic-license-urls');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/generic-license-urls');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 

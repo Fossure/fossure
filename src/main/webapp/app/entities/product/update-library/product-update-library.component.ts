@@ -1,14 +1,14 @@
-import { Component, Input, TemplateRef } from '@angular/core';
-import { EventManager } from '../../../core/util/event-manager.service';
-import { ProductCustomService } from '../service/product-custom.service';
-import { ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder } from '@angular/forms';
-import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { ILibraryPerProduct, LibraryPerProduct } from '../../library-per-product/library-per-product.model';
-import { LibraryPerProductCustomService } from '../../library-per-product/service/library-per-product-custom.service';
-import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { Component, Input, TemplateRef } from '@angular/core';
+import { UntypedFormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { EventManager } from '../../../core/util/event-manager.service';
+import { ILibraryPerProduct, LibraryPerProduct } from '../../library-per-product/library-per-product.model';
+import { LibraryPerProductService } from '../../library-per-product/service/library-per-product.service';
+import { ProductService } from '../service/product.service';
 
 @Component({
   selector: 'jhi-product-update-library',
@@ -41,10 +41,10 @@ export class ProductUpdateLibraryComponent {
   constructor(
     protected offcanvasService: NgbOffcanvas,
     protected eventManager: EventManager,
-    protected productService: ProductCustomService,
+    protected productService: ProductService,
     protected activatedRoute: ActivatedRoute,
     protected fb: UntypedFormBuilder,
-    protected libraryPerProductService: LibraryPerProductCustomService
+    protected libraryPerProductService: LibraryPerProductService
   ) {}
 
   open(content: TemplateRef<any>): void {

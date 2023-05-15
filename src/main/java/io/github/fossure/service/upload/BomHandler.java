@@ -1,16 +1,19 @@
 package io.github.fossure.service.upload;
 
-import java.util.*;
-import io.github.fossure.domain.Library;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class BomHandler extends DefaultHandler {
+import io.github.fossure.domain.Library;
 
-    private final Logger log = LoggerFactory.getLogger(BomHandler.class);
+public class BomHandler extends DefaultHandler {
 
     private final String[] referenceTypes = { "vcs", "website", "issue-tracker", "distribution" }; // Sorting by priority
 

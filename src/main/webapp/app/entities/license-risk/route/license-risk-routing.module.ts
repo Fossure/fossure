@@ -27,6 +27,9 @@ const licenseRiskRoute: Routes = [
     resolve: {
       licenseRisk: LicenseRiskRoutingResolveService,
     },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -34,6 +37,9 @@ const licenseRiskRoute: Routes = [
     component: LicenseRiskUpdateComponent,
     resolve: {
       licenseRisk: LicenseRiskRoutingResolveService,
+    },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
     },
     canActivate: [UserRouteAccessService],
   },

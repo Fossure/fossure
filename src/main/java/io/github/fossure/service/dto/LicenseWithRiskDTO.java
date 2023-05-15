@@ -1,13 +1,12 @@
 package io.github.fossure.service.dto;
 
-import java.io.Serializable;
 import io.github.fossure.domain.License;
 import io.github.fossure.domain.LicenseRisk;
 
 /**
  * A DTO representing a {@link License} entity with the minimum of information and license risk.
  */
-public class LicenseWithRiskDTO extends LicenseSimpleDTO implements Serializable {
+public class LicenseWithRiskDTO extends LicenseSimpleDTO {
 
     private LicenseRisk licenseRisk;
 

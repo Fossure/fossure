@@ -27,6 +27,9 @@ const requirementRoute: Routes = [
     resolve: {
       requirement: RequirementRoutingResolveService,
     },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -34,6 +37,9 @@ const requirementRoute: Routes = [
     component: RequirementUpdateComponent,
     resolve: {
       requirement: RequirementRoutingResolveService,
+    },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
     },
     canActivate: [UserRouteAccessService],
   },

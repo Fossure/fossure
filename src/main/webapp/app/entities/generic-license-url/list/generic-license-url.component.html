@@ -1,4 +1,4 @@
-<div>
+<div class="card jh-card">
   <h2 id="page-heading" data-cy="GenericLicenseUrlHeading">
     <span>Generic License Urls</span>
 
@@ -29,7 +29,7 @@
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="genericLicenseUrls && genericLicenseUrls.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
+    <table class="table table-sm" aria-describedby="page-heading">
       <thead>
         <tr>
           <th scope="col"><span>ID</span></th>
@@ -43,31 +43,19 @@
             <a [routerLink]="['/generic-license-url', genericLicenseUrl.id, 'view']">{{ genericLicenseUrl.id }}</a>
           </td>
           <td>{{ genericLicenseUrl.url }}</td>
-          <td class="text-end">
+          <td class="text-right">
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/generic-license-url', genericLicenseUrl.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">View</span>
-              </button>
-
-              <button
-                type="submit"
                 [routerLink]="['/generic-license-url', genericLicenseUrl.id, 'edit']"
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary"
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline">Edit</span>
               </button>
 
-              <button type="submit" (click)="delete(genericLicenseUrl)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button type="submit" (click)="delete(genericLicenseUrl)" class="btn btn-danger" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline">Delete</span>
               </button>
             </div>
           </td>

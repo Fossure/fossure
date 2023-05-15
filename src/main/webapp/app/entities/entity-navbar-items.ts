@@ -16,10 +16,6 @@ export const EntityNavbarItems = [
     route: 'product',
   },
   {
-    name: 'LibraryPerProduct',
-    route: 'library-per-product',
-  },
-  {
     name: 'LicenseNamingMapping',
     route: 'license-naming-mapping',
   },
@@ -32,15 +28,7 @@ export const EntityNavbarItems = [
     route: 'upload',
   },
   {
-    name: 'LicensePerLibrary',
-    route: 'license-per-library',
-  },
-  {
     name: 'Library',
     route: 'library',
-  },
-  {
-    name: 'LibraryErrorLog',
-    route: 'library-error-log',
-  },
+  }
 ];

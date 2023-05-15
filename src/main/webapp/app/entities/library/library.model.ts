@@ -1,11 +1,12 @@
-import dayjs from 'dayjs/esm';
-import { ILicensePerLibrary } from 'app/entities/license-per-library/license-per-library.model';
-import { ILibraryErrorLog } from 'app/entities/library-error-log/library-error-log.model';
-import { IUser } from 'app/entities/user/user.model';
-import { ILicense } from 'app/entities/license/license.model';
 import { LibraryType } from 'app/entities/enumerations/library-type.model';
 import { IFossology } from 'app/entities/fossology/fossology.model';
+import { ILibraryErrorLog } from 'app/entities/library-error-log/library-error-log.model';
+import { ILicensePerLibrary } from 'app/entities/license-per-library/license-per-library.model';
 import { ILicenseRisk } from 'app/entities/license-risk/license-risk.model';
+import { ILicense } from 'app/entities/license/license.model';
+import { IUser } from 'app/entities/user/user.model';
+import dayjs from 'dayjs/esm';
+
 export interface ILibrary {
   id?: number;
   groupId?: string | null;

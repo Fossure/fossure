@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest } from 'rxjs';
 
 import { ILibrary } from '../library.model';
 
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
-import { LibraryService } from '../service/library.service';
-import { LibraryDeleteDialogComponent } from '../delete/library-delete-dialog.component';
 import { DataUtils } from 'app/core/util/data-util.service';
+import { LibraryService } from 'app/entities/library/service/library.service';
+
+import { UntypedFormBuilder } from '@angular/forms';
+import { IFile } from 'app/core/file/file.model';
+import { LibraryDeleteDialogComponent } from 'app/entities/library/delete/library-delete-dialog.component';
 
 @Component({
   selector: 'jhi-library',
@@ -24,14 +27,29 @@ export class LibraryComponent implements OnInit {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  jsonExport = true;
+  isExporting = false;
+
+  searchForm = this.fb.group({
+    groupId: [],
+    artifactId: [],
+    version: [],
+    license: [],
+    reviewed: [],
+  });
 
   constructor(
     protected libraryService: LibraryService,
     protected activatedRoute: ActivatedRoute,
     protected dataUtils: DataUtils,
     protected router: Router,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected fb: UntypedFormBuilder
   ) {}
+
+  ngOnInit(): void {
+    this.handleNavigation();
+  }
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     this.isLoading = true;
@@ -39,24 +57,25 @@ export class LibraryComponent implements OnInit {
 
     this.libraryService
       .query({
+        'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
+        'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+        'version.contains': this.searchForm.get('version')?.value ?? null,
+        'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
+        'reviewed.equals': this.searchForm.get('reviewed')?.value ?? null,
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
       })
-      .subscribe({
-        next: (res: HttpResponse<ILibrary[]>) => {
+      .subscribe(
+        (res: HttpResponse<ILibrary[]>) => {
           this.isLoading = false;
           this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
         },
-        error: () => {
+        () => {
           this.isLoading = false;
           this.onError();
-        },
-      });
-  }
-
-  ngOnInit(): void {
-    this.handleNavigation();
+        }
+      );
   }
 
   trackId(index: number, item: ILibrary): number {
@@ -82,6 +101,48 @@ export class LibraryComponent implements OnInit {
     });
   }
 
+  export(): void {
+    this.isExporting = true;
+    this.libraryService.export({ format: this.jsonExport ? 'JSON' : 'CSV' }).subscribe(
+      (data: HttpResponse<IFile>) => {
+        if (data.body) {
+          this.dataUtils.downloadFile(data.body.fileContentType, data.body.file, data.body.fileName);
+          this.isExporting = false;
+        }
+      },
+      () => (this.isExporting = false)
+    );
+  }
+
+  search(): void {
+    this.isLoading = true;
+
+    this.libraryService
+      .query({
+        'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
+        'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+        'version.contains': this.searchForm.get('version')?.value ?? null,
+        'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
+        sort: this.sort(),
+        page: 0,
+        size: this.itemsPerPage,
+      })
+      .subscribe(
+        (res: HttpResponse<ILibrary[]>) => {
+          this.isLoading = false;
+          this.onSuccess(res.body, res.headers, 1, true);
+        },
+        () => {
+          this.isLoading = false;
+          this.onError();
+        }
+      );
+  }
+
+  hasErrors(library: ILibrary): boolean {
+    return this.libraryService.hasErrors(library);
+  }
+
   protected sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
     if (this.predicate !== 'id') {
@@ -97,6 +158,19 @@ export class LibraryComponent implements OnInit {
       const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === ASC;
+
+      const groupId = params.get('groupId.contains');
+      const artifactId = params.get('artifactId.contains');
+      const version = params.get('version.contains');
+      const linkedLicenseShortIdentifier = params.get('linkedLicenseShortIdentifier.in');
+      const reviewed = params.get('reviewed.equals');
+
+      this.searchForm.get('groupId')?.setValue(groupId);
+      this.searchForm.get('artifactId')?.setValue(artifactId);
+      this.searchForm.get('version')?.setValue(version);
+      this.searchForm.get('license')?.setValue(linkedLicenseShortIdentifier);
+      this.searchForm.get('reviewed')?.setValue(reviewed);
+
       if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
         this.predicate = predicate;
         this.ascending = ascending;
@@ -111,6 +185,11 @@ export class LibraryComponent implements OnInit {
     if (navigate) {
       this.router.navigate(['/library'], {
         queryParams: {
+          'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
+          'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+          'version.contains': this.searchForm.get('version')?.value ?? null,
+          'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
+          'reviewed.equals': this.searchForm.get('reviewed')?.value ?? null,
           page: this.page,
           size: this.itemsPerPage,
           sort: this.predicate + ',' + (this.ascending ? ASC : DESC),

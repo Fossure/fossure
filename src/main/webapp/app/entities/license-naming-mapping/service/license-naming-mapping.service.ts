@@ -12,7 +12,7 @@ export type EntityArrayResponseType = HttpResponse<ILicenseNamingMapping[]>;
 
 @Injectable({ providedIn: 'root' })
 export class LicenseNamingMappingService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/license-naming-mappings');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/license-naming-mappings');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 

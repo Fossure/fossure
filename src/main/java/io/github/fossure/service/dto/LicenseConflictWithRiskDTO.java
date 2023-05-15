@@ -1,6 +1,5 @@
 package io.github.fossure.service.dto;
 
-import java.io.Serializable;
 import io.github.fossure.domain.LicenseConflict;
 import io.github.fossure.domain.LicenseRisk;
 import io.github.fossure.domain.enumeration.CompatibilityState;
@@ -8,7 +7,7 @@ import io.github.fossure.domain.enumeration.CompatibilityState;
 /**
  * A DTO representing a {@link LicenseConflict} entity with the minimum of information and the license risk.
  */
-public class LicenseConflictWithRiskDTO extends LicenseConflictSimpleDTO implements Serializable {
+public class LicenseConflictWithRiskDTO extends LicenseConflictSimpleDTO {
 
     public LicenseConflictWithRiskDTO(
         Long id,

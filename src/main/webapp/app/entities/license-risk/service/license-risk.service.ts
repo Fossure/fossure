@@ -12,7 +12,7 @@ export type EntityArrayResponseType = HttpResponse<ILicenseRisk[]>;
 
 @Injectable({ providedIn: 'root' })
 export class LicenseRiskService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/license-risks');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/license-risks');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 

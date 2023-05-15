@@ -12,7 +12,7 @@ export type EntityArrayResponseType = HttpResponse<ILicensePerLibrary[]>;
 
 @Injectable({ providedIn: 'root' })
 export class LicensePerLibraryService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/license-per-libraries');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/license-per-libraries');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 

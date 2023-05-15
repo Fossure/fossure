@@ -1,6 +1,6 @@
 {
   "name": "fossure",
-  "version": "0.6.3",
+  "version": "1.0.0",
   "private": true,
   "description": "Fossure is a component analysis platform to minimize the risk of license infringements and to support and optimize the license compliance process.",
   "homepage": "https://github.com/Fossure/fossure",

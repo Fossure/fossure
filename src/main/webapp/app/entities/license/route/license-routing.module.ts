@@ -30,6 +30,9 @@ const licenseRoute: Routes = [
     resolve: {
       license: LicenseRoutingResolveService,
     },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +40,9 @@ const licenseRoute: Routes = [
     component: LicenseUpdateComponent,
     resolve: {
       license: LicenseRoutingResolveService,
+    },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
     },
     canActivate: [UserRouteAccessService],
   },

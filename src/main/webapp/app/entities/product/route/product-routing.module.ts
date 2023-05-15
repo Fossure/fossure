@@ -2,23 +2,26 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { ProductComponent } from '../list/product.component';
-import { ProductDetailComponent } from '../detail/product-detail.component';
-import { ProductUpdateComponent } from '../update/product-update.component';
-import { ProductRoutingResolveService } from './product-routing-resolve.service';
+import { ProductDetailComponent } from 'app/entities/product/detail/product-detail.component';
+import { ProductComponent } from 'app/entities/product/list/product.component';
+import { ProductRoutingResolveService } from 'app/entities/product/route/product-routing-resolve.service';
+import { ProductUpdateComponent } from 'app/entities/product/update/product-update.component';
 
 const productRoute: Routes = [
   {
     path: '',
     component: ProductComponent,
     data: {
-      defaultSort: 'id,asc',
+      defaultSort: 'lastUpdatedDate,desc',
     },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: ProductDetailComponent,
+    data: {
+      defaultSort: 'library.artifactId,asc',
+    },
     resolve: {
       product: ProductRoutingResolveService,
     },
@@ -30,6 +33,9 @@ const productRoute: Routes = [
     resolve: {
       product: ProductRoutingResolveService,
     },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
@@ -37,6 +43,9 @@ const productRoute: Routes = [
     component: ProductUpdateComponent,
     resolve: {
       product: ProductRoutingResolveService,
+    },
+    data: {
+      authorities: ['ROLE_USER', 'ROLE_ADMIN'],
     },
     canActivate: [UserRouteAccessService],
   },

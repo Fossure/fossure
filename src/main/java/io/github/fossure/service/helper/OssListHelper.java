@@ -5,17 +5,31 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
-import io.github.fossure.config.Constants;
-import io.github.fossure.domain.*;
-import io.github.fossure.domain.*;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
+
+import io.github.fossure.config.Constants;
+import io.github.fossure.domain.Library;
+import io.github.fossure.domain.License;
+import io.github.fossure.domain.LicenseRisk;
+import io.github.fossure.domain.Product;
+import io.github.fossure.domain.Requirement;
 
 public class OssListHelper {
 

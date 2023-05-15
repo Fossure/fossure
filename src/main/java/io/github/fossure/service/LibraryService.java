@@ -58,8 +58,6 @@ public class LibraryService {
 
     private final LicenseService licenseService;
 
-    private final LicensePerLibraryService licensePerLibraryService;
-
     private final FossologyService fossologyService;
 
     private final SourceURLparser sourceURLparser;
@@ -70,7 +68,6 @@ public class LibraryService {
     public LibraryService(
         LibraryRepository libraryRepository,
         LicenseService licenseService,
-        LicensePerLibraryService licensePerLibraryService,
         SourceCodeHelper sourceCodeHelper,
         ObjectMapper objectMapper,
         EntityManager entityManager,
@@ -78,7 +75,6 @@ public class LibraryService {
     ) {
         this.libraryRepository = libraryRepository;
         this.licenseService = licenseService;
-        this.licensePerLibraryService = licensePerLibraryService;
         this.sourceURLparser = new SourceURLparser();
         this.sourceURLparser.initCommands();
         this.licenseURLparser = new LicenseURLparser();

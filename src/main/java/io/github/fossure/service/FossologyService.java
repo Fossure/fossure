@@ -31,7 +31,7 @@ public class FossologyService {
     private static final String FOSSOLOGY_API_PART = "/api/v1";
     private static final String MESSAGE = "message";
 
-    private static final String FOSSOLOGY_STATUS_COMPLETE = "Complete";
+    private static final String FOSSOLOGY_STATUS_COMPLETED = "Completed";
     private static final String FOSSOLOGY_STATUS_PROCESSING = "Processing";
     private static final String FOSSOLOGY_STATUS_QUEUED = "Queued";
     private static final String FOSSOLOGY_STATUS_FAILED = "Failed";
@@ -40,10 +40,6 @@ public class FossologyService {
 
     public FossologyService(ApplicationProperties applicationProperties) {
         this.applicationProperties = applicationProperties;
-    }
-
-    public void upload(InputStream file, String label) {
-        // TODO: implement
     }
 
     @Async("fossologyTaskExecutor")
@@ -131,7 +127,7 @@ public class FossologyService {
             }
         } while (jobStatus.equalsIgnoreCase("Processing") || jobStatus.equalsIgnoreCase("Queued"));
 
-        if (jobStatus.equalsIgnoreCase("Completed")) {
+        if (jobStatus.equalsIgnoreCase(FOSSOLOGY_STATUS_COMPLETED)) {
             Optional<Library> libraryOptional = libraryService.findOne(library.getId());
             if (libraryOptional.isPresent()) library = libraryOptional.get();
             fossology = library.getFossology();
@@ -182,9 +178,9 @@ public class FossologyService {
                 throw e;
             }
             log.info("Fossology - Checking job status of scan for uploadId {}: {}", uploadId, jobStatus);
-        } while (jobStatus.equalsIgnoreCase("Processing") || jobStatus.equalsIgnoreCase("Queued"));
+        } while (jobStatus.equalsIgnoreCase(FOSSOLOGY_STATUS_PROCESSING) || jobStatus.equalsIgnoreCase(FOSSOLOGY_STATUS_QUEUED));
 
-        if (jobStatus.equalsIgnoreCase("Completed")) {
+        if (jobStatus.equalsIgnoreCase(FOSSOLOGY_STATUS_COMPLETED)) {
             libraryOptional = libraryService.findOne(library.getId());
             if (libraryOptional.isPresent()) library = libraryOptional.get();
             fossology = library.getFossology();

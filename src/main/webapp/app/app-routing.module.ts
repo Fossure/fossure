@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { DEBUG_INFO_ENABLED } from 'app/app.constants';
+import { Authority } from 'app/config/authority.constants';
 import { errorRoute } from './layouts/error/error.route';
 import { navbarRoute } from './layouts/navbar/navbar.route';
 import { sidenavRoute } from './layouts/sidenav/sidenav.route';
-import { DEBUG_INFO_ENABLED } from 'app/app.constants';
-import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 
@@ -27,11 +27,11 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         },
         {
           path: 'login',
-          loadChildren: () => import('./login/login-custom.module').then(m => m.LoginCustomModule),
+          loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
         },
         {
           path: '',
-          loadChildren: () => import(`./entities/entity-routing-custom.module`).then(m => m.EntityRoutingCustomModule),
+          loadChildren: () => import(`./entities/entity-routing.module`).then(m => m.EntityRoutingModule),
         },
         navbarRoute,
         sidenavRoute,

@@ -12,7 +12,7 @@ export type EntityArrayResponseType = HttpResponse<IRequirement[]>;
 
 @Injectable({ providedIn: 'root' })
 export class RequirementService {
-  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/requirements');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/v1/requirements');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 

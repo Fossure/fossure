@@ -1,14 +1,24 @@
 package io.github.fossure.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import javax.persistence.*;
 
-import io.github.fossure.domain.enumeration.LinkType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import io.github.fossure.domain.enumeration.LinkType;
 
 /**
  * A LicensePerLibrary.
@@ -19,8 +29,6 @@ import org.slf4j.LoggerFactory;
 public class LicensePerLibrary implements Serializable, Comparable<LicensePerLibrary> {
 
     private static final long serialVersionUID = 1L;
-
-    private static final Logger log = LoggerFactory.getLogger(LicensePerLibrary.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
