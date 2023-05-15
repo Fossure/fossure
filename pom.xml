@@ -79,6 +79,10 @@
         <profile.api-docs />
         <profile.tls />
         <profile.e2e />
+        
+        <!-- SonarCloud properties -->
+        <sonar.organization>fossure</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
         <!-- Dependency versions -->
         <jhipster-dependencies.version>7.9.3</jhipster-dependencies.version>
