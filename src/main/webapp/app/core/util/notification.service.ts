@@ -9,7 +9,7 @@ export interface Notification {
 }
 
 export enum NotificationType {
-  COMPONENT = 'COMPONENT',
+  LIBRARY = 'LIBRARY',
   LICENSE = 'LICENSE',
   TEXT = 'TEXT',
 }

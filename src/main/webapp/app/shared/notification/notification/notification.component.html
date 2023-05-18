@@ -8,7 +8,7 @@
       </ng-template>
 
       <ng-container [ngSwitch]="notification.type">
-        <a *ngSwitchCase="notificationType.COMPONENT" class="row mb-2 grid-table" [routerLink]="['/library', notification.data.id, 'view']">
+        <a *ngSwitchCase="notificationType.LIBRARY" [routerLink]="['/library', notification.data.id, 'view']" class="row mb-2 grid-table">
           <div class="col-6 align-self-center">
             <span class="fw-semibold text-dark">{{ notification.data.artifactId }}</span
             ><br />
@@ -26,9 +26,7 @@
         </a>
         <a *ngSwitchCase="notificationType.LICENSE" class="row mb-2 grid-table" [routerLink]="['/license', notification.data.id, 'view']">
           <div class="col-6 align-self-center">
-            <span class="fw-semibold text-dark">{{ notification.data.shortIdentifier }}</span
-            ><br />
-            <span class="text-muted">{{ notification.data.lastReviewedBy?.login }}</span>
+            <span class="fw-semibold text-dark">{{ notification.data.shortIdentifier }}</span>
           </div>
           <div class="col-4 align-self-center text-center">
             <span class="badge" [ngStyle]="{ 'background-color': notification.data.licenseRisk?.color }">{{

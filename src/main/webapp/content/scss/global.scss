@@ -4,6 +4,15 @@
 @import '~bootstrap/scss/variables';
 
 
+
+
+
+
+
+
+
+
+
 /* ==============================================================
 Sidenav / Content size
 ===============================================================*/
@@ -24,42 +33,6 @@ Sidenav / Content size
   -moz-transition: $transition-collapse-margin;
   -o-transition: $transition-collapse-margin;
   transition: $transition-collapse-margin;
-}
-
-/* ==============================================================
-Sidenav Popover
-===============================================================*/
-
-.active .sidenav-popover {
-  background-color: $fossure-dark;
-}
-
-.sidenav-popover {
-  background-color: $fossure-darker;
-  color: $light;
-  font-weight: $font-weight-semibold;
-  box-shadow: none;
-  border: none;
-  border-radius: 0 2rem 2rem 0;
-  padding: 0 2rem 0 .5rem;
-  transition: none;
-  margin-left: -0.5rem !important;
-}
-
-.sidenav-popover-profile {
-  width: 140px;
-  padding: 0 0 0 .5rem;
-  margin-left: 0 !important;
-}
-
-.sidenav-popover .popover-body {
-  color: shade-color($light, 30%);
-  font-weight: $font-weight-semibold;
-  padding: 10px;
-}
-
-.sidenav-popover .popover-arrow {
-  display: none;
 }
 
 /* ==========================================================================
@@ -93,6 +66,10 @@ Sidenav
   color: $fossure-red;
   background-color: $fossure-dark;
   border-radius: 2rem;
+}
+
+.sidenav .row > * {
+  padding-left: calc(var(--bs-gutter-x) * 0.5);
 }
 
 .sidenav-xl li {
@@ -146,6 +123,7 @@ Sidenav Dropdown
 .sidenav-dropdown .dropdown-item {
   border-radius: 2rem;
   font-weight: $font-weight-semibold;
+  margin: .3rem 0;
 }
 
 .sidenav-dropdown .dropdown-item.active {
@@ -277,6 +255,41 @@ Sidenav Footer
   transform: scale(0.7);
 }
 
+/* ==============================================================
+Sidenav Popover
+===============================================================*/
+
+.active .sidenav-popover {
+  background-color: $fossure-dark;
+}
+
+.sidenav-popover {
+  background-color: $fossure-darker;
+  color: $light;
+  font-weight: $font-weight-semibold;
+  box-shadow: none;
+  border: none;
+  border-radius: 0 2rem 2rem 0;
+  padding: 0 2rem 0 .5rem;
+  transition: none;
+  margin-left: -0.5rem !important;
+}
+
+.sidenav-popover-profile {
+  width: 140px;
+  padding: 0 0 0 .5rem;
+  margin-left: 0 !important;
+}
+
+.sidenav-popover .popover-body {
+  color: shade-color($light, 30%);
+  font-weight: $font-weight-semibold;
+  padding: 10px;
+}
+
+.sidenav-popover .popover-arrow {
+  display: none;
+}
 
 /* ==============================================================
 Bootstrap tweaks
@@ -305,10 +318,7 @@ a:not([href]):not([tabindex]):hover.dropdown-item {
   color: $dropdown-link-hover-color;
 }
 
-/* override .dropdown-item.active background-color on hover */
-.dropdown-item.active:hover {
-  background-color: mix($dropdown-link-hover-bg, $dropdown-link-active-bg, 50%);
-}
+
 
 a {
   text-decoration: none;

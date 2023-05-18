@@ -21,8 +21,7 @@ import { HomeService } from './home.service';
 
 @Component({
   selector: 'jhi-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
@@ -34,10 +33,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   libraries?: ILibrary[];
   licenses?: ILicense[];
 
-  componentSearchFormEmptyError = false;
+  librarySearchFormEmptyError = false;
   licenseSearchFormEmptyError = false;
 
-  componentSearchForm = this.fb.group({
+  librarySearchForm = this.fb.group({
     name: [null, Validators.pattern('^(pkg:[a-zA-Z]{1,9}/)?(@?[^/@]+/)?[^@/]+@[^@/]+$')],
     type: [],
   });
@@ -118,13 +117,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  componentSearch(): void {
-    this.componentSearchFormEmptyError = false;
+  librarySearch(): void {
+    this.librarySearchFormEmptyError = false;
 
-    let name = this.componentSearchForm.get(['name'])!.value;
+    let name = this.librarySearchForm.get(['name'])!.value;
 
-    if (!name || this.componentSearchForm.get(['type'])!.value === null) {
-      this.componentSearchFormEmptyError = true;
+    if (!name || this.librarySearchForm.get(['type'])!.value === null) {
+      this.librarySearchFormEmptyError = true;
       return;
     }
 
@@ -134,7 +133,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (index !== -1) {
         name = name.substring((index as number) + 1);
       }
-      this.componentSearchForm.get(['name'])!.setValue(name);
+      this.librarySearchForm.get(['name'])!.setValue(name);
     }
 
     let groupId = '';
@@ -167,27 +166,27 @@ export class HomeComponent implements OnInit, OnDestroy {
         'groupId.equals': groupId ? groupId : null,
         'artifactId.equals': artifactId,
         'version.equals': version,
-        'type.equals': this.componentSearchForm.get(['type'])!.value,
+        'type.equals': this.librarySearchForm.get(['type'])!.value,
       })
       .subscribe({
         next: (res: HttpResponse<ILibrary[]>) => {
           if (res.body?.length) {
             this.notificationService.addNotification({
-              title: 'Component search result',
-              type: NotificationType.COMPONENT,
+              title: 'Library search result',
+              type: NotificationType.LIBRARY,
               data: res.body[0],
             });
           } else {
             this.notificationService.addNotification({
-              title: 'Component search result',
+              title: 'Library search result',
               type: NotificationType.TEXT,
-              data: "Sorry, we couldn't find any results for your search. Please check your spelling and try again or it may be that this component does not yet exist in the database.",
+              data: "Sorry, we couldn't find any results for your search. Please check your spelling and try again or it may be that this library does not yet exist in the database.",
             });
           }
         },
         error: () => {
           this.notificationService.addNotification({
-            title: 'Component search result',
+            title: 'Library search result',
             type: NotificationType.TEXT,
             data: 'Sorry, a problem has occurred. Please try refining your search.',
           });

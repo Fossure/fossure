@@ -10,16 +10,16 @@
     <div class="col-md-12 col-lg-9 col-xl-8">
       <div class="row g-4">
         <div class="col-sm-12 col-lg-7">
-          <form name="componentSearchForm" role="form" novalidate (ngSubmit)="componentSearch()" [formGroup]="componentSearchForm">
+          <form (ngSubmit)="librarySearch()" [formGroup]="librarySearchForm" name="librarySearchForm" novalidate role="form">
             <div class="container-fluid position-relative">
               <div class="row justify-content-end g-3">
                 <div class="form-floating col-md-8">
-                  <input type="text" class="form-control" id="componentNameInput" placeholder="name" formControlName="name" />
-                  <label for="componentNameInput">Search component e.g. @angular/cli@15.2.6</label>
+                  <input class="form-control" formControlName="name" id="libraryNameInput" placeholder="name" type="text" />
+                  <label for="libraryNameInput">Search library e.g. @angular/cli@15.2.6</label>
                 </div>
 
                 <div class="form-floating col-sm">
-                  <select class="form-select" id="componentTypeSelect" aria-label="Select component type" formControlName="type">
+                  <select aria-label="Select library type" class="form-select" formControlName="type" id="libraryTypeSelect">
                     <option [ngValue]="null">Choose type</option>
                     <option value="MAVEN">maven</option>
                     <option value="NPM">npm</option>
@@ -47,10 +47,10 @@
                     <option value="ZIP">zip</option>
                     <option value="UNKNOWN">unknown</option>
                   </select>
-                  <label for="componentTypeSelect">Type</label>
+                  <label for="libraryTypeSelect">Type</label>
                 </div>
                 <div class="col-md-auto align-self-center">
-                  <button type="submit" class="btn btn-primary btn-lg w-100" [disabled]="componentSearchForm.invalid">
+                  <button [disabled]="librarySearchForm.invalid" class="btn btn-primary btn-lg w-100" type="submit">
                     <fa-icon icon="search"></fa-icon>
                   </button>
                 </div>
@@ -58,24 +58,24 @@
               <fa-icon
                 class="position-absolute top-0 end-0 text-secondary"
                 icon="question-circle"
-                [ngbTooltip]="checkComponentTooltip"
+                [ngbTooltip]="checkLibraryTooltip"
                 container="body"
               ></fa-icon>
-              <ng-template #checkComponentTooltip>
-                Search for a component.<br />Use the purl syntax: <b>groupId/artifactId@version</b><br />or<br /><b>artifactId@version</b>
+              <ng-template #checkLibraryTooltip>
+                Search for a library.<br />Use the purl syntax: <b>groupId/artifactId@version</b><br />or<br /><b>artifactId@version</b>
               </ng-template>
               <div
                 *ngIf="
-                  componentSearchForm.get('name')!.invalid &&
-                  (componentSearchForm.get('name')!.dirty || componentSearchForm.get('name')!.touched)
+                  librarySearchForm.get('name')!.invalid &&
+                  (librarySearchForm.get('name')!.dirty || librarySearchForm.get('name')!.touched)
                 "
               >
-                <small class="form-text text-danger" *ngIf="componentSearchForm.get('name')?.errors?.pattern">
-                  Component name doesn't match the search pattern. groupId/artifactId@version
+                <small *ngIf="librarySearchForm.get('name')?.errors?.pattern" class="form-text text-danger">
+                  Library name doesn't match the search pattern. groupId/artifactId@version
                 </small>
               </div>
-              <small class="form-text text-danger" *ngIf="componentSearchFormEmptyError === true">
-                To start your search, please fill out the component name and type.
+              <small *ngIf="librarySearchFormEmptyError === true" class="form-text text-danger">
+                To start your search, please fill out the library name and type.
               </small>
             </div>
           </form>
@@ -130,12 +130,12 @@
     <div class="col-md-auto">
       <div class="insight-sm" routerLink="library">
         <span>{{ insights?.totalComponents | shortenedNumber: 2 }}</span>
-        <span>Components</span>
+        <span>Libraries</span>
         <fa-icon
           class="position-absolute top-0 end-0 text-secondary"
           icon="question-circle"
           transform="shrink-6"
-          ngbTooltip="Total number of components"
+          ngbTooltip="Total number of libraries"
           container="body"
         ></fa-icon>
       </div>
@@ -152,7 +152,7 @@
           class="position-absolute top-0 end-0 text-secondary"
           icon="question-circle"
           transform="shrink-6"
-          ngbTooltip="Total number of components with 'Unknown' or 'Non-licensed' licenses"
+          ngbTooltip="Total number of libraries with 'Unknown' or 'Non-licensed' licenses"
           container="body"
         ></fa-icon>
       </div>
@@ -160,12 +160,12 @@
     <div class="col-md-auto">
       <div class="insight-sm" routerLink="library" [queryParams]="{ 'reviewed.equals': 'true', page: 1, size: 50 }">
         <span>{{ insights?.percentageReviewedComponents ?? 0 }}%</span>
-        <span>Reviewed Components</span>
+        <span>Reviewed Libraries</span>
         <fa-icon
           class="position-absolute top-0 end-0 text-secondary"
           icon="question-circle"
           transform="shrink-6"
-          ngbTooltip="Total number of reviewed components"
+          ngbTooltip="Total number of reviewed libraries"
           container="body"
         ></fa-icon>
       </div>
@@ -239,14 +239,14 @@
     <div class="col-lg-4">
       <div class="row mb-3">
         <div class="col">
-          <h4 class="fw-semibold">New Components</h4>
+          <h4 class="fw-semibold">New Libraries</h4>
         </div>
         <div class="col-auto text-end">
           <a class="text-muted fw-normal" routerLink="library">View all</a>
         </div>
       </div>
       <div class="row text-center" *ngIf="!libraries || libraries?.length === 0">
-        <span class="text-muted">No components found.</span>
+        <span class="text-muted">No libraries found.</span>
       </div>
       <div class="row mb-2 grid-table" *ngFor="let library of libraries" [routerLink]="['/library', library.id, 'view']">
         <div class="col-5 align-self-center">

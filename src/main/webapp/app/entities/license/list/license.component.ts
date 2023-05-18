@@ -231,6 +231,10 @@ export class LicenseComponent implements OnInit {
       .subscribe((res: HttpResponse<IRequirement[]>) => (this.requirementsSharedCollection = res.body?.map(e => e.shortText) ?? []));
   }
 
+  protected onError(): void {
+    this.ngbPaginationPage = this.page ?? 1;
+  }
+
   private buildSearchAndFilterParams(page: number): any {
     const params = {
       page,
@@ -271,9 +275,5 @@ export class LicenseComponent implements OnInit {
     }
 
     return filter;
-  }
-
-  protected onError(): void {
-    this.ngbPaginationPage = this.page ?? 1;
   }
 }

@@ -34,13 +34,8 @@ export class MainComponent implements OnInit {
     });
 
     this.sidenavService.sidenavCollapsed$.subscribe(isCollapsed => {
-      /* eslint-disable */
-      console.log(`MAIN | Log from subscribed isCollapsed: ${isCollapsed}`);
       this.isSidenavCollapsed = isCollapsed;
     });
-
-    /* eslint-disable */
-    console.log(`MAIN | Log isCollapsed property: ${this.isSidenavCollapsed}`);
   }
 
 

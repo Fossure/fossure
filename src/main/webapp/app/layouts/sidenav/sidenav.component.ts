@@ -27,7 +27,7 @@ export class SidenavComponent implements OnInit {
       protected sidenavService: SidenavService
     ) {
       if (VERSION) {
-        this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;
+        this.version = VERSION.toLowerCase().startsWith('vs') ? VERSION : `v${VERSION}`;
       }
     }
 
