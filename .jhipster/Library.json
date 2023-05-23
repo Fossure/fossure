@@ -6,11 +6,11 @@
   "entityTableName": "library",
   "fields": [
     {
-      "fieldName": "groupId",
+      "fieldName": "namespace",
       "fieldType": "String"
     },
     {
-      "fieldName": "artifactId",
+      "fieldName": "name",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },

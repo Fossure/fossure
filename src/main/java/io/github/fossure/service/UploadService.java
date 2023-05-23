@@ -190,7 +190,7 @@ public class UploadService {
 
                 if (libraries != null) {
                     for (Library library : libraries) {
-                        log.info("Processing library : {} - {} - {}", library.getGroupId(), library.getArtifactId(), library.getVersion());
+                        log.info("Processing library : {} - {} - {}", library.getNamespace(), library.getName(), library.getVersion());
                         try {
                             if (library.getLastReviewedBy() != null) {
                                 Optional<User> optionalUser = userRepository.findOneByLogin(library.getLastReviewedBy().getLogin());

@@ -84,7 +84,7 @@ public class SourceCodeHelper {
      * Searches the local index file for the library, returns full identifier with file extension
      *
      * @param indexFile Index file
-     * @param label     name of the library to search for. GroupId_ArtifactId_Version
+     * @param label     name of the library to search for. Namespace_Name_Version
      * @return full identifier with file extension or null if not in index file
      * @throws IOException if the index file cannot be found or read
      */
@@ -114,7 +114,7 @@ public class SourceCodeHelper {
      * Searches the local index file for the library, returns full identifier with file extension
      *
      * @param indexFile Index file
-     * @param label     name of the library to search for. GroupId_ArtifactId_Version
+     * @param label     name of the library to search for. Namespace_Name_Version
      * @return full identifier with file extension or null if not in index file
      * @throws IOException if the index file cannot be found or read
      */
@@ -140,7 +140,7 @@ public class SourceCodeHelper {
     /**
      * Traces a library and updates the remote repository if library is available
      *
-     * @param label             name of the library. GroupId_ArtifactId_Version
+     * @param label             name of the library. Namespace_Name_Version
      * @param library           a library entity
      * @param indexFile         the local index file
      * @param localArchivePath  path to the local archive
@@ -207,16 +207,16 @@ public class SourceCodeHelper {
     }
 
     /**
-     * Create a label from a library. Uses the GroupId, ArtifactId and Version.
-     * If the GroupId is empty only the ArtifactId and Version is used.
+     * Create a label from a library. Uses the Namespace, Name and Version.
+     * If the Namespace is empty only the Name and Version is used.
      *
      * @param library a library entity
      * @return the created label
      */
     public static String createLabel(Library library) {
-        return StringUtils.isBlank(library.getGroupId())
-            ? library.getArtifactId() + "_" + library.getVersion()
-            : library.getGroupId() + "_" + library.getArtifactId() + "_" + library.getVersion();
+        return StringUtils.isBlank(library.getNamespace())
+            ? library.getName() + "_" + library.getVersion()
+            : library.getNamespace() + "_" + library.getName() + "_" + library.getVersion();
     }
 
     /**

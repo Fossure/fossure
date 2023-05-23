@@ -52,12 +52,12 @@ public class LicenseZipHelper {
     private String htmlOverview;
     private String tableHeader = "";
     private String disclaimer = "";
-    private boolean withGroupId = false;
+    private boolean withNamespace = false;
 
     public LicenseZipHelper(Project project, List<Library> libraries) throws FileNotFoundException {
         this.project = project;
-        long numberOfLibrariesWithGroupId = libraries.stream().filter(library -> !library.getGroupId().isEmpty()).count();
-        if (numberOfLibrariesWithGroupId > 0) this.withGroupId = true;
+        long numberOfLibrariesWithNamespace = libraries.stream().filter(library -> !library.getNamespace().isEmpty()).count();
+        if (numberOfLibrariesWithNamespace > 0) this.withNamespace = true;
         this.libraries = groupLibraryDuplicates(libraries);
         this.htmlTemplate = ResourceUtils.getFile(DEFAULT_HTML_TEMPLATE);
         this.cssTemplate = ResourceUtils.getFile(DEFAULT_CSS_TEMPLATE);
@@ -67,8 +67,8 @@ public class LicenseZipHelper {
     public LicenseZipHelper(Project project, List<Library> libraries, String htmlTemplate, String cssTemplate)
         throws FileNotFoundException {
         this.project = project;
-        long numberOfLibrariesWithGroupId = libraries.stream().filter(library -> !library.getGroupId().isEmpty()).count();
-        if (numberOfLibrariesWithGroupId > 0) this.withGroupId = true;
+        long numberOfLibrariesWithNamespace = libraries.stream().filter(library -> !library.getNamespace().isEmpty()).count();
+        if (numberOfLibrariesWithNamespace > 0) this.withNamespace = true;
         this.libraries = groupLibraryDuplicates(libraries);
         this.htmlTemplate = ResourceUtils.getFile(htmlTemplate);
         this.cssTemplate = ResourceUtils.getFile(cssTemplate);
@@ -80,9 +80,9 @@ public class LicenseZipHelper {
 
         // TODO add library.type to libraryName to have a unique key name
         libraries.forEach(library -> {
-            String libraryName = !library.getGroupId().isEmpty()
-                ? library.getGroupId() + LICENSE_TEXT_NAME_DELIMITER + library.getArtifactId()
-                : library.getArtifactId();
+            String libraryName = !library.getNamespace().isEmpty()
+                ? library.getNamespace() + LICENSE_TEXT_NAME_DELIMITER + library.getName()
+                : library.getName();
 
             libraryName = libraryName.replaceAll(" ", "_");
 
@@ -268,8 +268,8 @@ public class LicenseZipHelper {
         libraries.forEach((key, value) -> {
             int counter = 1;
 
-            String groupId = value.get(0).getGroupId();
-            String artifactId = value.get(0).getArtifactId();
+            String namespace = value.get(0).getNamespace();
+            String name = value.get(0).getName();
             List<String> licenses = new ArrayList<>(4);
             Map<String, List<String>> licenseTextLink = new LinkedHashMap<>(4);
             StringBuilder sourceCodeLink = new StringBuilder();
@@ -294,7 +294,7 @@ public class LicenseZipHelper {
                 }
                 String sourceCodeUrl = library.getSourceCodeUrl() != null && !library.getSourceCodeUrl().isEmpty()
                     ? library.getSourceCodeUrl()
-                    : "https://www.google.com/search?q=" + library.getArtifactId();
+                    : "https://www.google.com/search?q=" + library.getName();
                 sourceCodeLink.append("<a href=\"").append(sourceCodeUrl).append("\">Source</a>");
 
                 copyrightLink.append("<a href=\"" + COPYRIGHT_DIR + baseName + ".html" + "\">Copyright</a>");
@@ -348,7 +348,7 @@ public class LicenseZipHelper {
 
             if (licenses.size() < 3) licenses.remove(0);
 
-            addTableHeader(withGroupId);
+            addTableHeader(withNamespace);
 
             int linkCounter = 1;
             String finalLink = "";
@@ -366,13 +366,13 @@ public class LicenseZipHelper {
 
             tableContent.append(
                 addTableRow(
-                    groupId,
-                    artifactId,
+                    namespace,
+                    name,
                     String.join("", licenses),
                     finalLink,
                     sourceCodeLink.toString(),
                     copyrightLink.toString(),
-                    withGroupId
+                    withNamespace
                 )
             );
         });
@@ -380,12 +380,12 @@ public class LicenseZipHelper {
         return tableContent.toString();
     }
 
-    private void addTableHeader(boolean withGroupId) {
-        if (withGroupId) {
+    private void addTableHeader(boolean withNamespace) {
+        if (withNamespace) {
             this.tableHeader =
                 "<tr>\n" +
-                "<th style=\"width: 20%\">GroupId</th>\n" +
-                "<th>ArtifactId</th>\n" +
+                "<th style=\"width: 20%\">Namespace</th>\n" +
+                "<th>Name</th>\n" +
                 "<th>License</th>\n" +
                 "<th>License Text</th>\n" +
                 "<th>Copyright</th>\n" +
@@ -394,7 +394,7 @@ public class LicenseZipHelper {
         } else {
             this.tableHeader =
                 "<tr>\n" +
-                "<th>ArtifactId</th>\n" +
+                "<th>Name</th>\n" +
                 "<th>License</th>\n" +
                 "<th>License Text</th>\n" +
                 "<th>Copyright</th>\n" +
@@ -404,21 +404,21 @@ public class LicenseZipHelper {
     }
 
     private String addTableRow(
-        String groupId,
-        String artifactId,
+        String namespace,
+        String name,
         String licenses,
         String licenseText,
         String sourceCodeUrl,
         String copyright,
-        boolean withGroupId
+        boolean withNamespace
     ) {
         String template;
 
-        if (withGroupId) {
+        if (withNamespace) {
             template =
                 "<tr>\n" +
-                "<td>%{groupId}%</td>\n" +
-                "<td>%{artifactId}%</td>\n" +
+                "<td>%{namespace}%</td>\n" +
+                "<td>%{name}%</td>\n" +
                 "<td>%{licenses}%</td>\n" +
                 "<td>%{licenseText}%</td>\n" +
                 "<td>%{copyright}%</td>\n" +
@@ -427,7 +427,7 @@ public class LicenseZipHelper {
         } else {
             template =
                 "<tr>\n" +
-                "<td>%{artifactId}%</td>\n" +
+                "<td>%{name}%</td>\n" +
                 "<td>%{licenses}%</td>\n" +
                 "<td>%{licenseText}%</td>\n" +
                 "<td>%{copyright}%</td>\n" +
@@ -436,8 +436,8 @@ public class LicenseZipHelper {
         }
 
         return template
-            .replace("%{groupId}%", groupId)
-            .replace("%{artifactId}%", artifactId)
+            .replace("%{namespace}%", namespace)
+            .replace("%{name}%", name)
             .replace("%{licenses}%", licenses)
             .replace("%{licenseText}%", licenseText)
             .replace("%{copyright}%", copyright)

@@ -40,11 +40,11 @@ public class AdditionalLibrariesLoader implements AssetLoader<Library> {
                     Library library = new Library();
 
                     // Mandatory columns. Exception if not in CSV
-                    library.setArtifactId(record.get("ArtifactId"));
+                    library.setName(record.get("Name"));
                     library.setVersion(record.get("Version"));
 
                     // Optional columns
-                    if (record.isMapped("GroupId")) library.setGroupId(record.get("GroupId"));
+                    if (record.isMapped("Namespace")) library.setNamespace(record.get("Namespace"));
                     if (record.isMapped("Type")) library.setType(LibraryType.getLibraryTypeByValue(record.get("Type")));
                     if (record.isMapped("License")) library.setOriginalLicense(record.get("License"));
                     if (record.isMapped("OriginalLicense")) library.setOriginalLicense(record.get("OriginalLicense"));

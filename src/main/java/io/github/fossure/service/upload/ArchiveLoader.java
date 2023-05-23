@@ -103,7 +103,7 @@ public class ArchiveLoader implements AssetLoader<Library> {
         }*/
 
         for (Library library : globalList) {
-            log.debug("Library from HASHER : {} - {} - {}", library.getGroupId(), library.getArtifactId(), library.getVersion());
+            log.debug("Library from HASHER : {} - {} - {}", library.getNamespace(), library.getName(), library.getVersion());
         }
 
         return globalList;
@@ -183,8 +183,8 @@ public class ArchiveLoader implements AssetLoader<Library> {
         log.debug(s);
         Library lib = new Library();
         lib.setType(LibraryType.MAVEN);
-        lib.setGroupId(splitString[0]);
-        lib.setArtifactId(splitString[1]);
+        lib.setNamespace(splitString[0]);
+        lib.setName(splitString[1]);
         lib.setVersion(splitString[2]);
         lib.setMd5(splitString[3]);
         lib.setSha1(splitString[4]);

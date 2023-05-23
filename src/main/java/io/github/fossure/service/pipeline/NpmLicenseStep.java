@@ -29,12 +29,12 @@ public class NpmLicenseStep implements Step<Library, Library> {
         if (!input.getType().equals(LibraryType.NPM) || !StringUtils.isBlank(input.getOriginalLicense())) {
             return input;
         }
-        log.info("Searching for license of the npm library : {} - {} - {}", input.getGroupId(), input.getArtifactId(), input.getVersion());
+        log.info("Searching for license of the npm library : {} - {} - {}", input.getNamespace(), input.getName(), input.getVersion());
 
         //Identifier for the NPM package is constructed
-        final String npmIdentifier = StringUtils.isBlank(input.getGroupId())
-            ? input.getArtifactId() + "/" + input.getVersion()
-            : input.getGroupId() + "/" + input.getArtifactId() + "/" + input.getVersion();
+        final String npmIdentifier = StringUtils.isBlank(input.getNamespace())
+            ? input.getName() + "/" + input.getVersion()
+            : input.getNamespace() + "/" + input.getName() + "/" + input.getVersion();
         final String npmURL = NPM_REGISTRY_BASE + npmIdentifier;
 
         try {
@@ -43,8 +43,8 @@ public class NpmLicenseStep implements Step<Library, Library> {
             if (response.statusCode() == HttpURLConnection.HTTP_NOT_FOUND) {
                 log.debug(
                     "Library [ {} - {} - {} ] not found on {}",
-                    input.getGroupId(),
-                    input.getArtifactId(),
+                    input.getNamespace(),
+                    input.getName(),
                     input.getVersion(),
                     NPM_REGISTRY_BASE
                 );
@@ -63,8 +63,8 @@ public class NpmLicenseStep implements Step<Library, Library> {
                 if (licenseObj == null) {
                     log.debug(
                         "License for library [ {} - {} - {} ] could not be found on {}.",
-                        input.getGroupId(),
-                        input.getArtifactId(),
+                        input.getNamespace(),
+                        input.getName(),
                         input.getVersion(),
                         NPM_REGISTRY_BASE
                     );
@@ -83,8 +83,8 @@ public class NpmLicenseStep implements Step<Library, Library> {
                     input.setOriginalLicense(licenseValue);
                     log.debug(
                         "License found for library [ {} - {} - {} ] : {}",
-                        input.getGroupId(),
-                        input.getArtifactId(),
+                        input.getNamespace(),
+                        input.getName(),
                         input.getVersion(),
                         licenseValue
                     );
@@ -92,8 +92,8 @@ public class NpmLicenseStep implements Step<Library, Library> {
             } catch (ParseException e) {
                 log.error(
                     "License for library [ {} - {} - {} ] could not be scraped from {} : {}",
-                    input.getGroupId(),
-                    input.getArtifactId(),
+                    input.getNamespace(),
+                    input.getName(),
                     input.getVersion(),
                     NPM_REGISTRY_BASE,
                     e.getMessage()
@@ -102,8 +102,8 @@ public class NpmLicenseStep implements Step<Library, Library> {
         } catch (IOException | InterruptedException | URISyntaxException e) {
             log.info(
                 "License for library [ {} - {} - {} ] could not be scraped from {} : {}",
-                input.getGroupId(),
-                input.getArtifactId(),
+                input.getNamespace(),
+                input.getName(),
                 input.getVersion(),
                 NPM_REGISTRY_BASE,
                 e.getMessage()

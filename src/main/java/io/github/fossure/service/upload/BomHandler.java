@@ -150,9 +150,9 @@ public class BomHandler extends DefaultHandler {
         String content = new String(ch, start, length);
 
         if (bGroup) {
-            lastLibrary.setGroupId(content);
+            lastLibrary.setNamespace(content);
         } else if (bName) {
-            lastLibrary.setArtifactId(content);
+            lastLibrary.setName(content);
         } else if (bVersion) {
             lastLibrary.setVersion(content);
         } else if (bHash) {

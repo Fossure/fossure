@@ -89,11 +89,11 @@ public class LibraryQueryService extends QueryService<Library> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Library_.id));
             }
-            if (criteria.getGroupId() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getGroupId(), Library_.groupId));
+            if (criteria.getNamespace() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getNamespace(), Library_.namespace));
             }
-            if (criteria.getArtifactId() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getArtifactId(), Library_.artifactId));
+            if (criteria.getName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getName(), Library_.name));
             }
             if (criteria.getVersion() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getVersion(), Library_.version));

@@ -31,8 +31,8 @@ export class LibraryComponent implements OnInit {
   isExporting = false;
 
   searchForm = this.fb.group({
-    groupId: [],
-    artifactId: [],
+    namespace: [],
+    name: [],
     version: [],
     license: [],
     reviewed: [],
@@ -57,8 +57,8 @@ export class LibraryComponent implements OnInit {
 
     this.libraryService
       .query({
-        'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
-        'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+        'namespace.contains': this.searchForm.get('namespace')?.value ?? null,
+        'name.contains': this.searchForm.get('name')?.value ?? null,
         'version.contains': this.searchForm.get('version')?.value ?? null,
         'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
         'reviewed.equals': this.searchForm.get('reviewed')?.value ?? null,
@@ -119,8 +119,8 @@ export class LibraryComponent implements OnInit {
 
     this.libraryService
       .query({
-        'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
-        'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+        'namespace.contains': this.searchForm.get('namespace')?.value ?? null,
+        'name.contains': this.searchForm.get('name')?.value ?? null,
         'version.contains': this.searchForm.get('version')?.value ?? null,
         'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
         sort: this.sort(),
@@ -159,14 +159,14 @@ export class LibraryComponent implements OnInit {
       const predicate = sort[0];
       const ascending = sort[1] === ASC;
 
-      const groupId = params.get('groupId.contains');
-      const artifactId = params.get('artifactId.contains');
+      const namespace = params.get('namespace.contains');
+      const name = params.get('name.contains');
       const version = params.get('version.contains');
       const linkedLicenseShortIdentifier = params.get('linkedLicenseShortIdentifier.in');
       const reviewed = params.get('reviewed.equals');
 
-      this.searchForm.get('groupId')?.setValue(groupId);
-      this.searchForm.get('artifactId')?.setValue(artifactId);
+      this.searchForm.get('namespace')?.setValue(namespace);
+      this.searchForm.get('name')?.setValue(name);
       this.searchForm.get('version')?.setValue(version);
       this.searchForm.get('license')?.setValue(linkedLicenseShortIdentifier);
       this.searchForm.get('reviewed')?.setValue(reviewed);
@@ -185,8 +185,8 @@ export class LibraryComponent implements OnInit {
     if (navigate) {
       this.router.navigate(['/library'], {
         queryParams: {
-          'groupId.contains': this.searchForm.get('groupId')?.value ?? null,
-          'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+          'namespace.contains': this.searchForm.get('namespace')?.value ?? null,
+          'name.contains': this.searchForm.get('name')?.value ?? null,
           'version.contains': this.searchForm.get('version')?.value ?? null,
           'linkedLicenseShortIdentifier.in': this.searchForm.get('license')?.value ?? null,
           'reviewed.equals': this.searchForm.get('reviewed')?.value ?? null,

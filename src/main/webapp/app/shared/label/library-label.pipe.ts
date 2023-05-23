@@ -6,10 +6,10 @@ import { ILibrary } from '../../entities/library/library.model';
 })
 export class LibraryLabelPipe implements PipeTransform {
   transform(library: ILibrary): string {
-    if (library.groupId) {
-      return `${library.groupId}:${library.artifactId!}:${library.version!}`;
+    if (library.namespace) {
+      return `${library.namespace}:${library.name!}:${library.version!}`;
     } else {
-      return `${library.artifactId!}:${library.version!}`;
+      return `${library.name!}:${library.version!}`;
     }
   }
 }

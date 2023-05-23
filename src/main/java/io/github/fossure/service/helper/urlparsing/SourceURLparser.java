@@ -173,7 +173,7 @@ public class SourceURLparser implements URLparser {
         //"pkg:" and any type information (e.g. "?type=jar") are removed
         String cleanPurl = purl.replaceAll("^pkg:", "").replaceAll("\\?.*", "");
 
-        // Split purl into [Type/GroupId/ArtifactId] and [version]
+        // Split purl into [Type/Namespace/Name] and [version]
         String[] splittedPurl = cleanPurl.split("@");
 
         if (splittedPurl.length < 2) {

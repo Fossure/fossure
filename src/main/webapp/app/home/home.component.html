@@ -62,7 +62,7 @@
                 container="body"
               ></fa-icon>
               <ng-template #checkLibraryTooltip>
-                Search for a library.<br />Use the purl syntax: <b>groupId/artifactId@version</b><br />or<br /><b>artifactId@version</b>
+                Search for a library.<br />Use the purl syntax: <b>namespace/name@version</b><br />or<br /><b>name@version</b>
               </ng-template>
               <div
                 *ngIf="
@@ -71,7 +71,7 @@
                 "
               >
                 <small *ngIf="librarySearchForm.get('name')?.errors?.pattern" class="form-text text-danger">
-                  Library name doesn't match the search pattern. groupId/artifactId@version
+                  Library name doesn't match the search pattern. namespace/name@version
                 </small>
               </div>
               <small *ngIf="librarySearchFormEmptyError === true" class="form-text text-danger">
@@ -250,7 +250,7 @@
       </div>
       <div class="row mb-2 grid-table" *ngFor="let library of libraries" [routerLink]="['/library', library.id, 'view']">
         <div class="col-5 align-self-center">
-          <span class="fw-semibold">{{ library.artifactId }}</span
+          <span class="fw-semibold">{{ library.name }}</span
           ><br />
           <span class="text-muted">{{ library.version }}</span>
           <span class="badge-outline-light" style="font-size: 0.7rem">{{ library.type }}</span>

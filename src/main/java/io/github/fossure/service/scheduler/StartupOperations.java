@@ -163,9 +163,9 @@ public class StartupOperations {
                     if (!url.equals(Constants.NO_URL)) library.setLicenseUrl(url);
                 } catch (IOException | InterruptedException | ParseException e) {
                     log.info(
-                        "License URL not available. Library = GroupId : {} - ArtifactId : {} - Version : {}",
-                        library.getGroupId(),
-                        library.getArtifactId(),
+                        "License URL not available. Library = Namespace : {} - Name : {} - Version : {}",
+                        library.getNamespace(),
+                        library.getName(),
                         library.getVersion()
                     );
                 }
@@ -184,9 +184,9 @@ public class StartupOperations {
                     if (!url.equals(Constants.NO_URL)) library.setLicenseUrl(url);
                 } catch (IOException | InterruptedException | ParseException e) {
                     log.info(
-                        "License URL not available. Library = GroupId : {} - ArtifactId : {} - Version : {}",
-                        library.getGroupId(),
-                        library.getArtifactId(),
+                        "License URL not available. Library = Namespace : {} - Name : {} - Version : {}",
+                        library.getNamespace(),
+                        library.getName(),
                         library.getVersion()
                     );
                 }
@@ -230,8 +230,8 @@ public class StartupOperations {
 
             if (library.getSourceCodeUrl() != null && library.getSourceCodeUrl().matches(".*(bitbucket|gitlab).*")) log.info(
                 "Gitlab or Bitbucket URL : {} - {} - {} : {}",
-                library.getGroupId(),
-                library.getArtifactId(),
+                library.getNamespace(),
+                library.getName(),
                 library.getVersion(),
                 library.getSourceCodeUrl()
             );
@@ -258,9 +258,9 @@ public class StartupOperations {
                     }
                 } catch (IOException | InterruptedException | ParseException e) {
                     log.info(
-                        "Source Code URL not available. Library = GroupId : {} - ArtifactId : {} - Version : {}",
-                        library.getGroupId(),
-                        library.getArtifactId(),
+                        "Source Code URL not available. Library = Namespace : {} - Name : {} - Version : {}",
+                        library.getNamespace(),
+                        library.getName(),
                         library.getVersion()
                     );
                 }
@@ -292,8 +292,8 @@ public class StartupOperations {
                 counter++;
                 log.info(
                     "No URL found. Original source code URL : {} - {} - {} : {}",
-                    library.getGroupId(),
-                    library.getArtifactId(),
+                    library.getNamespace(),
+                    library.getName(),
                     library.getVersion(),
                     originalSourceCodeUrl
                 );
@@ -384,7 +384,7 @@ public class StartupOperations {
         List<Library> libraries = libraryRepository.findByCopyrightNull();
 
         libraries.forEach(e ->
-            log.info("Library with empty copyright field : {} - {} - {}", e.getGroupId(), e.getArtifactId(), e.getVersion())
+            log.info("Library with empty copyright field : {} - {} - {}", e.getNamespace(), e.getName(), e.getVersion())
         );
 
         libraries.forEach(e -> {

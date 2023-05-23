@@ -184,7 +184,7 @@ public class DependencyService {
         return dependencyRepository
             .findAllByProjectId(projectId)
             .stream()
-            .sorted(Comparator.comparing(dependency -> dependency.getLibrary().getArtifactId()))
+            .sorted(Comparator.comparing(dependency -> dependency.getLibrary().getName()))
             .collect(Collectors.toList());
     }
 
@@ -245,7 +245,7 @@ public class DependencyService {
 
         List<Long> libraryIds = entityManager
             .createQuery(
-                "select distinct lpp.library from Dependency lpp where lpp.project.id = :projectId order by lpp.library.artifactId",
+                "select distinct lpp.library from Dependency lpp where lpp.project.id = :projectId order by lpp.library.name",
                 Library.class
             )
             .setParameter("projectId", projectId)
@@ -257,7 +257,7 @@ public class DependencyService {
 
         List<Library> libraries = entityManager
             .createQuery(
-                "select distinct library from Library library left join fetch library.licenseToPublishes where library.id in (:libraryIds) order by library.artifactId",
+                "select distinct library from Library library left join fetch library.licenseToPublishes where library.id in (:libraryIds) order by library.name",
                 Library.class
             )
             .setParameter("libraryIds", libraryIds)

@@ -26,8 +26,8 @@ entity Dependency {
 }
 
 entity Library {
-	groupId String,
-    artifactId String required,
+	namespace String,
+    name String required,
     version String required,
     type LibraryType,
     originalLicense String maxlength(2048),

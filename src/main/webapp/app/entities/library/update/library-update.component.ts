@@ -33,8 +33,8 @@ export class LibraryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    groupId: [],
-    artifactId: [null, [Validators.required]],
+    namespace: [],
+    name: [null, [Validators.required]],
     version: [null, [Validators.required]],
     type: [],
     originalLicense: [null, [Validators.maxLength(2048)]],
@@ -224,8 +224,8 @@ export class LibraryUpdateComponent implements OnInit {
   protected updateForm(library: ILibrary): void {
     this.editForm.patchValue({
       id: library.id,
-      groupId: library.groupId,
-      artifactId: library.artifactId,
+      namespace: library.namespace,
+      name: library.name,
       version: library.version,
       type: library.type,
       originalLicense: library.originalLicense,
@@ -302,8 +302,8 @@ export class LibraryUpdateComponent implements OnInit {
     return {
       ...new Library(),
       id: this.editForm.get(['id'])!.value,
-      groupId: this.editForm.get(['groupId'])!.value,
-      artifactId: this.editForm.get(['artifactId'])!.value,
+      namespace: this.editForm.get(['namespace'])!.value,
+      name: this.editForm.get(['name'])!.value,
       version: this.editForm.get(['version'])!.value,
       type: this.editForm.get(['type'])!.value,
       originalLicense: this.editForm.get(['originalLicense'])!.value,

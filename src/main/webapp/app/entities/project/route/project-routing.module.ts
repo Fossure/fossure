@@ -20,7 +20,7 @@ const projectRoute: Routes = [
     path: ':id/view',
     component: ProjectDetailComponent,
     data: {
-      defaultSort: 'library.artifactId,asc',
+      defaultSort: 'library.name,asc',
     },
     resolve: {
       project: ProjectRoutingResolveService,

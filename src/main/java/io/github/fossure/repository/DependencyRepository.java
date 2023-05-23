@@ -25,7 +25,7 @@ public interface DependencyRepository extends JpaRepository<Dependency, Long>, J
     List<Dependency> findAllByProjectId(@Param("projectId") Long projectId);
 
     @Query(
-        value = "select distinct dependency.library from Dependency dependency where dependency.project.id = :projectId order by dependency.library.artifactId"
+        value = "select distinct dependency.library from Dependency dependency where dependency.project.id = :projectId order by dependency.library.name"
     )
     List<Library> findAllLibrariesByProjectId(@Param("projectId") Long projectId);
 
@@ -48,12 +48,12 @@ public interface DependencyRepository extends JpaRepository<Dependency, Long>, J
     /*
         SELECT license.short_identifier, COUNT(license.short_identifier) FROM LIBRARY_PER_PRODUCT
 LEFT JOIN LIBRARY
-ON library_per_project.library_id= library.id
+ON dependency.library_id= library.id
 LEFT JOIN LICENSE_PER_LIBRARY
 ON library.id = license_per_library.library_id
 LEFT JOIN LICENSE
 ON license_per_library.license_id = license.id
-WHERE library_per_project.project_id = '19'
+WHERE dependency.project_id = '19'
 GROUP BY license.short_identifier
 ;
          */

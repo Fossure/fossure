@@ -9,8 +9,8 @@ import dayjs from 'dayjs/esm';
 
 export interface ILibrary {
   id?: number;
-  groupId?: string | null;
-  artifactId?: string;
+  namespace?: string | null;
+  name?: string;
   version?: string;
   type?: LibraryType | null;
   originalLicense?: string | null;
@@ -43,8 +43,8 @@ export interface ILibrary {
 export class Library implements ILibrary {
   constructor(
     public id?: number,
-    public groupId?: string | null,
-    public artifactId?: string,
+    public namespace?: string | null,
+    public name?: string,
     public version?: string,
     public type?: LibraryType | null,
     public originalLicense?: string | null,

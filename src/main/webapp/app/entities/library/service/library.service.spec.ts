@@ -26,8 +26,8 @@ describe('Library Service', () => {
 
     elemDefault = {
       id: 0,
-      groupId: 'AAAAAAA',
-      artifactId: 'AAAAAAA',
+      namespace: 'AAAAAAA',
+      name: 'AAAAAAA',
       version: 'AAAAAAA',
       type: LibraryType.MAVEN,
       originalLicense: 'AAAAAAA',
@@ -94,8 +94,8 @@ describe('Library Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          groupId: 'BBBBBB',
-          artifactId: 'BBBBBB',
+          namespace: 'BBBBBB',
+          name: 'BBBBBB',
           version: 'BBBBBB',
           type: 'BBBBBB',
           originalLicense: 'BBBBBB',
@@ -135,7 +135,7 @@ describe('Library Service', () => {
     it('should partial update a Library', () => {
       const patchObject = Object.assign(
         {
-          artifactId: 'BBBBBB',
+          name: 'BBBBBB',
           version: 'BBBBBB',
           originalLicense: 'BBBBBB',
           licenseUrl: 'BBBBBB',
@@ -167,8 +167,8 @@ describe('Library Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 1,
-          groupId: 'BBBBBB',
-          artifactId: 'BBBBBB',
+          namespace: 'BBBBBB',
+          name: 'BBBBBB',
           version: 'BBBBBB',
           type: 'BBBBBB',
           originalLicense: 'BBBBBB',

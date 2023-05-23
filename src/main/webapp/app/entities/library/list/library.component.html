@@ -63,22 +63,22 @@
             <input
               type="text"
               class="form-control"
-              name="groupId"
-              id="field_groupId"
+              formControlName="namespace"
+              id="field_namespace"
               data-cy="license"
-              formControlName="groupId"
-              placeholder="GroupId"
+              name="namespace"
+              placeholder="Namespace"
             />
           </div>
           <div class="col-md mb-2">
             <input
               type="text"
               class="form-control"
-              name="artifactId"
-              id="field_artifactId"
+              formControlName="name"
+              id="field_name"
               data-cy="license"
-              formControlName="artifactId"
-              placeholder="ArtifactId"
+              name="name"
+              placeholder="Name"
             />
           </div>
           <div class="col-md mb-2">
@@ -124,12 +124,12 @@
   <table class="table table-sm" aria-describedby="page-heading">
     <thead>
       <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
-        <th scope="col" jhiSortBy="groupId">
-          <span>GroupId</span>
+        <th jhiSortBy="namespace" scope="col">
+          <span>Namespace</span>
           <fa-icon icon="sort" style="color: gray('700')"></fa-icon>
         </th>
-        <th scope="col" jhiSortBy="artifactId">
-          <span>ArtifactId</span>
+        <th jhiSortBy="name" scope="col">
+          <span>Name</span>
           <fa-icon icon="sort"></fa-icon>
         </th>
         <th scope="col" jhiSortBy="version">
@@ -165,9 +165,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let library of libraries; trackBy: trackId" data-cy="entityTable">
-        <td>{{ library.groupId }}</td>
+        <td>{{ library.namespace }}</td>
         <td>
-          <a [routerLink]="['/library', library.id, 'view']">{{ library.artifactId }}</a>
+          <a [routerLink]="['/library', library.id, 'view']">{{ library.name }}</a>
           <span *jhiHasAnyAuthority="['ROLE_USER', 'ROLE_ADMIN']"
             ><fa-icon
               *ngIf="hasErrors(library)"

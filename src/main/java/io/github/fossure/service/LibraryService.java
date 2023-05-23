@@ -110,18 +110,18 @@ public class LibraryService {
         If ID is not null, library Object gets updated
         */
         if (library.getId() == null) {
-            Optional<Library> libraryOptional = findGroupIdArtifactIdVersion(
-                library.getGroupId(),
-                library.getArtifactId(),
+            Optional<Library> libraryOptional = findNamespaceNameVersion(
+                library.getNamespace(),
+                library.getName(),
                 library.getVersion()
             );
 
             if (libraryOptional.isPresent()) {
                 throw new LibraryAlreadyExistException(
-                    "Library with GroupId : " +
-                    library.getGroupId() +
-                    ", ArtifactId : " +
-                    library.getArtifactId() +
+                    "Library with Namespace : " +
+                    library.getNamespace() +
+                    ", Name : " +
+                    library.getName() +
                     ", Version : " +
                     library.getVersion() +
                     " already exists",
@@ -138,13 +138,13 @@ public class LibraryService {
 
                 if (
                     (
-                        !libraryInDb.getGroupId().equals(library.getGroupId()) ||
-                        !libraryInDb.getArtifactId().equals(library.getArtifactId()) ||
+                        !libraryInDb.getNamespace().equals(library.getNamespace()) ||
+                        !libraryInDb.getName().equals(library.getName()) ||
                         !libraryInDb.getVersion().equals(library.getVersion())
                     ) &&
-                    findGroupIdArtifactIdVersion(library.getGroupId(), library.getArtifactId(), library.getVersion()).isPresent()
+                    findNamespaceNameVersion(library.getNamespace(), library.getName(), library.getVersion()).isPresent()
                 ) {
-                    throw new LibraryAlreadyExistException("GroupId, ArtifactId and Version can't be changed. This library already exists");
+                    throw new LibraryAlreadyExistException("Namespace, Name and Version can't be changed. This library already exists");
                 }
             } else {
                 library.setId(null);
@@ -196,11 +196,11 @@ public class LibraryService {
         return libraryRepository
             .findById(library.getId())
             .map(existingLibrary -> {
-                if (library.getGroupId() != null) {
-                    existingLibrary.setGroupId(library.getGroupId());
+                if (library.getNamespace() != null) {
+                    existingLibrary.setNamespace(library.getNamespace());
                 }
-                if (library.getArtifactId() != null) {
-                    existingLibrary.setArtifactId(library.getArtifactId());
+                if (library.getName() != null) {
+                    existingLibrary.setName(library.getName());
                 }
                 if (library.getVersion() != null) {
                     existingLibrary.setVersion(library.getVersion());
@@ -363,16 +363,16 @@ public class LibraryService {
     }
 
     /**
-     * Search for a Library with GroupId, ArtifactId and Version
+     * Search for a Library with Namespace, Name and Version
      *
-     * @param groupId    GroupId of a Library
-     * @param artifactId ArtifactId of a Library
+     * @param namespace    Namespace of a Library
+     * @param name Name of a Library
      * @param version    Version of a Library
      * @return a Library as an Optional
      */
-    public Optional<Library> findGroupIdArtifactIdVersion(String groupId, String artifactId, String version) {
-        log.debug("Request to get Library by GroupId : {} and ArtifactId : {} and Version : {}", groupId, artifactId, version);
-        return libraryRepository.findByGroupIdAndArtifactIdAndVersion(groupId, artifactId, version);
+    public Optional<Library> findNamespaceNameVersion(String namespace, String name, String version) {
+        log.debug("Request to get Library by Namespace : {} and Name : {} and Version : {}", namespace, name, version);
+        return libraryRepository.findByNamespaceAndNameAndVersion(namespace, name, version);
     }
 
     /**
@@ -437,8 +437,8 @@ public class LibraryService {
     public void hasIncompatibleLicenses(Library library) {
         log.debug(
             "Check if license combinations are incompatible for : [{} - {} - {}]",
-            library.getGroupId(),
-            library.getArtifactId(),
+            library.getNamespace(),
+            library.getName(),
             library.getVersion()
         );
 
@@ -523,7 +523,7 @@ public class LibraryService {
     }
 
     /**
-     * Creates the source code URL from purl or GroupId, ArtifactId, Version and Type.
+     * Creates the source code URL from purl or Namespace, Name, Version and Type.
      *
      * @param library Library entity
      */
@@ -537,25 +537,25 @@ public class LibraryService {
                     library.setSourceCodeUrl(
                         sourceURLparser.getURL(
                             library.getType().getValue(),
-                            library.getGroupId(),
-                            library.getArtifactId(),
+                            library.getNamespace(),
+                            library.getName(),
                             library.getVersion()
                         )
                     );
                 }
             } catch (GithubRateLimitException e) {
                 log.info(
-                    "Github request limit reached. Library : GroupId : {} - ArtifactId : {} - Version : {}",
-                    library.getGroupId(),
-                    library.getArtifactId(),
+                    "Github request limit reached. Library : Namespace : {} - Name : {} - Version : {}",
+                    library.getNamespace(),
+                    library.getName(),
                     library.getVersion()
                 );
                 library.setSourceCodeUrl(Constants.GITHUB_LIMIT);
             } catch (IOException | ParseException | ClassCastException | InterruptedException e) {
                 log.info(
-                    "Source Code URL not available. Library : GroupId : {} - ArtifactId : {} - Version : {}",
-                    library.getGroupId(),
-                    library.getArtifactId(),
+                    "Source Code URL not available. Library : Namespace : {} - Name : {} - Version : {}",
+                    library.getNamespace(),
+                    library.getName(),
                     library.getVersion()
                 );
                 library.setSourceCodeUrl(Constants.NO_URL);
@@ -564,7 +564,7 @@ public class LibraryService {
     }
 
     /**
-     * Creates the license URL from purl or GroupId, ArtifactId, Version and Type.
+     * Creates the license URL from purl or Namespace, Name, Version and Type.
      *
      * @param library Library entity
      */
@@ -578,25 +578,25 @@ public class LibraryService {
                     library.setLicenseUrl(
                         licenseURLparser.getURL(
                             library.getType().getValue(),
-                            library.getGroupId(),
-                            library.getArtifactId(),
+                            library.getNamespace(),
+                            library.getName(),
                             library.getVersion()
                         )
                     );
                 }
             } catch (GithubRateLimitException e) {
                 log.info(
-                    "Github request limit reached. Library : GroupId : {} - ArtifactId : {} - Version : {}",
-                    library.getGroupId(),
-                    library.getArtifactId(),
+                    "Github request limit reached. Library : Namespace : {} - Name : {} - Version : {}",
+                    library.getNamespace(),
+                    library.getName(),
                     library.getVersion()
                 );
                 library.setLicenseUrl(Constants.GITHUB_LIMIT);
             } catch (IOException | ParseException | ClassCastException | InterruptedException e) {
                 log.info(
-                    "License URL not available. Library : GroupId : {} - ArtifactId : {} - Version : {}",
-                    library.getGroupId(),
-                    library.getArtifactId(),
+                    "License URL not available. Library : Namespace : {} - Name : {} - Version : {}",
+                    library.getNamespace(),
+                    library.getName(),
                     library.getVersion()
                 );
                 library.setLicenseUrl(Constants.NO_URL);
@@ -918,8 +918,8 @@ public class LibraryService {
                     } catch (Exception e) {
                         log.error(
                             "Source code archive of library [{} - {} - {}] could not be analysed with Fossology : {}",
-                            library.getGroupId(),
-                            library.getArtifactId(),
+                            library.getNamespace(),
+                            library.getName(),
                             library.getVersion(),
                             e.getMessage()
                         );
@@ -936,8 +936,8 @@ public class LibraryService {
                         } catch (Exception e) {
                             log.error(
                                 "Source code archive of library [{} - {} - {}] could not be analysed with Fossology : {}",
-                                library.getGroupId(),
-                                library.getArtifactId(),
+                                library.getNamespace(),
+                                library.getName(),
                                 library.getVersion(),
                                 e.getMessage()
                             );
@@ -952,8 +952,8 @@ public class LibraryService {
                 } catch (Exception e) {
                     log.error(
                         "Source code archive of library [{} - {} - {}] could not be analysed with Fossology : {}",
-                        library.getGroupId(),
-                        library.getArtifactId(),
+                        library.getNamespace(),
+                        library.getName(),
                         library.getVersion(),
                         e.getMessage()
                     );
@@ -1008,7 +1008,7 @@ public class LibraryService {
 
         switch (format) {
             case JSON:
-                // List<Library> libraryPageTest = findAllWithEagerLicenses(PageRequest.of(0, 200, Sort.by(Sort.Order.asc("artifactId")))).getContent();
+                // List<Library> libraryPageTest = findAllWithEagerLicenses(PageRequest.of(0, 200, Sort.by(Sort.Order.asc("name")))).getContent();
                 List<Library> libraries = libraryRepository.findAllWithEagerRelationships();
 
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream(33554432);
@@ -1023,13 +1023,13 @@ public class LibraryService {
                 fileName = baseFileName + "." + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm")) + ".json";
                 return new File(fileName, outputStream.toByteArray(), "application/json");
             case CSV:
-                Page<Library> libraryPage = findAllWithEagerLicenses(PageRequest.of(0, 200, Sort.by(Sort.Order.asc("artifactId"))));
+                Page<Library> libraryPage = findAllWithEagerLicenses(PageRequest.of(0, 200, Sort.by(Sort.Order.asc("name"))));
                 int totalPages = libraryPage.getTotalPages();
                 int currentPage = 0;
 
                 String[] headers = {
-                    "GroupId",
-                    "ArtifactId",
+                    "Namespace",
+                    "Name",
                     "Version",
                     "Type",
                     "OriginalLicense",
@@ -1072,8 +1072,8 @@ public class LibraryService {
                                 .collect(Collectors.joining(", "));
 
                             csvPrinter.printRecord(
-                                library.getGroupId(),
-                                library.getArtifactId(),
+                                library.getNamespace(),
+                                library.getName(),
                                 library.getVersion(),
                                 library.getType(),
                                 library.getOriginalLicense(),
@@ -1098,7 +1098,7 @@ public class LibraryService {
                         }
                         csvPrinter.flush();
                         currentPage++;
-                        libraryPage = findAllWithEagerLicenses(PageRequest.of(currentPage, 200, Sort.by(Sort.Order.asc("artifactId"))));
+                        libraryPage = findAllWithEagerLicenses(PageRequest.of(currentPage, 200, Sort.by(Sort.Order.asc("name"))));
                     } catch (IOException e) {
                         log.error("Libraries could not be serialized to CSV");
                         throw new ExportException("Error while exporting libraries to CSV");

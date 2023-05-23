@@ -91,8 +91,8 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
   });
 
   tableForm = this.fb.group({
-    groupId: true,
-    artifactId: true,
+    namespace: true,
+    name: true,
     version: true,
     type: false,
     licenses: false,
@@ -123,14 +123,14 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
   });
 
   addLibraryForm = this.fb.group({
-    groupId: [],
-    artifactId: [],
+    namespace: [],
+    name: [],
     version: [],
     libraries: [],
   });
 
   searchForm = this.fb.group({
-    artifactId: [],
+    name: [],
     licenses: [],
   });
 
@@ -203,7 +203,7 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
       this.dependencyService
         .query({
           'projectId.equals': this.project.id,
-          'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+          'name.contains': this.searchForm.get('name')?.value ?? null,
           'licensesShortIdentifier.contains': this.searchForm.get('licenses')?.value ?? null,
           'libraryRiskId.in': licenseRiskFilter?.join(',') ?? null,
           'errorLogMessage.contains': this.filterForm.get('licenseConflicts')!.value ? 'License Conflict' : null,
@@ -433,8 +433,8 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
   findDependencyInList(dep: IDependency): void {
     const index = this.dependencies?.findIndex(
       dependency =>
-        dependency.library?.groupId === dep.library?.groupId &&
-        dependency.library?.artifactId === dep.library?.artifactId &&
+        dependency.library?.namespace === dep.library?.namespace &&
+        dependency.library?.name === dep.library?.name &&
         dependency.library?.version === dep.library?.version &&
         dependency.library?.type === dep.library?.type
     );
@@ -541,7 +541,7 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
       this.dependencyService
         .query({
           'projectId.equals': this.project?.id,
-          'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+          'name.contains': this.searchForm.get('name')?.value ?? null,
           'licensesShortIdentifier.contains': this.searchForm.get('licenses')?.value ?? null,
           'libraryRiskId.in': licenseRiskFilter?.join(',') ?? null,
           'errorLogMessage.contains': this.filterForm.get('licenseConflicts')!.value ? 'License Conflict' : null,
@@ -572,7 +572,7 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
       this.dependencyService
         .query({
           'projectId.equals': this.project?.id,
-          'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+          'name.contains': this.searchForm.get('name')?.value ?? null,
           'licensesShortIdentifier.contains': this.searchForm.get('licenses')?.value ?? null,
           'libraryRiskId.in': riskFilter?.join(',') ?? null,
           'errorLogMessage.contains': this.filterForm.get('licenseConflicts')!.value ? 'License Conflict' : null,
@@ -601,8 +601,8 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
 
     this.libraryService
       .query({
-        'groupId.contains': this.addLibraryForm.get('groupId')?.value ?? null,
-        'artifactId.contains': this.addLibraryForm.get('artifactId')?.value ?? null,
+        'namespace.contains': this.addLibraryForm.get('namespace')?.value ?? null,
+        'name.contains': this.addLibraryForm.get('name')?.value ?? null,
         'version.contains': this.addLibraryForm.get('version')?.value ?? null,
         page: 0,
         size: this.itemsPerPage,
@@ -667,7 +667,7 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
       this.dependencyService
         .query({
           'projectId.equals': this.project?.id,
-          'artifactId.contains': this.searchForm.get('artifactId')?.value ?? null,
+          'name.contains': this.searchForm.get('name')?.value ?? null,
           'licensesShortIdentifier.contains': this.searchForm.get('licenses')?.value ?? null,
           'libraryRiskId.in': riskFilter?.join(',') ?? null,
           'errorLogMessage.contains': this.filterForm.get('licenseConflicts')!.value ? 'License Conflict' : null,
@@ -693,8 +693,8 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
 
   saveLocalStorage(): void {
     const tableFormSettings = {
-      groupId: this.tableForm.get(['groupId'])!.value,
-      artifactId: this.tableForm.get(['artifactId'])!.value,
+      namespace: this.tableForm.get(['namespace'])!.value,
+      name: this.tableForm.get(['name'])!.value,
       version: this.tableForm.get(['version'])!.value,
       type: this.tableForm.get(['type'])!.value,
       licenses: this.tableForm.get(['licenses'])!.value,
@@ -721,8 +721,8 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
       const tableFormSettings = JSON.parse(projectLibraryTableSettings);
 
       this.tableForm.patchValue({
-        groupId: tableFormSettings.groupId,
-        artifactId: tableFormSettings.artifactId,
+        namespace: tableFormSettings.namespace,
+        name: tableFormSettings.name,
         version: tableFormSettings.version,
         type: tableFormSettings.type,
         licenses: tableFormSettings.licenses,
@@ -841,13 +841,13 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
       const predicate = sort[0];
       const ascending = sort[1] === ASC;
 
-      const artifactId = params.get('artifactId');
+      const name = params.get('name');
       const licensesShortIdentifier = params.get('licenses');
 
       const licenseConflicts = params.get('licenseConflicts');
       const newLibraries = params.get('newLibraries');
 
-      this.searchForm.get('artifactId')?.setValue(artifactId);
+      this.searchForm.get('name')?.setValue(name);
       this.searchForm.get('licenses')?.setValue(licensesShortIdentifier);
 
       if (params.get('libraryRiskId')) {
@@ -883,8 +883,8 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
 
   protected sort(): string[] {
     const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
-    if (this.predicate !== 'library.artifactId') {
-      result.push('library.artifactId');
+    if (this.predicate !== 'library.name') {
+      result.push('library.name');
     }
     return result;
   }
@@ -903,7 +903,7 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
     if (navigate) {
       this.router.navigate([`/project/${this.project!.id!}/view`], {
         queryParams: {
-          artifactId: this.searchForm.get('artifactId')?.value ?? null,
+          name: this.searchForm.get('name')?.value ?? null,
           licenses: this.searchForm.get('licenses')?.value ?? null,
           libraryRiskId: riskFilter?.join(',') ?? null,
           licenseConflicts: this.filterForm.get('licenseConflicts')!.value ?? null,

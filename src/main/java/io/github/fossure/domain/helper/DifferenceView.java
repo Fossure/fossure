@@ -55,32 +55,32 @@ public class DifferenceView implements Serializable {
     }
 
     /**
-     * Check if GroupId, ArtifactId and Type of two libraries are the same.
+     * Check if Namespace, Name and Type of two libraries are the same.
      *
      * @param a First library entity
      * @param b Second library entity
-     * @return true, if it has the same GroupId, ArtifactId and Type, otherwise false.
+     * @return true, if it has the same Namespace, Name and Type, otherwise false.
      */
     public static boolean isEqualLibraryNameAndType(Library a, Library b) {
-        if (!StringUtils.isBlank(a.getGroupId()) && !StringUtils.isBlank(b.getGroupId())) {
-            return a.getGroupId().equals(b.getGroupId()) && a.getArtifactId().equals(b.getArtifactId()) && a.getType().equals(b.getType());
-        } else if (StringUtils.isBlank(a.getGroupId()) && StringUtils.isBlank(b.getGroupId())) {
-            return a.getArtifactId().equals(b.getArtifactId()) && a.getType().equals(b.getType());
+        if (!StringUtils.isBlank(a.getNamespace()) && !StringUtils.isBlank(b.getNamespace())) {
+            return a.getNamespace().equals(b.getNamespace()) && a.getName().equals(b.getName()) && a.getType().equals(b.getType());
+        } else if (StringUtils.isBlank(a.getNamespace()) && StringUtils.isBlank(b.getNamespace())) {
+            return a.getName().equals(b.getName()) && a.getType().equals(b.getType());
         } else {
             return false;
         }
     }
 
     /**
-     * Create a label for a library from GroupId, ArtifactId and Type.
-     * If the GroupId is not present, then only the ArtifactId and Type will be taken.
+     * Create a label for a library from Namespace, Name and Type.
+     * If the Namespace is not present, then only the Name and Type will be taken.
      *
      * @return Label for the library.
      */
     public static String createLabel(Library library) {
-        return StringUtils.isBlank(library.getGroupId())
-            ? library.getArtifactId() + ":" + library.getType().getValue()
-            : library.getGroupId() + ":" + library.getArtifactId() + ":" + library.getType().getValue();
+        return StringUtils.isBlank(library.getNamespace())
+            ? library.getName() + ":" + library.getType().getValue()
+            : library.getNamespace() + ":" + library.getName() + ":" + library.getType().getValue();
     }
 
     public List<Library> getSameLibraries() {

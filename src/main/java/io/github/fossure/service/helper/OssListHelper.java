@@ -71,19 +71,19 @@ public class OssListHelper {
     private Project project;
     private String html;
     private String tableHeader = "";
-    private boolean withGroupId = false;
+    private boolean withNamespace = false;
 
     public OssListHelper(List<Library> libraries) {
-        long numberOfLibrariesWithGroupId = libraries.stream().filter(library -> !library.getGroupId().isEmpty()).count();
-        if (numberOfLibrariesWithGroupId > 0) this.withGroupId = true;
+        long numberOfLibrariesWithNamespace = libraries.stream().filter(library -> !library.getNamespace().isEmpty()).count();
+        if (numberOfLibrariesWithNamespace > 0) this.withNamespace = true;
         this.libraries = groupLibraryDuplicates(libraries);
     }
 
     public OssListHelper(Project project, List<Library> libraries, boolean distinct) throws FileNotFoundException {
         this.project = project;
 
-        long numberOfLibrariesWithGroupId = libraries.stream().filter(library -> !library.getGroupId().isEmpty()).count();
-        if (numberOfLibrariesWithGroupId > 0) this.withGroupId = true;
+        long numberOfLibrariesWithNamespace = libraries.stream().filter(library -> !library.getNamespace().isEmpty()).count();
+        if (numberOfLibrariesWithNamespace > 0) this.withNamespace = true;
 
         if (distinct) {
             this.libraries = groupLibraryDuplicates(libraries);
@@ -92,9 +92,9 @@ public class OssListHelper {
 
             // TODO add library.type to libraryName to have a unique key name
             libraries.forEach(library -> {
-                String libraryName = !library.getGroupId().isEmpty()
-                    ? library.getGroupId() + NAME_DELIMITER + library.getArtifactId() + NAME_DELIMITER + library.getVersion()
-                    : library.getArtifactId() + NAME_DELIMITER + library.getVersion();
+                String libraryName = !library.getNamespace().isEmpty()
+                    ? library.getNamespace() + NAME_DELIMITER + library.getName() + NAME_DELIMITER + library.getVersion()
+                    : library.getName() + NAME_DELIMITER + library.getVersion();
 
                 libraryName = libraryName.replaceAll(" ", NAME_DELIMITER);
                 List<Library> newLibraryList = new ArrayList<>();
@@ -117,9 +117,9 @@ public class OssListHelper {
 
         // TODO add library.type to libraryName to have a unique key name
         libraries.forEach(library -> {
-            String libraryName = !library.getGroupId().isEmpty()
-                ? library.getGroupId() + NAME_DELIMITER + library.getArtifactId()
-                : library.getArtifactId();
+            String libraryName = !library.getNamespace().isEmpty()
+                ? library.getNamespace() + NAME_DELIMITER + library.getName()
+                : library.getName();
 
             libraryName = libraryName.replaceAll(" ", NAME_DELIMITER);
 
@@ -137,10 +137,10 @@ public class OssListHelper {
 
     public byte[] createPublishCsv() throws IOException {
         Deque<String> headers = new ArrayDeque<>(3);
-        if (withGroupId) {
-            headers.add("GroupId");
+        if (withNamespace) {
+            headers.add("Namespace");
         }
-        headers.add("ArtifactId");
+        headers.add("Name");
         headers.add("License");
 
 
@@ -171,10 +171,10 @@ public class OssListHelper {
                 // remove first element (enumeration) if library has only one license
                 if (licenses.size() <= 2) licenses.remove(0);
 
-                if (withGroupId) {
-                    csvPrinter.printRecord(value.get(0).getGroupId(), value.get(0).getArtifactId(), String.join("", licenses).trim());
+                if (withNamespace) {
+                    csvPrinter.printRecord(value.get(0).getNamespace(), value.get(0).getName(), String.join("", licenses).trim());
                 } else {
-                    csvPrinter.printRecord(value.get(0).getArtifactId(), String.join("", licenses));
+                    csvPrinter.printRecord(value.get(0).getName(), String.join("", licenses));
                 }
 
                 csvPrinter.flush();
@@ -206,8 +206,8 @@ public class OssListHelper {
         libraries.forEach((key, value) -> {
             int counter = 1;
 
-            String groupId = value.get(0).getGroupId();
-            String artifactId = value.get(0).getArtifactId();
+            String namespace = value.get(0).getNamespace();
+            String name = value.get(0).getName();
             List<String> licenses = new ArrayList<>(4);
             LicenseRisk licenseRisk = value.get(0).getLicenseRisk(value.get(0).getLicenseToPublishes());
             String risk = licenseRisk != null ? licenseRisk.getName() : "Unknown";
@@ -230,14 +230,14 @@ public class OssListHelper {
             if (distinct) {
                 // remove first element (enumeration) if library has only one license
                 if (licenses.size() <= 2) licenses.remove(0);
-                addTableHeader(withGroupId);
-                tableContent.append(addTableRow(groupId, artifactId, String.join("", licenses), withGroupId));
+                addTableHeader(withNamespace);
+                tableContent.append(addTableRow(namespace, name, String.join("", licenses), withNamespace));
             } else {
-                addTableHeaderDefault(withGroupId);
+                addTableHeaderDefault(withNamespace);
                 tableContent.append(
                     addTableRowDefault(
-                        groupId,
-                        artifactId,
+                        namespace,
+                        name,
                         value.get(0).getVersion() != null ? value.get(0).getVersion() : "",
                         value.get(0).getType() != null ? value.get(0).getType().getValue() : "",
                         //value.get(0).getLicenseToPublishes().stream().map(License::getShortIdentifier).collect(Collectors.joining(" AND ")),
@@ -249,7 +249,7 @@ public class OssListHelper {
                             ? value.get(0).getLicenseUrl()
                             : value.get(0).getLicenseToPublishes().stream().map(License::getUrl).collect(Collectors.joining(", ")),
                         value.get(0).getSourceCodeUrl() != null ? value.get(0).getSourceCodeUrl() : "",
-                        withGroupId
+                        withNamespace
                     )
                 );
             }
@@ -258,20 +258,20 @@ public class OssListHelper {
         return tableContent.toString();
     }
 
-    private void addTableHeader(boolean withGroupId) {
-        if (withGroupId) {
-            this.tableHeader = "<tr>\n" + "<th>GroupId</th>\n" + "<th>ArtifactId</th>\n" + "<th>License</th>\n" + "</tr>";
+    private void addTableHeader(boolean withNamespace) {
+        if (withNamespace) {
+            this.tableHeader = "<tr>\n" + "<th>Namespace</th>\n" + "<th>Name</th>\n" + "<th>License</th>\n" + "</tr>";
         } else {
-            this.tableHeader = "<tr>\n" + "<th>ArtifactId</th>\n" + "<th>License</th>\n" + "</tr>";
+            this.tableHeader = "<tr>\n" + "<th>Name</th>\n" + "<th>License</th>\n" + "</tr>";
         }
     }
 
-    private void addTableHeaderDefault(boolean withGroupId) {
-        if (withGroupId) {
+    private void addTableHeaderDefault(boolean withNamespace) {
+        if (withNamespace) {
             this.tableHeader =
                 "<tr>\n" +
-                "<th>GroupId</th>\n" +
-                "<th>ArtifactId</th>\n" +
+                "<th>Namespace</th>\n" +
+                "<th>Name</th>\n" +
                 "<th>Version</th>\n" +
                 "<th>Type</th>\n" +
                 "<th>License</th>\n" +
@@ -282,7 +282,7 @@ public class OssListHelper {
         } else {
             this.tableHeader =
                 "<tr>\n" +
-                "<th>ArtifactId</th>\n" +
+                "<th>Name</th>\n" +
                 "<th>Version</th>\n" +
                 "<th>Type</th>\n" +
                 "<th>License</th>\n" +
@@ -293,36 +293,36 @@ public class OssListHelper {
         }
     }
 
-    private String addTableRow(String groupId, String artifactId, String licenses, boolean withGroupId) {
+    private String addTableRow(String namespace, String name, String licenses, boolean withNamespace) {
         String template;
 
-        if (withGroupId) {
-            template = "<tr>\n" + "<td>%{groupId}%</td>\n" + "<td>%{artifactId}%</td>\n" + "<td>%{licenses}%</td>\n" + "</tr>";
+        if (withNamespace) {
+            template = "<tr>\n" + "<td>%{namespace}%</td>\n" + "<td>%{name}%</td>\n" + "<td>%{licenses}%</td>\n" + "</tr>";
         } else {
-            template = "<tr>\n" + "<td>%{artifactId}%</td>\n" + "<td>%{licenses}%</td>\n" + "</tr>";
+            template = "<tr>\n" + "<td>%{name}%</td>\n" + "<td>%{licenses}%</td>\n" + "</tr>";
         }
 
-        return template.replace("%{groupId}%", groupId).replace("%{artifactId}%", artifactId).replace("%{licenses}%", licenses);
+        return template.replace("%{namespace}%", namespace).replace("%{name}%", name).replace("%{licenses}%", licenses);
     }
 
     private String addTableRowDefault(
-        String groupId,
-        String artifactId,
+        String namespace,
+        String name,
         String version,
         String type,
         String licenses,
         String licenseRisk,
         String licenseUrl,
         String sourceCodeUrl,
-        boolean withGroupId
+        boolean withNamespace
     ) {
         String template;
 
-        if (withGroupId) {
+        if (withNamespace) {
             template =
                 "<tr>\n" +
-                "<td>%{groupId}%</td>\n" +
-                "<td>%{artifactId}%</td>\n" +
+                "<td>%{namespace}%</td>\n" +
+                "<td>%{name}%</td>\n" +
                 "<td>%{version}%</td>\n" +
                 "<td>%{type}%</td>\n" +
                 "<td style=\"background-color:" +
@@ -337,7 +337,7 @@ public class OssListHelper {
         } else {
             template =
                 "<tr>\n" +
-                "<td>%{artifactId}%</td>\n" +
+                "<td>%{name}%</td>\n" +
                 "<td>%{version}%</td>\n" +
                 "<td>%{type}%</td>\n" +
                 "<td style=\"background-color:" +
@@ -352,8 +352,8 @@ public class OssListHelper {
         }
 
         return template
-            .replace("%{groupId}%", groupId)
-            .replace("%{artifactId}%", artifactId)
+            .replace("%{namespace}%", namespace)
+            .replace("%{name}%", name)
             .replace("%{version}%", version)
             .replace("%{type}%", type)
             .replace("%{licenses}%", licenses)
@@ -366,7 +366,7 @@ public class OssListHelper {
         List<List<String>> data = new ArrayList<>();
 
         List<String> header = new ArrayList<>(
-            Arrays.asList("GroupId", "ArtifactId", "Version", "License", "LicenseRisk", "LicensesTotal", "Comment", "ComplianceComment")
+            Arrays.asList("Namespace", "Name", "Version", "License", "LicenseRisk", "LicensesTotal", "Comment", "ComplianceComment")
         );
 
         header.addAll(requirementsLookup);
@@ -375,8 +375,8 @@ public class OssListHelper {
         libraries.forEach((key, value) -> {
 
             for (Library dependency : value) {
-                String groupId = dependency.getGroupId();
-                String artifactId = dependency.getArtifactId();
+                String namespace = dependency.getNamespace();
+                String name = dependency.getName();
                 String version = dependency.getVersion();
 
                 // Changing the button value when is pressed is defined in the collapse JS function in the ossList/default.html
@@ -419,8 +419,8 @@ public class OssListHelper {
                 List<String> resultList = new ArrayList<>();
                 Collections.addAll(
                     resultList,
-                    groupId,
-                    artifactId,
+                    namespace,
+                    name,
                     "V" + version,
                     dependency.printLinkedLicenses(),
                     licenseRisk,

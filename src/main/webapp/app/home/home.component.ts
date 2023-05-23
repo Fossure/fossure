@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .query({
         page: pageToLoad,
         size: pageSize,
-        sort: ['createdDate' + ',' + DESC, 'artifactId'], // sort first by createdDate and than by artifactId
+        sort: ['createdDate' + ',' + DESC, 'name'], // sort first by createdDate and than by name
       })
       .subscribe((res: HttpResponse<ILibrary[]>) => {
         this.libraries = res.body ?? [];
@@ -120,42 +120,42 @@ export class HomeComponent implements OnInit, OnDestroy {
   librarySearch(): void {
     this.librarySearchFormEmptyError = false;
 
-    let name = this.librarySearchForm.get(['name'])!.value;
+    let nameSearchForm = this.librarySearchForm.get(['name'])!.value;
 
-    if (!name || this.librarySearchForm.get(['type'])!.value === null) {
+    if (!nameSearchForm || this.librarySearchForm.get(['type'])!.value === null) {
       this.librarySearchFormEmptyError = true;
       return;
     }
 
-    if (name.startsWith('pkg:')) {
-      name = name.substring(4);
-      const index = name.indexOf('/');
+    if (nameSearchForm.startsWith('pkg:')) {
+      nameSearchForm = nameSearchForm.substring(4);
+      const index = nameSearchForm.indexOf('/');
       if (index !== -1) {
-        name = name.substring((index as number) + 1);
+        nameSearchForm = nameSearchForm.substring((index as number) + 1);
       }
-      this.librarySearchForm.get(['name'])!.setValue(name);
+      this.librarySearchForm.get(['name'])!.setValue(nameSearchForm);
     }
 
-    let groupId = '';
-    let artifactId = '';
+    let namespace = '';
+    let name = '';
     let version = '';
 
-    const nameSplitted = name.split('/');
+    const nameSplitted = nameSearchForm.split('/');
     if (nameSplitted.length === 1) {
-      const artifactAndVersion = nameSplitted[0].split('@');
-      if (artifactAndVersion.length === 2) {
-        artifactId = artifactAndVersion[0];
-        version = artifactAndVersion[1];
+      const nameAndVersion = nameSplitted[0].split('@');
+      if (nameAndVersion.length === 2) {
+        name = nameAndVersion[0];
+        version = nameAndVersion[1];
       } else {
         return;
       }
     } else if (nameSplitted.length === 2) {
-      groupId = nameSplitted[0];
+      namespace = nameSplitted[0];
 
-      const artifactAndVersion = nameSplitted[1].split('@');
-      if (artifactAndVersion.length === 2) {
-        artifactId = artifactAndVersion[0];
-        version = artifactAndVersion[1];
+      const nameAndVersion = nameSplitted[1].split('@');
+      if (nameAndVersion.length === 2) {
+        name = nameAndVersion[0];
+        version = nameAndVersion[1];
       } else {
         return;
       }
@@ -163,8 +163,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.libraryService
       .query({
-        'groupId.equals': groupId ? groupId : null,
-        'artifactId.equals': artifactId,
+        'namespace.equals': namespace ? namespace : null,
+        'name.equals': name,
         'version.equals': version,
         'type.equals': this.librarySearchForm.get(['type'])!.value,
       })

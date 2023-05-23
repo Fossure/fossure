@@ -17,16 +17,16 @@
             <div class="col-auto">
               <fa-icon style="position: relative; top: -1.8rem" icon="cube" size="lg"></fa-icon>
             </div>
-            <div *ngIf="library.groupId" class="col-auto">
+            <div *ngIf="library.namespace" class="col-auto">
               <div class="detail-attribute">
-                <h4>{{ library.groupId }}</h4>
-                <small>GroupId</small>
+                <h4>{{ library.namespace }}</h4>
+                <small>Namespace</small>
               </div>
             </div>
             <div class="col-auto">
               <div class="detail-attribute">
-                <h2 data-cy="libraryDetailsHeading">{{ library.artifactId }}</h2>
-                <small>ArtifactId</small>
+                <h2 data-cy="libraryDetailsHeading">{{ library.name }}</h2>
+                <small>Name</small>
               </div>
             </div>
             <div class="col-auto">

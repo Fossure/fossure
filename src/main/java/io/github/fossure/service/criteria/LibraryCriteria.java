@@ -43,9 +43,9 @@ public class LibraryCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter groupId;
+    private StringFilter namespace;
 
-    private StringFilter artifactId;
+    private StringFilter name;
 
     private StringFilter version;
 
@@ -107,8 +107,8 @@ public class LibraryCriteria implements Serializable, Criteria {
 
     public LibraryCriteria(LibraryCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.groupId = other.groupId == null ? null : other.groupId.copy();
-        this.artifactId = other.artifactId == null ? null : other.artifactId.copy();
+        this.namespace = other.namespace == null ? null : other.namespace.copy();
+        this.name = other.name == null ? null : other.name.copy();
         this.version = other.version == null ? null : other.version.copy();
         this.type = other.type == null ? null : other.type.copy();
         this.originalLicense = other.originalLicense == null ? null : other.originalLicense.copy();
@@ -160,34 +160,34 @@ public class LibraryCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public StringFilter getGroupId() {
-        return groupId;
+    public StringFilter getNamespace() {
+        return namespace;
     }
 
-    public StringFilter groupId() {
-        if (groupId == null) {
-            groupId = new StringFilter();
+    public void setNamespace(StringFilter namespace) {
+        this.namespace = namespace;
+    }
+
+    public StringFilter namespace() {
+        if (namespace == null) {
+            namespace = new StringFilter();
         }
-        return groupId;
+        return namespace;
     }
 
-    public void setGroupId(StringFilter groupId) {
-        this.groupId = groupId;
+    public StringFilter getName() {
+        return name;
     }
 
-    public StringFilter getArtifactId() {
-        return artifactId;
+    public void setName(StringFilter name) {
+        this.name = name;
     }
 
-    public StringFilter artifactId() {
-        if (artifactId == null) {
-            artifactId = new StringFilter();
+    public StringFilter name() {
+        if (name == null) {
+            name = new StringFilter();
         }
-        return artifactId;
-    }
-
-    public void setArtifactId(StringFilter artifactId) {
-        this.artifactId = artifactId;
+        return name;
     }
 
     public StringFilter getVersion() {
@@ -614,8 +614,8 @@ public class LibraryCriteria implements Serializable, Criteria {
         final LibraryCriteria that = (LibraryCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(groupId, that.groupId) &&
-            Objects.equals(artifactId, that.artifactId) &&
+            Objects.equals(namespace, that.namespace) &&
+            Objects.equals(name, that.name) &&
             Objects.equals(version, that.version) &&
             Objects.equals(type, that.type) &&
             Objects.equals(originalLicense, that.originalLicense) &&
@@ -651,8 +651,8 @@ public class LibraryCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
-            groupId,
-            artifactId,
+            namespace,
+            name,
             version,
             type,
             originalLicense,
@@ -689,8 +689,8 @@ public class LibraryCriteria implements Serializable, Criteria {
     public String toString() {
         return "LibraryCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (groupId != null ? "groupId=" + groupId + ", " : "") +
-            (artifactId != null ? "artifactId=" + artifactId + ", " : "") +
+            (namespace != null ? "namespace=" + namespace + ", " : "") +
+            (name != null ? "name=" + name + ", " : "") +
             (version != null ? "version=" + version + ", " : "") +
             (type != null ? "type=" + type + ", " : "") +
             (originalLicense != null ? "originalLicense=" + originalLicense + ", " : "") +

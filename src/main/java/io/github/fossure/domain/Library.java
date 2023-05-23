@@ -36,13 +36,13 @@ public class Library implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "group_id")
+    @Column(name = "namespace")
     @Convert(converter = EmptyStringToNullConverter.class)
-    private String groupId = "";
+    private String namespace = "";
 
     @NotNull
-    @Column(name = "artifact_id", nullable = false)
-    private String artifactId;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @NotNull
     @Column(name = "version", nullable = false)
@@ -321,30 +321,30 @@ public class Library implements Serializable {
         return this;
     }
 
-    public String getGroupId() {
-        return this.groupId;
+    public String getNamespace() {
+        return this.namespace;
     }
 
-    public Library groupId(String groupId) {
-        this.groupId = groupId;
+    public void setNamespace(String namespace) {
+        this.namespace = namespace.equals("-") ? "" : namespace;
+    }
+
+    public Library namespace(String namespace) {
+        this.namespace = namespace;
         return this;
     }
 
-    public void setGroupId(String groupId) {
-        this.groupId = groupId.equals("-") ? "" : groupId;
+    public String getName() {
+        return this.name;
     }
 
-    public String getArtifactId() {
-        return this.artifactId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Library artifactId(String artifactId) {
-        this.artifactId = artifactId;
+    public Library name(String name) {
+        this.name = name;
         return this;
-    }
-
-    public void setArtifactId(String artifactId) {
-        this.artifactId = artifactId;
     }
 
     public String getVersion() {
@@ -817,8 +817,8 @@ public class Library implements Serializable {
     public String toString() {
         return "Library{" +
             "id=" + getId() +
-            ", groupId='" + getGroupId() + "'" +
-            ", artifactId='" + getArtifactId() + "'" +
+            ", namespace='" + getNamespace() + "'" +
+            ", name='" + getName() + "'" +
             ", version='" + getVersion() + "'" +
             ", type='" + getType() + "'" +
             ", originalLicense='" + getOriginalLicense() + "'" +

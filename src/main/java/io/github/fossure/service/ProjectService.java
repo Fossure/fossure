@@ -333,7 +333,7 @@ public class ProjectService {
      * Creates an OSS list as a CSV or HTML file.
      * It can create three different types of OSS lists.
      * DEFAULT: OSS list with all libraries and different information like license risk.
-     * PUBLISH: OSS list with distinct libraries (based on GroupId, ArtifactId) and license(s) to be published.
+     * PUBLISH: OSS list with distinct libraries (based on Namespace, Name) and license(s) to be published.
      * REQUIREMENT: OSS list with all libraries and the corresponding requirements.
      *
      * @param project A project entity
@@ -381,7 +381,7 @@ public class ProjectService {
                     }
                 } else if (format.equals(ExportFormat.CSV)) {
                     headers = new ArrayDeque<>(
-                        Arrays.asList("GroupId", "ArtifactId", "Version", "License", "LicenseRisk", "LicensesTotal", "Comment", "ComplianceComment")
+                        Arrays.asList("Namespace", "Name", "Version", "License", "LicenseRisk", "LicensesTotal", "Comment", "ComplianceComment")
                     );
 
                     List<String> requirementsLookup = requirementRepository
@@ -411,8 +411,8 @@ public class ProjectService {
                     }
                 } else if (format.equals(ExportFormat.CSV)) {
                     headers = new ArrayDeque<>(8);
-                    headers.add("GroupId");
-                    headers.add("ArtifactId");
+                    headers.add("Namespace");
+                    headers.add("Name");
                     headers.add("Version");
                     headers.add("Type");
                     headers.add("License");
@@ -428,8 +428,8 @@ public class ProjectService {
                             .stream()
                             .map(library -> {
                                 Deque<String> records = new ArrayDeque<>(8);
-                                records.add(library.getGroupId());
-                                records.add(library.getArtifactId());
+                                records.add(library.getNamespace());
+                                records.add(library.getName());
                                 records.add(library.getVersion() != null ? "V" + library.getVersion() : "");
                                 records.add(library.getType() != null ? library.getType().getValue() : "");
                                 records.add(library.printLinkedLicenses());
@@ -532,8 +532,8 @@ public class ProjectService {
 
         List<Library> libraries = dependencyService.findLibrariesByProjectId(project.getId());
         for (Library dependency : libraries) {
-            String groupId = dependency.getGroupId();
-            String artifactId = dependency.getArtifactId();
+            String namespace = dependency.getNamespace();
+            String name = dependency.getName();
             String version = dependency.getVersion();
             String licenseRisk = dependency.getLicenseRisk(dependency.getLicenseToPublishes()).getName();
             List<String> requirements = new ArrayList<>(16);
@@ -561,8 +561,8 @@ public class ProjectService {
             }
 
             List<String> libraryRow = new ArrayList<>(Arrays.asList(
-                groupId,
-                artifactId,
+                namespace,
+                name,
                 "V" + version,
                 dependency.printLinkedLicenses(),
                 licenseRisk,
@@ -1024,7 +1024,7 @@ public class ProjectService {
                         if (!StringUtils.isBlank(line)) {
                             libraryStream =
                                 libraryStream.filter(library ->
-                                    !(Pattern.matches(line, library.getGroupId()) || Pattern.matches(line, library.getArtifactId()))
+                                    !(Pattern.matches(line, library.getNamespace()) || Pattern.matches(line, library.getName()))
                                 );
                         }
                     }
@@ -1037,8 +1037,8 @@ public class ProjectService {
                         "[{}] Processing library for project {} : {} - {} - {}",
                         libraryCounter.get(),
                         project.getId(),
-                        library.getGroupId(),
-                        library.getArtifactId(),
+                        library.getNamespace(),
+                        library.getName(),
                         library.getVersion()
                     );
                     libraryCounter.incrementAndGet();
@@ -1083,8 +1083,8 @@ public class ProjectService {
                     for (Library library : additionalLibraries) {
                         log.info(
                             "Processing additional library : {} - {} - {}",
-                            library.getGroupId(),
-                            library.getArtifactId(),
+                            library.getNamespace(),
+                            library.getName(),
                             library.getVersion()
                         );
 

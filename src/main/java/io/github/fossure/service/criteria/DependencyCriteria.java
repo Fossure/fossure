@@ -39,7 +39,7 @@ public class DependencyCriteria implements Serializable, Criteria {
 
     private Boolean distinct;
 
-    private StringFilter artifactId;
+    private StringFilter name;
 
     private StringFilter licensesShortIdentifier;
 
@@ -62,7 +62,7 @@ public class DependencyCriteria implements Serializable, Criteria {
         this.libraryId = other.libraryId == null ? null : other.libraryId.copy();
         this.projectId = other.projectId == null ? null : other.projectId.copy();
         this.distinct = other.distinct;
-        this.artifactId = other.artifactId == null ? null : other.artifactId.copy();
+        this.name = other.name == null ? null : other.name.copy();
         this.licensesShortIdentifier = other.licensesShortIdentifier == null ? null : other.licensesShortIdentifier.copy();
         this.libraryRiskId = other.libraryRiskId == null ? null : other.libraryRiskId.copy();
         this.errorLogMessage = other.errorLogMessage == null ? null : other.errorLogMessage.copy();
@@ -188,19 +188,19 @@ public class DependencyCriteria implements Serializable, Criteria {
         this.distinct = distinct;
     }
 
-    public StringFilter getArtifactId() {
-        return artifactId;
+    public StringFilter getName() {
+        return name;
     }
 
-    public void setArtifactId(StringFilter artifactId) {
-        this.artifactId = artifactId;
+    public void setName(StringFilter name) {
+        this.name = name;
     }
 
-    public StringFilter artifactId() {
-        if (artifactId == null) {
-            artifactId = new StringFilter();
+    public StringFilter name() {
+        if (name == null) {
+            name = new StringFilter();
         }
-        return artifactId;
+        return name;
     }
 
     public StringFilter getLicensesShortIdentifier() {
@@ -296,7 +296,7 @@ public class DependencyCriteria implements Serializable, Criteria {
             Objects.equals(libraryId, that.libraryId) &&
             Objects.equals(projectId, that.projectId) &&
             Objects.equals(distinct, that.distinct) &&
-            Objects.equals(artifactId, that.artifactId) &&
+            Objects.equals(name, that.name) &&
             Objects.equals(licensesShortIdentifier, that.licensesShortIdentifier) &&
             Objects.equals(libraryRiskId, that.libraryRiskId) &&
             Objects.equals(errorLogMessage, that.errorLogMessage) &&
@@ -317,7 +317,7 @@ public class DependencyCriteria implements Serializable, Criteria {
             libraryId,
             projectId,
             distinct,
-            artifactId,
+            name,
             licensesShortIdentifier,
             libraryRiskId,
             errorLogMessage,
@@ -338,7 +338,7 @@ public class DependencyCriteria implements Serializable, Criteria {
             (libraryId != null ? "libraryId=" + libraryId + ", " : "") +
             (projectId != null ? "projectId=" + projectId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
-            (artifactId != null ? "artifactId=" + artifactId + ", " : "") +
+            (name != null ? "name=" + name + ", " : "") +
             (licensesShortIdentifier != null ? "licensesShortIdentifier=" + licensesShortIdentifier + ", " : "") +
             (libraryRiskId != null ? "libraryRiskId=" + libraryRiskId + ", " : "") +
             (errorLogMessage != null ? "errorLogMessage=" + errorLogMessage + ", " : "") +

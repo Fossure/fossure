@@ -8,30 +8,30 @@
       <div class="card jh-card">
         <div class="row g-3 mt-0">
           <div class="col-xl-4 form-group">
-            <label class="form-control-label" for="field_groupId">GroupId</label>
+            <label class="form-control-label" for="field_namespace">Namespace</label>
             <input
               type="text"
               class="form-control"
-              name="groupId"
-              id="field_groupId"
-              data-cy="groupId"
-              formControlName="groupId"
-              placeholder="GroupId"
+              data-cy="namespace"
+              formControlName="namespace"
+              id="field_namespace"
+              name="namespace"
+              placeholder="Namespace"
             />
           </div>
           <div class="col-xl-4 form-group">
-            <label class="form-control-label" for="field_artifactId">ArtifactId</label>
+            <label class="form-control-label" for="field_name">Name</label>
             <input
               type="text"
               class="form-control"
-              name="artifactId"
-              id="field_artifactId"
-              data-cy="artifactId"
-              formControlName="artifactId"
-              placeholder="ArtifactId"
+              data-cy="name"
+              formControlName="name"
+              id="field_name"
+              name="name"
+              placeholder="Name"
             />
-            <div *ngIf="editForm.get('artifactId')!.invalid && (editForm.get('artifactId')!.dirty || editForm.get('artifactId')!.touched)">
-              <small class="form-text text-danger" *ngIf="editForm.get('artifactId')?.errors?.required"> This field is required. </small>
+            <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+              <small *ngIf="editForm.get('name')?.errors?.required" class="form-text text-danger"> This field is required. </small>
             </div>
           </div>
           <div class="col-sm form-group">

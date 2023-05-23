@@ -36,8 +36,8 @@ public class MavenLicenseStep implements Step<Library, Library> {
 
         log.info(
             "Searching for the license of the Maven library : {} - {} - {}",
-            input.getGroupId(),
-            input.getArtifactId(),
+            input.getNamespace(),
+            input.getName(),
             input.getVersion()
         );
         try {
@@ -45,8 +45,8 @@ public class MavenLicenseStep implements Step<Library, Library> {
         } catch (IOException | InterruptedException | URISyntaxException e) {
             log.info(
                 "The license for library [ {} - {} - {} ] could not be scraped from {} : {}",
-                input.getGroupId(),
-                input.getArtifactId(),
+                input.getNamespace(),
+                input.getName(),
                 input.getVersion(),
                 MAVEN_CENTRAL_BASE,
                 e.getMessage()
@@ -63,14 +63,14 @@ public class MavenLicenseStep implements Step<Library, Library> {
      * @return The license information from the central.sonatype.dev page (can be empty).
      * @throws IOException          if an I/O error occurs when sending or receiving to central.sonatype.dev
      * @throws InterruptedException if the request to central.sonatype.dev is interrupted
-     * @throws URISyntaxException   If the URI for the request to central.sonatype.dev, which is constructed from groupId,
-     *                              artifactId and version, violates RFC 2396
+     * @throws URISyntaxException   If the URI for the request to central.sonatype.dev, which is constructed from namespace,
+     *                              name and version, violates RFC 2396
      */
     private String scrapeCentralSonatype(Library library) throws IOException, InterruptedException, URISyntaxException {
         final String pathToArtifact = MAVEN_CENTRAL_BASE + "/{0}/{1}/{2}";
 
         HttpResponse<String> response = HttpHelper.httpGetRequest(
-            MessageFormat.format(pathToArtifact, library.getGroupId(), library.getArtifactId(), library.getVersion())
+            MessageFormat.format(pathToArtifact, library.getNamespace(), library.getName(), library.getVersion())
         );
 
         Document sonatypePageDocument = Jsoup.parse(response.body());
@@ -82,8 +82,8 @@ public class MavenLicenseStep implements Step<Library, Library> {
         }
         if (license.length() > 0) log.debug(
             "License found for library [ {} - {} - {} ] : {}",
-            library.getGroupId(),
-            library.getArtifactId(),
+            library.getNamespace(),
+            library.getName(),
             library.getVersion(),
             license
         );
@@ -120,7 +120,7 @@ public class MavenLicenseStep implements Step<Library, Library> {
         //chromeOptions.addArguments("--verbose");
         chromeOptions.addArguments("disable-gpu");
         ChromeDriver driver = new ChromeDriver(chromeOptions);
-        driver.get(base_url + MessageFormat.format(artifactPath, library.getGroupId(), library.getArtifactId(), library.getVersion()));
+        driver.get(base_url + MessageFormat.format(artifactPath, library.getNamespace(), library.getName(), library.getVersion()));
 
         Document mavenPageDocument = Jsoup.parse(driver.getPageSource());
         Element licenseRow = mavenPageDocument.selectFirst("main > .content > table tr");

@@ -1,7 +1,7 @@
 <div class="offcanvas-header offcanvas-header-custom">
   <h6 class="offcanvas-title" id="offcanvas-basic-title">
-    <span *ngIf="dependency?.library?.groupId">{{ dependency?.library?.groupId }} :</span
-    >{{ dependency?.library?.artifactId }}:{{ dependency?.library?.version }}
+    <span *ngIf="dependency?.library?.namespace">{{ dependency?.library?.namespace }} :</span
+    >{{ dependency?.library?.name }}:{{ dependency?.library?.version }}
   </h6>
   <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="dismiss('Cross click')"></button>
 </div>

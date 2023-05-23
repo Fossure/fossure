@@ -132,17 +132,17 @@ public class DependencyQueryService extends QueryService<Dependency> {
                         )
                     );
             }
-            if (criteria.getArtifactId() != null) {
-                if (criteria.getArtifactId().getContains() != null) {
-                    String artifactId = "%" + criteria.getArtifactId().getContains() + "%";
+            if (criteria.getName() != null) {
+                if (criteria.getName().getContains() != null) {
+                    String name = "%" + criteria.getName().getContains() + "%";
                     specification =
                         specification.and((root, criteriaQuery, criteriaBuilder) ->
                             criteriaBuilder.or(
                                 criteriaBuilder.like(
-                                    root.join(Dependency_.library, JoinType.LEFT).get(Library_.artifactId),
-                                    artifactId
+                                    root.join(Dependency_.library, JoinType.LEFT).get(Library_.name),
+                                    name
                                 ),
-                                criteriaBuilder.like(root.join(Dependency_.library, JoinType.LEFT).get(Library_.groupId), artifactId)
+                                criteriaBuilder.like(root.join(Dependency_.library, JoinType.LEFT).get(Library_.namespace), name)
                             )
                         );
                 }

@@ -48,11 +48,11 @@ public interface LibraryRepository extends
     Optional<Library> findOneWithToOneRelationships(@Param("id") Long id);
 
     @Query(
-        "select library from Library library where lower(library.groupId) = lower(:groupId) and lower(library.artifactId) = lower(:artifactId) and lower(library.version) = lower(:version)"
+        "select library from Library library where lower(library.namespace) = lower(:namespace) and lower(library.name) = lower(:name) and lower(library.version) = lower(:version)"
     )
-    Optional<Library> findByGroupIdAndArtifactIdAndVersion(
-        @Param("groupId") String groupId,
-        @Param("artifactId") String artifactId,
+    Optional<Library> findByNamespaceAndNameAndVersion(
+        @Param("namespace") String namespace,
+        @Param("name") String name,
         @Param("version") String version
     );
 

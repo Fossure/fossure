@@ -135,8 +135,8 @@ class LibraryResourceIT {
      */
     public static Library createEntity(EntityManager em) {
         Library library = new Library()
-            .groupId(DEFAULT_GROUP_ID)
-            .artifactId(DEFAULT_ARTIFACT_ID)
+            .namespace(DEFAULT_GROUP_ID)
+            .name(DEFAULT_ARTIFACT_ID)
             .version(DEFAULT_VERSION)
             .type(DEFAULT_TYPE)
             .originalLicense(DEFAULT_ORIGINAL_LICENSE)
@@ -165,8 +165,8 @@ class LibraryResourceIT {
      */
     public static Library createUpdatedEntity(EntityManager em) {
         Library library = new Library()
-            .groupId(UPDATED_GROUP_ID)
-            .artifactId(UPDATED_ARTIFACT_ID)
+            .namespace(UPDATED_GROUP_ID)
+            .name(UPDATED_ARTIFACT_ID)
             .version(UPDATED_VERSION)
             .type(UPDATED_TYPE)
             .originalLicense(UPDATED_ORIGINAL_LICENSE)
@@ -205,8 +205,8 @@ class LibraryResourceIT {
         List<Library> libraryList = libraryRepository.findAll();
         assertThat(libraryList).hasSize(databaseSizeBeforeCreate + 1);
         Library testLibrary = libraryList.get(libraryList.size() - 1);
-        assertThat(testLibrary.getGroupId()).isEqualTo(DEFAULT_GROUP_ID);
-        assertThat(testLibrary.getArtifactId()).isEqualTo(DEFAULT_ARTIFACT_ID);
+        assertThat(testLibrary.getNamespace()).isEqualTo(DEFAULT_GROUP_ID);
+        assertThat(testLibrary.getName()).isEqualTo(DEFAULT_ARTIFACT_ID);
         assertThat(testLibrary.getVersion()).isEqualTo(DEFAULT_VERSION);
         Assertions.assertThat(testLibrary.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testLibrary.getOriginalLicense()).isEqualTo(DEFAULT_ORIGINAL_LICENSE);
@@ -246,10 +246,10 @@ class LibraryResourceIT {
 
     @Test
     @Transactional
-    void checkArtifactIdIsRequired() throws Exception {
+    void checkNameIsRequired() throws Exception {
         int databaseSizeBeforeTest = libraryRepository.findAll().size();
         // set the field null
-        library.setArtifactId(null);
+        library.setName(null);
 
         // Create the Library, which fails.
 
@@ -290,8 +290,8 @@ class LibraryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(library.getId().intValue())))
-            .andExpect(jsonPath("$.[*].groupId").value(hasItem(DEFAULT_GROUP_ID)))
-            .andExpect(jsonPath("$.[*].artifactId").value(hasItem(DEFAULT_ARTIFACT_ID)))
+            .andExpect(jsonPath("$.[*].namespace").value(hasItem(DEFAULT_GROUP_ID)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_ARTIFACT_ID)))
             .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].originalLicense").value(hasItem(DEFAULT_ORIGINAL_LICENSE)))
@@ -341,8 +341,8 @@ class LibraryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(library.getId().intValue()))
-            .andExpect(jsonPath("$.groupId").value(DEFAULT_GROUP_ID))
-            .andExpect(jsonPath("$.artifactId").value(DEFAULT_ARTIFACT_ID))
+            .andExpect(jsonPath("$.namespace").value(DEFAULT_GROUP_ID))
+            .andExpect(jsonPath("$.name").value(DEFAULT_ARTIFACT_ID))
             .andExpect(jsonPath("$.version").value(DEFAULT_VERSION))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.originalLicense").value(DEFAULT_ORIGINAL_LICENSE))
@@ -382,158 +382,158 @@ class LibraryResourceIT {
 
     @Test
     @Transactional
-    void getAllLibrariesByGroupIdIsEqualToSomething() throws Exception {
+    void getAllLibrariesByNamespaceIsEqualToSomething() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where groupId equals to DEFAULT_GROUP_ID
-        defaultLibraryShouldBeFound("groupId.equals=" + DEFAULT_GROUP_ID);
+        // Get all the libraryList where namespace equals to DEFAULT_GROUP_ID
+        defaultLibraryShouldBeFound("namespace.equals=" + DEFAULT_GROUP_ID);
 
-        // Get all the libraryList where groupId equals to UPDATED_GROUP_ID
-        defaultLibraryShouldNotBeFound("groupId.equals=" + UPDATED_GROUP_ID);
+        // Get all the libraryList where namespace equals to UPDATED_GROUP_ID
+        defaultLibraryShouldNotBeFound("namespace.equals=" + UPDATED_GROUP_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByGroupIdIsNotEqualToSomething() throws Exception {
+    void getAllLibrariesByNamespaceIsNotEqualToSomething() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where groupId not equals to DEFAULT_GROUP_ID
-        defaultLibraryShouldNotBeFound("groupId.notEquals=" + DEFAULT_GROUP_ID);
+        // Get all the libraryList where namespace not equals to DEFAULT_GROUP_ID
+        defaultLibraryShouldNotBeFound("namespace.notEquals=" + DEFAULT_GROUP_ID);
 
-        // Get all the libraryList where groupId not equals to UPDATED_GROUP_ID
-        defaultLibraryShouldBeFound("groupId.notEquals=" + UPDATED_GROUP_ID);
+        // Get all the libraryList where namespace not equals to UPDATED_GROUP_ID
+        defaultLibraryShouldBeFound("namespace.notEquals=" + UPDATED_GROUP_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByGroupIdIsInShouldWork() throws Exception {
+    void getAllLibrariesByNamespaceIsInShouldWork() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where groupId in DEFAULT_GROUP_ID or UPDATED_GROUP_ID
-        defaultLibraryShouldBeFound("groupId.in=" + DEFAULT_GROUP_ID + "," + UPDATED_GROUP_ID);
+        // Get all the libraryList where namespace in DEFAULT_GROUP_ID or UPDATED_GROUP_ID
+        defaultLibraryShouldBeFound("namespace.in=" + DEFAULT_GROUP_ID + "," + UPDATED_GROUP_ID);
 
-        // Get all the libraryList where groupId equals to UPDATED_GROUP_ID
-        defaultLibraryShouldNotBeFound("groupId.in=" + UPDATED_GROUP_ID);
+        // Get all the libraryList where namespace equals to UPDATED_GROUP_ID
+        defaultLibraryShouldNotBeFound("namespace.in=" + UPDATED_GROUP_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByGroupIdIsNullOrNotNull() throws Exception {
+    void getAllLibrariesByNamespaceIsNullOrNotNull() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where groupId is not null
-        defaultLibraryShouldBeFound("groupId.specified=true");
+        // Get all the libraryList where namespace is not null
+        defaultLibraryShouldBeFound("namespace.specified=true");
 
-        // Get all the libraryList where groupId is null
-        defaultLibraryShouldNotBeFound("groupId.specified=false");
+        // Get all the libraryList where namespace is null
+        defaultLibraryShouldNotBeFound("namespace.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByGroupIdContainsSomething() throws Exception {
+    void getAllLibrariesByNamespaceContainsSomething() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where groupId contains DEFAULT_GROUP_ID
-        defaultLibraryShouldBeFound("groupId.contains=" + DEFAULT_GROUP_ID);
+        // Get all the libraryList where namespace contains DEFAULT_GROUP_ID
+        defaultLibraryShouldBeFound("namespace.contains=" + DEFAULT_GROUP_ID);
 
-        // Get all the libraryList where groupId contains UPDATED_GROUP_ID
-        defaultLibraryShouldNotBeFound("groupId.contains=" + UPDATED_GROUP_ID);
+        // Get all the libraryList where namespace contains UPDATED_GROUP_ID
+        defaultLibraryShouldNotBeFound("namespace.contains=" + UPDATED_GROUP_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByGroupIdNotContainsSomething() throws Exception {
+    void getAllLibrariesByNamespaceNotContainsSomething() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where groupId does not contain DEFAULT_GROUP_ID
-        defaultLibraryShouldNotBeFound("groupId.doesNotContain=" + DEFAULT_GROUP_ID);
+        // Get all the libraryList where namespace does not contain DEFAULT_GROUP_ID
+        defaultLibraryShouldNotBeFound("namespace.doesNotContain=" + DEFAULT_GROUP_ID);
 
-        // Get all the libraryList where groupId does not contain UPDATED_GROUP_ID
-        defaultLibraryShouldBeFound("groupId.doesNotContain=" + UPDATED_GROUP_ID);
+        // Get all the libraryList where namespace does not contain UPDATED_GROUP_ID
+        defaultLibraryShouldBeFound("namespace.doesNotContain=" + UPDATED_GROUP_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByArtifactIdIsEqualToSomething() throws Exception {
+    void getAllLibrariesByNameIsEqualToSomething() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where artifactId equals to DEFAULT_ARTIFACT_ID
-        defaultLibraryShouldBeFound("artifactId.equals=" + DEFAULT_ARTIFACT_ID);
+        // Get all the libraryList where name equals to DEFAULT_ARTIFACT_ID
+        defaultLibraryShouldBeFound("name.equals=" + DEFAULT_ARTIFACT_ID);
 
-        // Get all the libraryList where artifactId equals to UPDATED_ARTIFACT_ID
-        defaultLibraryShouldNotBeFound("artifactId.equals=" + UPDATED_ARTIFACT_ID);
+        // Get all the libraryList where name equals to UPDATED_ARTIFACT_ID
+        defaultLibraryShouldNotBeFound("name.equals=" + UPDATED_ARTIFACT_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByArtifactIdIsNotEqualToSomething() throws Exception {
+    void getAllLibrariesByNameIsNotEqualToSomething() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where artifactId not equals to DEFAULT_ARTIFACT_ID
-        defaultLibraryShouldNotBeFound("artifactId.notEquals=" + DEFAULT_ARTIFACT_ID);
+        // Get all the libraryList where name not equals to DEFAULT_ARTIFACT_ID
+        defaultLibraryShouldNotBeFound("name.notEquals=" + DEFAULT_ARTIFACT_ID);
 
-        // Get all the libraryList where artifactId not equals to UPDATED_ARTIFACT_ID
-        defaultLibraryShouldBeFound("artifactId.notEquals=" + UPDATED_ARTIFACT_ID);
+        // Get all the libraryList where name not equals to UPDATED_ARTIFACT_ID
+        defaultLibraryShouldBeFound("name.notEquals=" + UPDATED_ARTIFACT_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByArtifactIdIsInShouldWork() throws Exception {
+    void getAllLibrariesByNameIsInShouldWork() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where artifactId in DEFAULT_ARTIFACT_ID or UPDATED_ARTIFACT_ID
-        defaultLibraryShouldBeFound("artifactId.in=" + DEFAULT_ARTIFACT_ID + "," + UPDATED_ARTIFACT_ID);
+        // Get all the libraryList where name in DEFAULT_ARTIFACT_ID or UPDATED_ARTIFACT_ID
+        defaultLibraryShouldBeFound("name.in=" + DEFAULT_ARTIFACT_ID + "," + UPDATED_ARTIFACT_ID);
 
-        // Get all the libraryList where artifactId equals to UPDATED_ARTIFACT_ID
-        defaultLibraryShouldNotBeFound("artifactId.in=" + UPDATED_ARTIFACT_ID);
+        // Get all the libraryList where name equals to UPDATED_ARTIFACT_ID
+        defaultLibraryShouldNotBeFound("name.in=" + UPDATED_ARTIFACT_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByArtifactIdIsNullOrNotNull() throws Exception {
+    void getAllLibrariesByNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where artifactId is not null
-        defaultLibraryShouldBeFound("artifactId.specified=true");
+        // Get all the libraryList where name is not null
+        defaultLibraryShouldBeFound("name.specified=true");
 
-        // Get all the libraryList where artifactId is null
-        defaultLibraryShouldNotBeFound("artifactId.specified=false");
+        // Get all the libraryList where name is null
+        defaultLibraryShouldNotBeFound("name.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByArtifactIdContainsSomething() throws Exception {
+    void getAllLibrariesByNameContainsSomething() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where artifactId contains DEFAULT_ARTIFACT_ID
-        defaultLibraryShouldBeFound("artifactId.contains=" + DEFAULT_ARTIFACT_ID);
+        // Get all the libraryList where name contains DEFAULT_ARTIFACT_ID
+        defaultLibraryShouldBeFound("name.contains=" + DEFAULT_ARTIFACT_ID);
 
-        // Get all the libraryList where artifactId contains UPDATED_ARTIFACT_ID
-        defaultLibraryShouldNotBeFound("artifactId.contains=" + UPDATED_ARTIFACT_ID);
+        // Get all the libraryList where name contains UPDATED_ARTIFACT_ID
+        defaultLibraryShouldNotBeFound("name.contains=" + UPDATED_ARTIFACT_ID);
     }
 
     @Test
     @Transactional
-    void getAllLibrariesByArtifactIdNotContainsSomething() throws Exception {
+    void getAllLibrariesByNameNotContainsSomething() throws Exception {
         // Initialize the database
         libraryRepository.saveAndFlush(library);
 
-        // Get all the libraryList where artifactId does not contain DEFAULT_ARTIFACT_ID
-        defaultLibraryShouldNotBeFound("artifactId.doesNotContain=" + DEFAULT_ARTIFACT_ID);
+        // Get all the libraryList where name does not contain DEFAULT_ARTIFACT_ID
+        defaultLibraryShouldNotBeFound("name.doesNotContain=" + DEFAULT_ARTIFACT_ID);
 
-        // Get all the libraryList where artifactId does not contain UPDATED_ARTIFACT_ID
-        defaultLibraryShouldBeFound("artifactId.doesNotContain=" + UPDATED_ARTIFACT_ID);
+        // Get all the libraryList where name does not contain UPDATED_ARTIFACT_ID
+        defaultLibraryShouldBeFound("name.doesNotContain=" + UPDATED_ARTIFACT_ID);
     }
 
     @Test
@@ -1897,8 +1897,8 @@ class LibraryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(library.getId().intValue())))
-            .andExpect(jsonPath("$.[*].groupId").value(hasItem(DEFAULT_GROUP_ID)))
-            .andExpect(jsonPath("$.[*].artifactId").value(hasItem(DEFAULT_ARTIFACT_ID)))
+            .andExpect(jsonPath("$.[*].namespace").value(hasItem(DEFAULT_GROUP_ID)))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_ARTIFACT_ID)))
             .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION)))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].originalLicense").value(hasItem(DEFAULT_ORIGINAL_LICENSE)))
@@ -1964,8 +1964,8 @@ class LibraryResourceIT {
         // Disconnect from session so that the updates on updatedLibrary are not directly saved in db
         em.detach(updatedLibrary);
         updatedLibrary
-            .groupId(UPDATED_GROUP_ID)
-            .artifactId(UPDATED_ARTIFACT_ID)
+            .namespace(UPDATED_GROUP_ID)
+            .name(UPDATED_ARTIFACT_ID)
             .version(UPDATED_VERSION)
             .type(UPDATED_TYPE)
             .originalLicense(UPDATED_ORIGINAL_LICENSE)
@@ -1996,8 +1996,8 @@ class LibraryResourceIT {
         List<Library> libraryList = libraryRepository.findAll();
         assertThat(libraryList).hasSize(databaseSizeBeforeUpdate);
         Library testLibrary = libraryList.get(libraryList.size() - 1);
-        assertThat(testLibrary.getGroupId()).isEqualTo(UPDATED_GROUP_ID);
-        assertThat(testLibrary.getArtifactId()).isEqualTo(UPDATED_ARTIFACT_ID);
+        assertThat(testLibrary.getNamespace()).isEqualTo(UPDATED_GROUP_ID);
+        assertThat(testLibrary.getName()).isEqualTo(UPDATED_ARTIFACT_ID);
         assertThat(testLibrary.getVersion()).isEqualTo(UPDATED_VERSION);
         Assertions.assertThat(testLibrary.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testLibrary.getOriginalLicense()).isEqualTo(UPDATED_ORIGINAL_LICENSE);
@@ -2112,8 +2112,8 @@ class LibraryResourceIT {
         List<Library> libraryList = libraryRepository.findAll();
         assertThat(libraryList).hasSize(databaseSizeBeforeUpdate);
         Library testLibrary = libraryList.get(libraryList.size() - 1);
-        assertThat(testLibrary.getGroupId()).isEqualTo(DEFAULT_GROUP_ID);
-        assertThat(testLibrary.getArtifactId()).isEqualTo(DEFAULT_ARTIFACT_ID);
+        assertThat(testLibrary.getNamespace()).isEqualTo(DEFAULT_GROUP_ID);
+        assertThat(testLibrary.getName()).isEqualTo(DEFAULT_ARTIFACT_ID);
         assertThat(testLibrary.getVersion()).isEqualTo(UPDATED_VERSION);
         Assertions.assertThat(testLibrary.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testLibrary.getOriginalLicense()).isEqualTo(DEFAULT_ORIGINAL_LICENSE);
@@ -2146,8 +2146,8 @@ class LibraryResourceIT {
         partialUpdatedLibrary.setId(library.getId());
 
         partialUpdatedLibrary
-            .groupId(UPDATED_GROUP_ID)
-            .artifactId(UPDATED_ARTIFACT_ID)
+            .namespace(UPDATED_GROUP_ID)
+            .name(UPDATED_ARTIFACT_ID)
             .version(UPDATED_VERSION)
             .type(UPDATED_TYPE)
             .originalLicense(UPDATED_ORIGINAL_LICENSE)
@@ -2178,8 +2178,8 @@ class LibraryResourceIT {
         List<Library> libraryList = libraryRepository.findAll();
         assertThat(libraryList).hasSize(databaseSizeBeforeUpdate);
         Library testLibrary = libraryList.get(libraryList.size() - 1);
-        assertThat(testLibrary.getGroupId()).isEqualTo(UPDATED_GROUP_ID);
-        assertThat(testLibrary.getArtifactId()).isEqualTo(UPDATED_ARTIFACT_ID);
+        assertThat(testLibrary.getNamespace()).isEqualTo(UPDATED_GROUP_ID);
+        assertThat(testLibrary.getName()).isEqualTo(UPDATED_ARTIFACT_ID);
         assertThat(testLibrary.getVersion()).isEqualTo(UPDATED_VERSION);
         Assertions.assertThat(testLibrary.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testLibrary.getOriginalLicense()).isEqualTo(UPDATED_ORIGINAL_LICENSE);
