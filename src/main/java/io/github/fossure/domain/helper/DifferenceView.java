@@ -16,21 +16,21 @@ public class DifferenceView implements Serializable {
     private List<Library> sameLibraries;
     private List<Library> addedLibraries;
     private List<Library> removedLibraries;
-    private List<Library> firstProductNewLibraries;
-    private List<Library> secondProductNewLibraries;
+    private List<Library> firstProjectNewLibraries;
+    private List<Library> secondProjectNewLibraries;
 
     public DifferenceView(
         List<Library> sameLibraries,
         List<Library> addedLibraries,
         List<Library> removedLibraries,
-        List<Library> firstProductNewLibraries,
-        List<Library> secondProductNewLibraries
+        List<Library> firstProjectNewLibraries,
+        List<Library> secondProjectNewLibraries
     ) {
         this.sameLibraries = sameLibraries;
         this.addedLibraries = addedLibraries;
         this.removedLibraries = removedLibraries;
-        this.firstProductNewLibraries = firstProductNewLibraries;
-        this.secondProductNewLibraries = secondProductNewLibraries;
+        this.firstProjectNewLibraries = firstProjectNewLibraries;
+        this.secondProjectNewLibraries = secondProjectNewLibraries;
     }
 
     /**
@@ -107,20 +107,20 @@ public class DifferenceView implements Serializable {
         this.removedLibraries = removedLibraries;
     }
 
-    public List<Library> getFirstProductNewLibraries() {
-        return firstProductNewLibraries;
+    public List<Library> getFirstProjectNewLibraries() {
+        return firstProjectNewLibraries;
     }
 
-    public void setFirstProductNewLibraries(List<Library> firstProductNewLibraries) {
-        this.firstProductNewLibraries = firstProductNewLibraries;
+    public void setFirstProjectNewLibraries(List<Library> firstProjectNewLibraries) {
+        this.firstProjectNewLibraries = firstProjectNewLibraries;
     }
 
-    public List<Library> getSecondProductNewLibraries() {
-        return secondProductNewLibraries;
+    public List<Library> getSecondProjectNewLibraries() {
+        return secondProjectNewLibraries;
     }
 
-    public void setSecondProductNewLibraries(List<Library> secondProductNewLibraries) {
-        this.secondProductNewLibraries = secondProductNewLibraries;
+    public void setSecondProjectNewLibraries(List<Library> secondProjectNewLibraries) {
+        this.secondProjectNewLibraries = secondProjectNewLibraries;
     }
 
     @Override

@@ -86,7 +86,7 @@ public class LicenseResource {
             licenseService.createLicenseConflictsForExistingLicenses(result);
 
             return ResponseEntity
-                .created(new URI("/api/licenses/" + result.getId()))
+                .created(new URI("/api/v1/licenses/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
                 .body(result);
         } catch (LicenseException e) {

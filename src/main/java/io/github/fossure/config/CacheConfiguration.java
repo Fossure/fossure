@@ -62,9 +62,9 @@ public class CacheConfiguration {
             createCache(cm, LicenseRisk.class.getName());
             createCache(cm, Requirement.class.getName());
             createCache(cm, Requirement.class.getName() + ".licenses");
-            createCache(cm, Product.class.getName());
-            createCache(cm, Product.class.getName() + ".libraries");
-            createCache(cm, LibraryPerProduct.class.getName());
+            createCache(cm, Project.class.getName());
+            createCache(cm, Project.class.getName() + ".libraries");
+            createCache(cm, Dependency.class.getName());
             createCache(cm, LicenseNamingMapping.class.getName());
             createCache(cm, GenericLicenseUrl.class.getName());
             createCache(cm, Upload.class.getName());

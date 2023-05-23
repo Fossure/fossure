@@ -1,15 +1,15 @@
 <ng-container *ngIf="noDifferenceViewPossible === false; else noDifferenceView">
   <div class="row g-3">
-    <form class="col-12" name="productComparisonForm" role="form" novalidate [formGroup]="productComparisonForm">
-      <div *ngIf="showProductSelection; else comparedProductNames" class="row justify-content-center align-items-center">
+    <form [formGroup]="projectComparisonForm" class="col-12" name="projectComparisonForm" novalidate role="form">
+      <div *ngIf="showProjectSelection; else comparedProjectNames" class="row justify-content-center align-items-center">
         <div class="col-md-4">
-          <select class="form-control" id="field_firstProduct" data-cy="firstProduct" name="firstProduct" formControlName="firstProduct">
-            <option [ngValue]="null">Choose first product</option>
+          <select class="form-control" data-cy="firstProject" formControlName="firstProject" id="field_firstProject" name="firstProject">
+            <option [ngValue]="null">Choose first project</option>
             <option
-              [ngValue]="getSingleProduct(productOption, productComparisonForm.get('firstProduct')!.value)"
-              *ngFor="let productOption of productsSharedCollection; trackBy: trackProductById"
+              *ngFor="let projectOption of projectsSharedCollection; trackBy: trackProjectById"
+              [ngValue]="getSingleProject(projectOption, projectComparisonForm.get('firstProject')!.value)"
             >
-              {{ productOption.name }} : {{ productOption.version }}
+              {{ projectOption.name }} : {{ projectOption.version }}
             </option>
           </select>
         </div>
@@ -20,17 +20,17 @@
         <div class="col-md-4">
           <select
             class="form-control"
-            id="field_secondProduct"
-            data-cy="secondProduct"
-            name="secondProduct"
-            formControlName="secondProduct"
+            data-cy="secondProject"
+            formControlName="secondProject"
+            id="field_secondProject"
+            name="secondProject"
           >
-            <option [ngValue]="null">Choose second product</option>
+            <option [ngValue]="null">Choose second project</option>
             <option
-              [ngValue]="getSingleProduct(productOption, productComparisonForm.get('secondProduct')!.value)"
-              *ngFor="let productOption of productsSharedCollection; trackBy: trackProductById"
+              *ngFor="let projectOption of projectsSharedCollection; trackBy: trackProjectById"
+              [ngValue]="getSingleProject(projectOption, projectComparisonForm.get('secondProject')!.value)"
             >
-              {{ productOption.name }} : {{ productOption.version }}
+              {{ projectOption.name }} : {{ projectOption.version }}
             </option>
           </select>
         </div>
@@ -56,11 +56,11 @@
                     formControlName="showLeft"
                   />
                   <label class="form-check-label" for="field_showLeft"
-                    >Result of first selected product
+                    >Result of first selected project
                     <fa-icon
                       icon="question-circle"
                       placement="top"
-                      ngbTooltip="Show the result of the libraries for the first selected product. Only the libraries that are not present in the other product are displayed here."
+                      ngbTooltip="Show the result of the libraries for the first selected project. Only the libraries that are not present in the other project are displayed here."
                       container="body"
                     ></fa-icon>
                   </label>
@@ -82,7 +82,7 @@
                     <fa-icon
                       icon="question-circle"
                       placement="top"
-                      ngbTooltip="Show the results where the same libraries are present in both products."
+                      ngbTooltip="Show the results where the same libraries are present in both projects."
                       container="body"
                     ></fa-icon>
                   </label>
@@ -100,11 +100,11 @@
                     style="float: none"
                   />
                   <label class="form-check-label" for="field_showRight"
-                    >Result of second selected product
+                    >Result of second selected project
                     <fa-icon
                       icon="question-circle"
                       placement="top"
-                      ngbTooltip="Show the result of the libraries for the second selected product. Only the libraries that are not present in the other product are displayed here."
+                      ngbTooltip="Show the result of the libraries for the second selected project. Only the libraries that are not present in the other project are displayed here."
                       container="body"
                     ></fa-icon>
                   </label>
@@ -195,8 +195,8 @@
               <tr>
                 <th scope="col">
                   <span
-                    >Result for {{ productComparisonForm.get('firstProduct')!.value?.name }} :
-                    {{ productComparisonForm.get('firstProduct')!.value?.version }}</span
+                    >Result for {{ projectComparisonForm.get('firstProject')!.value?.name }} :
+                    {{ projectComparisonForm.get('firstProject')!.value?.version }}</span
                   >
                 </th>
               </tr>
@@ -205,7 +205,7 @@
               *ngIf="differenceView.addedLibraries && differenceView.addedLibraries.length > 0; else emptyResult"
               class="break font-size-88"
             >
-              <ng-container *ngIf="!optionsForm.get('onlyNewLibraries')!.value; else firstProductNewLibraries">
+              <ng-container *ngIf="!optionsForm.get('onlyNewLibraries')!.value; else firstProjectNewLibraries">
                 <tr *ngFor="let library of differenceView?.addedLibraries">
                   <td>
                     <a [routerLink]="['/library', library.id, 'view']" target="_blank">{{ library | libraryLabel }}</a>
@@ -214,7 +214,7 @@
                       [ngTemplateOutletContext]="{ library: library }"
                     ></ng-container>
                     <fa-icon
-                      *ngIf="isNew(differenceView?.firstProductNewLibraries, library)"
+                      *ngIf="isNew(differenceView?.firstProjectNewLibraries, library)"
                       class="ms-1 text-warning"
                       icon="star"
                       ngbTooltip="New Library"
@@ -222,8 +222,8 @@
                   </td>
                 </tr>
               </ng-container>
-              <ng-template #firstProductNewLibraries>
-                <tr *ngFor="let library of differenceView?.firstProductNewLibraries">
+              <ng-template #firstProjectNewLibraries>
+                <tr *ngFor="let library of differenceView?.firstProjectNewLibraries">
                   <td>
                     <a [routerLink]="['/library', library.id, 'view']" target="_blank">{{ library | libraryLabel }}</a>
                     <ng-container
@@ -273,8 +273,8 @@
               <tr>
                 <th scope="col">
                   <span
-                    >Result for {{ productComparisonForm.get('secondProduct')!.value?.name }} :
-                    {{ productComparisonForm.get('secondProduct')!.value?.version }}</span
+                    >Result for {{ projectComparisonForm.get('secondProject')!.value?.name }} :
+                    {{ projectComparisonForm.get('secondProject')!.value?.version }}</span
                   >
                 </th>
               </tr>
@@ -283,7 +283,7 @@
               *ngIf="differenceView.removedLibraries && differenceView.removedLibraries.length > 0; else emptyResult"
               class="break font-size-88"
             >
-              <ng-container *ngIf="!optionsForm.get('onlyNewLibraries')!.value; else secondProductNewLibraries">
+              <ng-container *ngIf="!optionsForm.get('onlyNewLibraries')!.value; else secondProjectNewLibraries">
                 <tr *ngFor="let library of differenceView?.removedLibraries">
                   <td>
                     <a [routerLink]="['/library', library.id, 'view']" target="_blank">{{ library | libraryLabel }}</a>
@@ -292,7 +292,7 @@
                       [ngTemplateOutletContext]="{ library: library }"
                     ></ng-container>
                     <fa-icon
-                      *ngIf="isNew(differenceView?.secondProductNewLibraries, library)"
+                      *ngIf="isNew(differenceView?.secondProjectNewLibraries, library)"
                       class="ms-1 text-warning"
                       icon="star"
                       ngbTooltip="New Library"
@@ -300,8 +300,8 @@
                   </td>
                 </tr>
               </ng-container>
-              <ng-template #secondProductNewLibraries>
-                <tr *ngFor="let library of differenceView?.secondProductNewLibraries">
+              <ng-template #secondProjectNewLibraries>
+                <tr *ngFor="let library of differenceView?.secondProjectNewLibraries">
                   <td>
                     <a [routerLink]="['/library', library.id, 'view']" target="_blank">{{ library | libraryLabel }}</a>
                     <ng-container
@@ -367,15 +367,15 @@
     </span>
   </ng-container>
 </ng-template>
-<ng-template #comparedProductNames>
-  <ng-container *ngIf="isLoading; then loading2; else productNamesContent"></ng-container>
-  <ng-template #productNamesContent>
+<ng-template #comparedProjectNames>
+  <ng-container *ngIf="isLoading; then loading2; else projectNamesContent"></ng-container>
+  <ng-template #projectNamesContent>
     <h5>
       Comparing
-      <b>{{ productComparisonForm.get('firstProduct')?.value?.name }} : {{ productComparisonForm.get('firstProduct')?.value?.version }}</b>
+      <b>{{ projectComparisonForm.get('firstProject')?.value?.name }} : {{ projectComparisonForm.get('firstProject')?.value?.version }}</b>
       with
       <b
-        >{{ productComparisonForm.get('secondProduct')?.value?.name }} : {{ productComparisonForm.get('secondProduct')?.value?.version }}</b
+        >{{ projectComparisonForm.get('secondProject')?.value?.name }} : {{ projectComparisonForm.get('secondProject')?.value?.version }}</b
       >
     </h5>
   </ng-template>

@@ -13,8 +13,8 @@ import { ILibrary } from 'app/entities/library/library.model';
 import { LibraryService } from 'app/entities/library/service/library.service';
 import { ILicense } from 'app/entities/license/license.model';
 import { LicenseService } from 'app/entities/license/service/license.service';
-import { IProduct } from 'app/entities/product/product.model';
-import { ProductService } from 'app/entities/product/service/product.service';
+import { IProject } from 'app/entities/project/project.model';
+import { ProjectService } from 'app/entities/project/service/project.service';
 import { DESC } from '../config/pagination.constants';
 import { IInsights } from './home.model';
 import { HomeService } from './home.service';
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   libraryFinding?: ILibrary;
   licenseFinding?: ILicense;
   insights: IInsights | null;
-  products?: IProduct[];
+  projects?: IProject[];
   libraries?: ILibrary[];
   licenses?: ILicense[];
 
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     protected accountService: AccountService,
     protected router: Router,
     protected homeService: HomeService,
-    protected productService: ProductService,
+    protected projectService: ProjectService,
     protected libraryService: LibraryService,
     protected licenseService: LicenseService,
     protected fb: UntypedFormBuilder,
@@ -68,15 +68,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     const pageToLoad = 0;
     const pageSize = 5;
 
-    this.productService
+    this.projectService
       .query({
-        'lastUpdatedDate.specified': true, // show only products where the last lastUpdatedDate field is not null
+        'lastUpdatedDate.specified': true, // show only projects where the last lastUpdatedDate field is not null
         page: pageToLoad,
         size: pageSize,
         sort: ['lastUpdatedDate' + ',' + DESC, 'name'], // sort first by lastUpdatedDate and than by name
       })
-      .subscribe((res: HttpResponse<IProduct[]>) => {
-        this.products = res.body ?? [];
+      .subscribe((res: HttpResponse<IProject[]>) => {
+        this.projects = res.body ?? [];
       });
 
     this.libraryService

@@ -28,7 +28,7 @@ describe('Upload Service', () => {
       id: 0,
       fileContentType: 'image/png',
       file: 'AAAAAAA',
-      entityToUpload: EntityUploadChoice.PRODUCT,
+      entityToUpload: EntityUploadChoice.PROJECT,
       record: 0,
       overwriteData: false,
       uploadedDate: currentDate,

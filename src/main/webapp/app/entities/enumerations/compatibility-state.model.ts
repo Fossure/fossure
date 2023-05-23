@@ -1,7 +1,7 @@
 export enum CompatibilityState {
-  Compatible = 'Compatible',
+  COMPATIBLE = 'COMPATIBLE',
 
-  Incompatible = 'Incompatible',
+  INCOMPATIBLE = 'INCOMPATIBLE',
 
-  Unknown = 'Unknown',
+  UNKNOWN = 'UNKNOWN',
 }

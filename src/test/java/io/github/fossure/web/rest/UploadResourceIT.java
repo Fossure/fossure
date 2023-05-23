@@ -38,7 +38,7 @@ class UploadResourceIT {
     private static final String DEFAULT_FILE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_FILE_CONTENT_TYPE = "image/png";
 
-    private static final EntityUploadChoice DEFAULT_ENTITY_TO_UPLOAD = EntityUploadChoice.PRODUCT;
+    private static final EntityUploadChoice DEFAULT_ENTITY_TO_UPLOAD = EntityUploadChoice.PROJECT;
     private static final EntityUploadChoice UPDATED_ENTITY_TO_UPLOAD = EntityUploadChoice.LIBRARY;
 
     private static final Integer DEFAULT_RECORD = 1;

@@ -1050,6 +1050,12 @@ pre {
   border-color: transparent !important;
 }
 
+.badge-disabled {
+  color: $secondary;
+  background-color: #e2e6ea;
+  border-color: transparent;
+}
+
 .risk-box {
   color: $white;
   border-radius: $border-radius-lg;
@@ -1062,7 +1068,7 @@ pre {
   font-size: 88%;
 }
 
-.product-overview-card {
+.project-overview-card {
   border-left: 4px solid black;
   width: 164px;
 }

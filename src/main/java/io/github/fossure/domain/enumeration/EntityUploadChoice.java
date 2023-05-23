@@ -4,7 +4,7 @@ package io.github.fossure.domain.enumeration;
  * The EntityUploadChoice enumeration.
  */
 public enum EntityUploadChoice {
-    PRODUCT("Product"),
+    PROJECT("Project"),
     LIBRARY("Library"),
     LICENSE("License");
 

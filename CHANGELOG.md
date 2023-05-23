@@ -9,7 +9,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Upload to products by URL. Fossure downloads a specified URL and processes the file with the corresponding asset loader.
+- Upload to projects by URL. Fossure downloads a specified URL and processes the file with the corresponding asset loader.
 - Added "application/octet-stream" type for the archive loader.
 - Automatic search for Maven licenses on central.sonatype.dev.
 - Automatic search for NPM licenses on registry.npmjs.org.
@@ -39,13 +39,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - New license conflict table. For every license the compatibility to every other license can be defined.
   If a library has incompatible license combinations then it will be logged in the library.
-- New filter in product detail view for libraries with license conflicts.
-- New filter in product detail view for new libraries after an upload.
+- New filter in project detail view for libraries with license conflicts.
+- New filter in project detail view for new libraries after an upload.
 
 ### Changed
 
 - JHipster upgrade to version 7.9.3.
-- The statistics in the product detail view are only loaded when you switch to the statistics tab
+- The statistics in the project detail view are only loaded when you switch to the statistics tab
   (perfomance improvement).
 - When loading lists, such as licenses or license conflicts, not all attributes of the entities are loaded,
   but a minimized variant.
@@ -59,13 +59,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 
 - Removed license risk "Unlicensed". Libraries without license information will get the "Unknown" license risk.
-- Bugfix for colors/order of license risk filters in the product detail view.
+- Bugfix for colors/order of license risk filters in the project detail view.
 
 ## [0.6.0] - 2022-07-25
 
 ### Added
 
-- Difference view between two products. It's possible to compare two products and see the results of the differences.
+- Difference view between two projects. It's possible to compare two projects and see the results of the differences.
 
 ## [0.5.3] - 2022-06-02
 
@@ -73,12 +73,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Fields for deep scan reviews. A library contains now the fields reviewedDeepScan, lastReviewedDeepScanDate and
   lastReviewedDeepScanBy.
-- Added functionality to hide and add a comment for a library in a specific product.
+- Added functionality to hide and add a comment for a library in a specific project.
 
 ### Changed
 
-- The bug that occurred when deleting products with included libraries has been fixed.
-  Products with libraries can now be deleted.
+- The bug that occurred when deleting projects with included libraries has been fixed.
+  Projects with libraries can now be deleted.
 - Upgrade to Angular 14 and other dependency upgrades.
 
 ## [0.5.2.1] - 2022-05-10
@@ -103,9 +103,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 
 - Bugfix for the Fossology integration. The Fossology scan information disappeared after editing and saving the library.
-- Bugfix for the license search field in the product detail view. Search fields works again.
-- Bugfix for the upload status of a product. Switch to "Processing" after the upload works again.
-- Front end fix for the statistic cards at top of the product detail view. Absolute number and percentage change are in
+- Bugfix for the license search field in the project detail view. Search fields works again.
+- Bugfix for the upload status of a project. Switch to "Processing" after the upload works again.
+- Front end fix for the statistic cards at top of the project detail view. Absolute number and percentage change are in
   one line again.
 - Front end fix for login, registration, user management etc. API calls were made to the old endpoint path
   (/api/_ and not /api/v1/_)
@@ -114,12 +114,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- New difference view to compare two products. Shows same, additional and missing libraries between the compared products.
+- New difference view to compare two projects. Shows same, additional and missing libraries between the compared projects.
 
 ### Changed
 
 - Bugfix for the upload status. Switch to "Processing" works again.
-- Bugfix for the deletion of products. Products with libraries can be deleted now.
+- Bugfix for the deletion of projects. Projects with libraries can be deleted now.
 
 ## [0.3.0, 0.4.0 and 0.5.0] - 2022-05-03
 
@@ -127,19 +127,19 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - MD5 and SHA-1 hash fields for libraries.
 - Copyright analysis from source code or / and license texts. Triggered automatically or / and manually.
-- Sort / search / filter the library list in the product detail view.
-- The currently selected page / sort / search / filter, in the product detail view, is retained when the page is
+- Sort / search / filter the library list in the project detail view.
+- The currently selected page / sort / search / filter, in the project detail view, is retained when the page is
   changed. Thus, these entries do not have to be re-entered when switching back to the page.
-- Upload to products of JAR, WAR, ZIP, TAR and other archive files and auto-detection of libraries in it (detects only Maven libraries).
+- Upload to projects of JAR, WAR, ZIP, TAR and other archive files and auto-detection of libraries in it (detects only Maven libraries).
 - Errors can be logged for libraries. These errors are visible in the front end.
-- Search fields for products, libraries and licenses.
+- Search fields for projects, libraries and licenses.
 - Created new user role "READONLY".
-- Statistics for products. Shows different charts for a product and the progression over multiple versions.
+- Statistics for projects. Shows different charts for a project and the progression over multiple versions.
 - New fuzzy search to find a source code archive for a library in the external configured storage.
-- Add upload filter for products. It removes libraries from the upload that matches the upload filter.
+- Add upload filter for projects. It removes libraries from the upload that matches the upload filter.
   Regular expressions can be used.
-- New API endpoint to get the product with state "In Development".
-- Create new product based on a previous version.
+- New API endpoint to get the project with state "In Development".
+- Create new project based on a previous version.
 - Start scans from Fossure for Fossology.
 - Start using changelog!
 
@@ -156,5 +156,5 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Removed
 
-- LicenseZip column in the product table.
+- LicenseZip column in the project table.
 - License column with relation from the library table.

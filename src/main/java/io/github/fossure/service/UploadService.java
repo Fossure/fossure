@@ -155,7 +155,7 @@ public class UploadService {
     /**
      * Handler to process uploaded file that contains libraries.
      * Can parse libraries from CSV and XML (CycloneDX BOM) files.
-     * Saves and updates libraries to the {@link Library} or {@link Product} entity.
+     * Saves and updates libraries to the {@link Library} or {@link Project} entity.
      *
      * @param upload the Upload entity to process.
      * @throws UploadException if an error occurs during processing of the uploaded file.

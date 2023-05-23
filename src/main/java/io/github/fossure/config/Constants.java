@@ -13,7 +13,7 @@ public final class Constants {
 
     // Regex to split by link types and return license names and link type.
     // "Apache-2.0 OR MIT AND GPL-2.0" -> ["Apache-2.0", "OR", "MIT", "AND", "GPL-2.0"]
-    public static final String licenseSplitRegex =
+    public static final String LICENSE_SPLIT_REGEX =
         "(?=/)|(?<=/)|(?=\\s\\+\\s)|(?<=\\s\\+\\s)|" +
         "(?=\\s[oO][rR]\\s)|(?<=\\s[oO][rR]\\s)|" +
         "(?=\\s[aA][nN][dD]\\s)|(?<=\\s[aA][nN][dD]\\s)";

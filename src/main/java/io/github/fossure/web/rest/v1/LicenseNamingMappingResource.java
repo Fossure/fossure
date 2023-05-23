@@ -60,7 +60,7 @@ public class LicenseNamingMappingResource {
         }
         LicenseNamingMapping result = licenseNamingMappingRepository.save(licenseNamingMapping);
         return ResponseEntity
-            .created(new URI("/api/license-naming-mappings/" + result.getId()))
+            .created(new URI("/api/v1/license-naming-mappings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

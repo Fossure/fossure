@@ -32,8 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 class LicenseConflictResourceIT {
 
-    private static final CompatibilityState DEFAULT_COMPATIBILITY = CompatibilityState.Compatible;
-    private static final CompatibilityState UPDATED_COMPATIBILITY = CompatibilityState.Incompatible;
+    private static final CompatibilityState DEFAULT_COMPATIBILITY = CompatibilityState.COMPATIBLE;
+    private static final CompatibilityState UPDATED_COMPATIBILITY = CompatibilityState.INCOMPATIBLE;
 
     private static final String DEFAULT_COMMENT = "AAAAAAAAAA";
     private static final String UPDATED_COMMENT = "BBBBBBBBBB";

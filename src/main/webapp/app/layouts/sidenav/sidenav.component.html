@@ -23,7 +23,7 @@
           class="nav-item"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: false }"
-          ngbPopover="Products"
+          ngbPopover="Projects"
           triggers="mouseenter:mouseleave"
           popoverClass="sidenav-popover"
           placement="end"
@@ -31,9 +31,9 @@
           [openDelay]="0"
           [disablePopover]="!isSidenavCollapsed!"
       >
-        <a class="nav-link" routerLink="product">
+        <a class="nav-link" routerLink="project">
             <fa-icon icon="sitemap"></fa-icon>
-            <span>Products</span>
+            <span>Projects</span>
         </a>
       </li>
       <li *ngSwitchCase="true" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }"

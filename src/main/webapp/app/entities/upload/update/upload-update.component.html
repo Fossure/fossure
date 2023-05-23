@@ -45,13 +45,13 @@
               data-cy="entityToUpload"
             >
               <option value="LIBRARY">Library</option>
-              <option value="PRODUCT">Product</option>
+              <option value="PROJECT">Project</option>
               <option value="LICENSE">License</option>
             </select>
           </div>
 
-          <div class="form-group" *ngIf="editForm.get('entityToUpload')!.value === 'PRODUCT'">
-            <label class="form-control-label" for="field_record">ID of the Product</label>
+          <div *ngIf="editForm.get('entityToUpload')!.value === 'PROJECT'" class="form-group">
+            <label class="form-control-label" for="field_record">ID of the Project</label>
             <input type="number" class="form-control" name="record" id="field_record" data-cy="record" formControlName="record" />
           </div>
 

@@ -1,27 +1,25 @@
-entity Product {
+entity Project {
 	name String required,
-    identifier String required,
+    label String required,
     version String required,
     createdDate LocalDate,
     lastUpdatedDate LocalDate,
-    targetUrl String maxlength(2048),
     uploadState UploadState,
     disclaimer TextBlob,
     delivered Boolean,
     deliveredDate Instant,
     contact String maxlength(2048),
     comment String maxlength(4096),
-    previousProductId Integer,
     uploadFilter String maxlength(2048)
 }
 
 enum UploadState {
-    SUCCESSFUL("Successful"),
+    OK("Ok"),
     PROCESSING(Processing),
     FAILURE(Failure)
 }
 
-entity LibraryPerProduct {
+entity Dependency {
 	addedDate LocalDate,
     addedManually Boolean,
     hideForPublishing Boolean
@@ -162,7 +160,7 @@ enum LogStatus {
 }
 
 enum EntityUploadChoice {
-	PRODUCT(Product),
+	PROJECT(Project),
 	LIBRARY(Library),
     LICENSE(License)
 }
@@ -177,9 +175,13 @@ enum FossologyStatus {
 }
 
 enum CompatibilityState {
-    Compatible("Compatible"),
-    Incompatible("Incompatible"),
-    Unknown("Unknown")
+    COMPATIBLE("Compatible"),
+    INCOMPATIBLE("Incompatible"),
+    UNKNOWN("Unknown")
+}
+
+relationship OneToOne {
+    Project{previousProject} to Project
 }
 
 relationship OneToOne {
@@ -192,12 +194,12 @@ relationship ManyToMany {
     License{requirement(shortText)} to Requirement{license(shortIdentifier)}
 }
 
-// Simulate a ManyToMany relationship between Product and Library with additional attributes
+// Simulate a ManyToMany relationship between Project and Library with additional attributes
 relationship OneToMany {
-	Product{library} to LibraryPerProduct{product},
+	Project{library} to Dependency{project},
 }
 relationship ManyToOne {
-	LibraryPerProduct{library} to Library
+	Dependency{library} to Library
 }
 
 // Simulate a ManyToMany relationship between Library and License with additional attributes
@@ -210,10 +212,10 @@ relationship ManyToOne {
 
 // Simulate a ManyToMany relationship between License and License with additional attributes
 relationship OneToMany {
-	License{licenseConflict} to LicenseConflict{license},
+	License{licenseConflict} to LicenseConflict{secondLicenseConflict},
 }
 relationship ManyToOne {
-	LicenseConflict{license} to License
+	LicenseConflict{firstLicenseConflict} to License
 }
 
 relationship ManyToOne {
@@ -229,14 +231,14 @@ relationship OneToMany {
 
 // Set pagination options
 paginate Requirement, LicenseRisk with infinite-scroll
-paginate Library, License, Product, LibraryPerProduct, Upload, LicensePerLibrary, LibraryErrorLog, LicenseNamingMapping with pagination
+paginate Library, License, Project, Dependency, Upload, LicensePerLibrary, LibraryErrorLog, LicenseNamingMapping with pagination
 
 // Use Data Transfer Objects (DTO)
-//dto Product with mapstruct
+//dto Project with mapstruct
 
 // Set service options
-service Product with serviceClass
-service LibraryPerProduct with serviceClass
+service Project with serviceClass
+service Dependency with serviceClass
 service Library with serviceClass
 service LibraryErrorLog with serviceClass
 service LicensePerLibrary with serviceClass
@@ -244,8 +246,8 @@ service License with serviceClass
 service Upload with serviceClass
 
 // Enable Filters
-filter Product
-filter LibraryPerProduct
+filter Project
+filter Dependency
 filter Library
 filter LibraryErrorLog
 filter LicensePerLibrary

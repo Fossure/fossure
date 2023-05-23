@@ -498,7 +498,7 @@ public class StartupOperations {
                     LicenseConflict licenseConflict = new LicenseConflict()
                         .firstLicenseConflict(licenseEntity)
                         .secondLicenseConflict(licenseEntity2)
-                        .compatibility(CompatibilityState.Unknown);
+                        .compatibility(CompatibilityState.UNKNOWN);
 
                     licenseEntity = licenseEntity.addLicenseConflict(licenseConflict);
                 }

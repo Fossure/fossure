@@ -115,14 +115,14 @@
 
   <div class="row g-3 justify-content-center">
     <div class="col-md-auto">
-      <div class="insight-sm" routerLink="product">
+      <div class="insight-sm" routerLink="project">
         <span>{{ insights?.totalActiveProjects }} / {{ insights?.totalProjects }}</span>
         <span>Active / Projects</span>
         <fa-icon
           class="position-absolute top-0 end-0 text-secondary"
           icon="question-circle"
           transform="shrink-6"
-          ngbTooltip="Projects currently under development / Total number of products"
+          ngbTooltip="Projects currently under development / Total number of projects"
           container="body"
         ></fa-icon>
       </div>
@@ -206,21 +206,21 @@
           <h4 class="fw-semibold">Last Updated Projects</h4>
         </div>
         <div class="col-auto text-end">
-          <a class="text-muted fw-normal" routerLink="product">View all</a>
+          <a class="text-muted fw-normal" routerLink="project">View all</a>
         </div>
       </div>
-      <div class="row text-center" *ngIf="!products || products?.length === 0">
-        <span class="text-muted">No products found.<br /><a [routerLink]="['/product', 'new']">Create your first product 👈</a></span>
+      <div *ngIf="!projects || projects?.length === 0" class="row text-center">
+        <span class="text-muted">No projects found.<br /><a [routerLink]="['/project', 'new']">Create your first project and upload a SBOM 👈</a></span>
       </div>
-      <div class="row mb-2 grid-table" *ngFor="let product of products" [routerLink]="['/product', product.id, 'view']">
+      <div *ngFor="let project of projects" [routerLink]="['/project', project.id, 'view']" class="row mb-2 grid-table">
         <div class="col-5 align-self-center">
-          <span class="fw-semibold">{{ product.name }}</span
-          ><br /><span class="text-muted">{{ product.version }}</span>
+          <span class="fw-semibold">{{ project.name }}</span
+          ><br /><span class="text-muted">{{ project.version }}</span>
         </div>
-        <div class="col-3 align-self-center">{{ product.lastUpdatedDate | formatMediumDate }}</div>
+        <div class="col-3 align-self-center">{{ project.lastUpdatedDate | formatMediumDate }}</div>
         <div class="col-2 align-self-center text-center">
-          <span [ngSwitch]="product.uploadState">
-            <span *ngSwitchCase="'SUCCESSFUL'" class="badge text-bg-success" placement="top" ngbTooltip="Upload was successful">OK</span>
+          <span [ngSwitch]="project.uploadState">
+            <span *ngSwitchCase="'OK'" class="badge text-bg-success" ngbTooltip="Upload was successful" placement="top">OK</span>
             <span *ngSwitchCase="'PROCESSING'" class="badge text-bg-warning" placement="top" ngbTooltip="Upload is processing"
               >Processing</span
             >

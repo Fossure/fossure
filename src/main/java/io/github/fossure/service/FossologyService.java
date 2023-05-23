@@ -47,7 +47,7 @@ public class FossologyService {
         throws IOException, ParseException {
         log.info("Start to analyse library {} with Fossology", library.getId());
 
-        final String lucyEndpointForFileDownload = "/api/v1/fossology/scan?filename=";
+        final String fossureEndpointForFileDownload = "/api/v1/fossology/scan?filename=";
         File fossologyDir = ResourceUtils.getFile(FOSSOLOGY_DIRECTORY);
 
         Fossology fossology;
@@ -81,7 +81,7 @@ public class FossologyService {
 
         String lUrl;
         if (!StringUtils.isBlank(applicationProperties.getFossure().getDomain())) {
-            lUrl = applicationProperties.getFossure().getDomain() + lucyEndpointForFileDownload + libraryLabel;
+            lUrl = applicationProperties.getFossure().getDomain() + fossureEndpointForFileDownload + libraryLabel;
         } else {
             fossology.setStatus(FossologyStatus.FAILURE);
             libraryService.saveAndFlush(library);
@@ -204,15 +204,15 @@ public class FossologyService {
     /**
      * Upload an archive to Fossology
      *
-     * @param endpointLucy    open endpoint to download the archive from
+     * @param endpointFossure    open endpoint to download the archive from
      * @param folderName      folder in Fossology to upload the archive to
      * @param fileName        filename of the archive in Fossology
      * @param fileDescription description of the archive in Fossology (optional)
      */
-    public String uploadToFossology(String endpointLucy, String folderName, String fileName, String fileDescription)
+    public String uploadToFossology(String endpointFossure, String folderName, String fileName, String fileDescription)
         throws IOException, ParseException {
         String folderId = getFolderId(folderName);
-        return startRemoteDownload(endpointLucy, folderId, fileName, fileDescription);
+        return startRemoteDownload(endpointFossure, folderId, fileName, fileDescription);
     }
 
     /**
@@ -287,14 +287,14 @@ public class FossologyService {
     /**
      * Start the download of an archive to Fossology
      *
-     * @param endpointLucy    established connection to the Fossology API
+     * @param endpointFossure    established connection to the Fossology API
      * @param folderId        ID of the folder in Fossology to upload the archive to
      * @param fileName        filename of the archive in Fossology
      * @param fileDescription description of the archive in Fossology (optional)
      */
 
     //Method to signal Fossology to download a file from a specified URL to the Folder identified with the ID
-    public String startRemoteDownload(String endpointLucy, String folderId, String fileName, String fileDescription)
+    public String startRemoteDownload(String endpointFossure, String folderId, String fileName, String fileDescription)
         throws IOException, ParseException {
         //Set-up of a new connection to send the request to the Fossology API
         //with the parameters uploadType, folderId and uploadDescription (optional)
@@ -303,7 +303,7 @@ public class FossologyService {
         connection.setRequestProperty("uploadType", "url");
         connection.setRequestProperty("folderId", folderId);
         connection.setRequestProperty("uploadDescription", fileDescription);
-        String body = String.format("{ \"url\": \"%s\", \"name\": \"%s\" }", endpointLucy, fileName);
+        String body = String.format("{ \"url\": \"%s\", \"name\": \"%s\" }", endpointFossure, fileName);
 
         //Body is transmitted via the helper method
         int responseCode = writeOutputStream(connection, body);

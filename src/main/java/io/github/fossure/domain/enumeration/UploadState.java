@@ -4,7 +4,7 @@ package io.github.fossure.domain.enumeration;
  * The UploadState enumeration.
  */
 public enum UploadState {
-    SUCCESSFUL("Successful"),
+    OK("Ok"),
     PROCESSING("Processing"),
     FAILURE("Failure");
 

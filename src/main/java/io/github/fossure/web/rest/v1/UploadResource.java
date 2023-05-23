@@ -1,11 +1,11 @@
 package io.github.fossure.web.rest.v1;
 
-import io.github.fossure.domain.Product;
+import io.github.fossure.domain.Project;
 import io.github.fossure.domain.Upload;
 import io.github.fossure.domain.enumeration.EntityUploadChoice;
 import io.github.fossure.domain.enumeration.UploadState;
 import io.github.fossure.repository.UploadRepository;
-import io.github.fossure.service.ProductService;
+import io.github.fossure.service.ProjectService;
 import io.github.fossure.service.UploadService;
 import io.github.fossure.service.exceptions.UploadException;
 import io.github.fossure.web.rest.errors.BadRequestAlertException;
@@ -48,16 +48,16 @@ public class UploadResource {
 
     private final UploadService uploadService;
     private final UploadRepository uploadRepository;
-    private final ProductService productService;
+    private final ProjectService projectService;
 
     public UploadResource(
         UploadService uploadService,
         UploadRepository uploadRepository,
-        ProductService productService
+        ProjectService projectService
     ) {
         this.uploadService = uploadService;
         this.uploadRepository = uploadRepository;
-        this.productService = productService;
+        this.projectService = projectService;
     }
 
     /**
@@ -76,24 +76,24 @@ public class UploadResource {
         }
 
         try {
-            if (upload.getEntityToUpload() == EntityUploadChoice.PRODUCT) {
-                Optional<Product> optionalProduct = productService.findOne(Long.valueOf(upload.getRecord()));
+            if (upload.getEntityToUpload() == EntityUploadChoice.PROJECT) {
+                Optional<Project> optionalProject = projectService.findOne(Long.valueOf(upload.getRecord()));
 
-                if (optionalProduct.isPresent()) {
-                    Product product = optionalProduct.get();
-                    product.setUploadState(UploadState.PROCESSING);
-                    productService.save(product);
+                if (optionalProject.isPresent()) {
+                    Project project = optionalProject.get();
+                    project.setUploadState(UploadState.PROCESSING);
+                    projectService.save(project);
                 }
             }
             uploadService.uploadHandler(upload);
         } catch (UploadException e) {
-            if (upload.getEntityToUpload() == EntityUploadChoice.PRODUCT) {
-                Optional<Product> optionalProduct = productService.findOne(Long.valueOf(upload.getRecord()));
+            if (upload.getEntityToUpload() == EntityUploadChoice.PROJECT) {
+                Optional<Project> optionalProject = projectService.findOne(Long.valueOf(upload.getRecord()));
 
-                if (optionalProduct.isPresent()) {
-                    Product product = optionalProduct.get();
-                    product.setUploadState(UploadState.FAILURE);
-                    productService.save(product);
+                if (optionalProject.isPresent()) {
+                    Project project = optionalProject.get();
+                    project.setUploadState(UploadState.FAILURE);
+                    projectService.save(project);
                 }
             }
             throw new BadRequestAlertException(e.getMessage(), ENTITY_NAME, "uploaderror");
@@ -101,7 +101,7 @@ public class UploadResource {
 
         Upload result = uploadService.save(upload);
         return ResponseEntity
-            .created(new URI("/api/uploads/" + result.getId()))
+            .created(new URI("/api/v1/uploads/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

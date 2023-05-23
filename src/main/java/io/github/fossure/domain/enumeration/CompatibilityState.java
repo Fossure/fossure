@@ -4,9 +4,9 @@ package io.github.fossure.domain.enumeration;
  * The CompatibilityState enumeration.
  */
 public enum CompatibilityState {
-    Compatible("Compatible"),
-    Incompatible("Incompatible"),
-    Unknown("Unknown");
+    COMPATIBLE("Compatible"),
+    INCOMPATIBLE("Incompatible"),
+    UNKNOWN("Unknown");
 
     private final String value;
 

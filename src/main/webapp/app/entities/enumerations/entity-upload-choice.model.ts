@@ -1,5 +1,5 @@
 export enum EntityUploadChoice {
-  PRODUCT = 'Product',
+  PROJECT = 'Project',
 
   LIBRARY = 'Library',
 

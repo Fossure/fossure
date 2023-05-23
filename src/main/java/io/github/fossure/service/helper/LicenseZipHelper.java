@@ -15,7 +15,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import io.github.fossure.domain.Library;
 import io.github.fossure.domain.License;
-import io.github.fossure.domain.Product;
+import io.github.fossure.domain.Project;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
 /**
- * Helper class to create a license ZIP package per product.
+ * Helper class to create a license ZIP package per project.
  */
 public class LicenseZipHelper {
 
@@ -43,7 +43,7 @@ public class LicenseZipHelper {
     private final File cssTemplate;
     private final File cssLicenseTemplate;
     private final File htmlTemplate;
-    private final Product product;
+    private final Project project;
     private final Map<String, List<Library>> libraries;
 
     private final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -54,8 +54,8 @@ public class LicenseZipHelper {
     private String disclaimer = "";
     private boolean withGroupId = false;
 
-    public LicenseZipHelper(Product product, List<Library> libraries) throws FileNotFoundException {
-        this.product = product;
+    public LicenseZipHelper(Project project, List<Library> libraries) throws FileNotFoundException {
+        this.project = project;
         long numberOfLibrariesWithGroupId = libraries.stream().filter(library -> !library.getGroupId().isEmpty()).count();
         if (numberOfLibrariesWithGroupId > 0) this.withGroupId = true;
         this.libraries = groupLibraryDuplicates(libraries);
@@ -64,9 +64,9 @@ public class LicenseZipHelper {
         this.cssLicenseTemplate = ResourceUtils.getFile(DEFAULT_LICENSE_CSS_TEMPLATE);
     }
 
-    public LicenseZipHelper(Product product, List<Library> libraries, String htmlTemplate, String cssTemplate)
+    public LicenseZipHelper(Project project, List<Library> libraries, String htmlTemplate, String cssTemplate)
         throws FileNotFoundException {
-        this.product = product;
+        this.project = project;
         long numberOfLibrariesWithGroupId = libraries.stream().filter(library -> !library.getGroupId().isEmpty()).count();
         if (numberOfLibrariesWithGroupId > 0) this.withGroupId = true;
         this.libraries = groupLibraryDuplicates(libraries);
@@ -236,7 +236,7 @@ public class LicenseZipHelper {
         }
 
         htmlOverview = htmlOverview.replace("%{disclaimer}%", disclaimer);
-        htmlOverview = htmlOverview.replace("%{product}%", product.getName() + " " + product.getVersion());
+        htmlOverview = htmlOverview.replace("%{project}%", project.getName() + " " + project.getVersion());
         htmlOverview =
             htmlOverview.replace(
                 "%{date}%",

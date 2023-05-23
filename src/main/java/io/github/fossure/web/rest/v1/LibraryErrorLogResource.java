@@ -71,7 +71,7 @@ public class LibraryErrorLogResource {
         }
         LibraryErrorLog result = libraryErrorLogService.save(libraryErrorLog);
         return ResponseEntity
-            .created(new URI("/api/library-error-logs/" + result.getId()))
+            .created(new URI("/api/v1/library-error-logs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

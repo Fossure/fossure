@@ -61,7 +61,7 @@ public class LicenseRiskResource {
         }
         LicenseRisk result = licenseRiskRepository.save(licenseRisk);
         return ResponseEntity
-            .created(new URI("/api/license-risks/" + result.getId()))
+            .created(new URI("/api/v1/license-risks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

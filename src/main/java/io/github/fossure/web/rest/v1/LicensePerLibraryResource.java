@@ -69,7 +69,7 @@ public class LicensePerLibraryResource {
         }
         LicensePerLibrary result = licensePerLibraryService.save(licensePerLibrary);
         return ResponseEntity
-            .created(new URI("/api/license-per-libraries/" + result.getId()))
+            .created(new URI("/api/v1/license-per-libraries/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

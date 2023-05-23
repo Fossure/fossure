@@ -82,7 +82,7 @@ export class LicenseUpdateComponent implements OnInit {
   setFileData(event: Event, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
       error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('lucyApp.error', { message: err.message })),
+        this.eventManager.broadcast(new EventWithContent<AlertError>('fossureApp.error', { message: err.message })),
     });
   }
 
@@ -173,7 +173,7 @@ export class LicenseUpdateComponent implements OnInit {
 
     for (const value of licenseConflicts.controls) {
       if (value.get('secondLicenseConflict')!.value.licenseRisk?.name === licenseRisk) {
-        value.get('compatibility')!.patchValue(CompatibilityState.Compatible);
+        value.get('compatibility')!.patchValue(CompatibilityState.COMPATIBLE);
       }
     }
 
@@ -188,7 +188,7 @@ export class LicenseUpdateComponent implements OnInit {
 
     for (const value of licenseConflicts.controls) {
       if (value.get('secondLicenseConflict')!.value.licenseRisk?.name === licenseRisk) {
-        value.get('compatibility')!.patchValue(CompatibilityState.Incompatible);
+        value.get('compatibility')!.patchValue(CompatibilityState.INCOMPATIBLE);
       }
     }
 
@@ -203,7 +203,7 @@ export class LicenseUpdateComponent implements OnInit {
 
     for (const value of licenseConflicts.controls) {
       if (value.get('secondLicenseConflict')!.value.licenseRisk?.name === licenseRisk) {
-        value.get('compatibility')!.patchValue(CompatibilityState.Unknown);
+        value.get('compatibility')!.patchValue(CompatibilityState.UNKNOWN);
       }
     }
 

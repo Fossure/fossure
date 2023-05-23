@@ -3,10 +3,10 @@ package io.github.fossure.service;
 import io.github.fossure.domain.statistics.Dashboard;
 import io.github.fossure.service.criteria.LibraryCriteria;
 import io.github.fossure.service.criteria.LicenseCriteria;
-import io.github.fossure.service.criteria.ProductCriteria;
+import io.github.fossure.service.criteria.ProjectCriteria;
 import io.github.fossure.service.criteria.query.LibraryQueryService;
 import io.github.fossure.service.criteria.query.LicenseQueryService;
-import io.github.fossure.service.criteria.query.ProductQueryService;
+import io.github.fossure.service.criteria.query.ProjectQueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,23 +17,23 @@ public class DashboardService {
 
     private static final Logger log = LoggerFactory.getLogger(DashboardService.class);
 
-    private final ProductService productService;
-    private final ProductQueryService productQueryService;
+    private final ProjectService projectService;
+    private final ProjectQueryService projectQueryService;
     private final LibraryService libraryService;
     private final LibraryQueryService libraryQueryService;
     private final LicenseService licenseService;
     private final LicenseQueryService licenseQueryService;
 
     public DashboardService(
-        ProductService productService,
-        ProductQueryService productQueryService,
+        ProjectService projectService,
+        ProjectQueryService projectQueryService,
         LibraryService libraryService,
         LibraryQueryService libraryQueryService,
         LicenseService licenseService,
         LicenseQueryService licenseQueryService
     ) {
-        this.productService = productService;
-        this.productQueryService = productQueryService;
+        this.projectService = projectService;
+        this.projectQueryService = projectQueryService;
         this.libraryService = libraryService;
         this.libraryQueryService = libraryQueryService;
         this.licenseService = licenseService;
@@ -49,12 +49,12 @@ public class DashboardService {
         falseFilter.setEquals(false);
 
         // Count all projects
-        long totalProjects = productService.count();
+        long totalProjects = projectService.count();
 
         // Count all active projects
-        ProductCriteria productCriteria = new ProductCriteria();
-        productCriteria.setDelivered(falseFilter);
-        long totalActiveProjects = productQueryService.countByCriteria(productCriteria);
+        ProjectCriteria projectCriteria = new ProjectCriteria();
+        projectCriteria.setDelivered(falseFilter);
+        long totalActiveProjects = projectQueryService.countByCriteria(projectCriteria);
 
         // Count all libraries
         long totalLibraries = libraryService.count();

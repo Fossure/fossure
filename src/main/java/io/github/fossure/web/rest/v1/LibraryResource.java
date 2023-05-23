@@ -84,7 +84,7 @@ public class LibraryResource {
         try {
             Library result = libraryService.saveWithCheck(library);
             return ResponseEntity
-                .created(new URI("/api/libraries/" + result.getId()))
+                .created(new URI("/api/v1/libraries/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
                 .body(result);
         } catch (LibraryException e) {

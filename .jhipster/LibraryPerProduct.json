@@ -4,7 +4,7 @@
   "clientRootFolder": "",
   "dto": "no",
   "embedded": false,
-  "entityTableName": "library_per_product",
+  "entityTableName": "library_per_project",
   "fields": [
     {
       "fieldName": "addedDate",
@@ -21,20 +21,20 @@
   ],
   "fluentMethods": true,
   "jpaMetamodelFiltering": true,
-  "name": "LibraryPerProduct",
+  "name": "Dependency",
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [
     {
       "otherEntityName": "library",
-      "otherEntityRelationshipName": "libraryPerProduct",
+      "otherEntityRelationshipName": "dependency",
       "relationshipName": "library",
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityName": "product",
+      "otherEntityName": "project",
       "otherEntityRelationshipName": "library",
-      "relationshipName": "product",
+      "relationshipName": "project",
       "relationshipType": "many-to-one"
     }
   ],

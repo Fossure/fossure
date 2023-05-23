@@ -25,9 +25,9 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./requirement/requirement.module').then(m => m.RequirementModule),
       },
       {
-        path: 'product',
-        data: { pageTitle: 'Products' },
-        loadChildren: () => import('./product/product.module').then(m => m.ProductModule),
+        path: 'project',
+        data: { pageTitle: 'Projects' },
+        loadChildren: () => import('./project/project.module').then(m => m.ProjectModule),
       },
       {
         path: 'license-naming-mapping',
@@ -54,8 +54,8 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./upload/upload.module').then(m => m.UploadModule),
       },
       {
-        path: 'library-per-product',
-        loadChildren: () => import('./library-per-product/library-per-product.module').then(m => m.LibraryPerProductModule),
+        path: 'dependency',
+        loadChildren: () => import('./dependency/dependency.module').then(m => m.DependencyModule),
       },
     ]),
   ],

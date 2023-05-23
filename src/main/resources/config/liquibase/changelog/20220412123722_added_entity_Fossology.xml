@@ -32,7 +32,7 @@
     <changeSet id="20220412123722-1-library" author="patrick.wojciech">
         <addColumn tableName="library">
             <column name="fossology_id" type="bigint">
-                <constraints nullable="true"/>
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_library__fossology_id"/>
             </column>
         </addColumn>
     </changeSet>

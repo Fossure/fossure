@@ -48,8 +48,8 @@ public class LicensePerLibraryService {
      */
     public List<LicensePerLibrary> saveAll(SortedSet<LicensePerLibrary> licensePerLibraries, Long libraryId) {
         log.debug("Request to save LicensePerLibraries : {}", licensePerLibraries);
-        for (LicensePerLibrary lpp : licensePerLibraries) {
-            lpp.setLibrary(new Library().id(libraryId));
+        for (LicensePerLibrary lpl : licensePerLibraries) {
+            lpl.setLibrary(new Library().id(libraryId));
         }
         return licensePerLibraryRepository.saveAll(licensePerLibraries);
     }
@@ -63,8 +63,8 @@ public class LicensePerLibraryService {
      */
     public List<LicensePerLibrary> saveAllAndFlush(SortedSet<LicensePerLibrary> licensePerLibraries, Long libraryId) {
         log.debug("Request to save LicensePerLibraries : {}", licensePerLibraries);
-        for (LicensePerLibrary lpp : licensePerLibraries) {
-            lpp.setLibrary(new Library().id(libraryId));
+        for (LicensePerLibrary lpl : licensePerLibraries) {
+            lpl.setLibrary(new Library().id(libraryId));
         }
         return licensePerLibraryRepository.saveAllAndFlush(licensePerLibraries);
     }

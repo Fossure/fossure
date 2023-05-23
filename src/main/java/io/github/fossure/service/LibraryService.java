@@ -397,9 +397,9 @@ public class LibraryService {
         log.debug("Autocomplete of license fields");
         if (library.getOriginalLicense() == null) library.setOriginalLicense("");
 
-        for (LicensePerLibrary lpp : library.getLicenses()) {
-            Optional<License> optionalLicense = licenseService.findOne(lpp.getLicense().getId());
-            optionalLicense.ifPresent(lpp::setLicense);
+        for (LicensePerLibrary lpl : library.getLicenses()) {
+            Optional<License> optionalLicense = licenseService.findOne(lpl.getLicense().getId());
+            optionalLicense.ifPresent(lpl::setLicense);
         }
 
         for (License license : library.getLicenseToPublishes()) {
@@ -760,7 +760,7 @@ public class LibraryService {
      * <b>Cases:</b>
      * <ul>
      *     <li>Full result is twice as big as "copyright", than copyright will be saved and an error is logged.</li>
-     *     <li>Copyright result is emtpy, than full will be saved and an error is logged.</li>
+     *     <li>Copyright result is empty, than full will be saved and an error is logged.</li>
      * </ul>
      *
      * @param library Library entity

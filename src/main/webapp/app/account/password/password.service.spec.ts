@@ -34,7 +34,7 @@ describe('Password Service', () => {
 
       const testRequest = httpMock.expectOne({
         method: 'POST',
-        url: applicationConfigService.getEndpointFor('api/account/change-password'),
+        url: applicationConfigService.getEndpointFor('api/v1/account/change-password'),
       });
 
       // THEN

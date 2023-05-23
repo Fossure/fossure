@@ -13,8 +13,8 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap({
         error: (err: HttpErrorResponse) => {
-          if (!(err.status === 401 && (err.message === '' || err.url?.includes('api/account')))) {
-            this.eventManager.broadcast(new EventWithContent('lucyApp.httpError', err));
+          if (!(err.status === 401 && (err.message === '' || err.url?.includes('api/v1/account')))) {
+            this.eventManager.broadcast(new EventWithContent('fossureApp.httpError', err));
           }
         },
       })

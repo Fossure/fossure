@@ -4,7 +4,7 @@
   "clientRootFolder": "",
   "dto": "no",
   "embedded": false,
-  "entityTableName": "product",
+  "entityTableName": "project",
   "fields": [
     {
       "fieldName": "name",
@@ -66,7 +66,7 @@
       "fieldValidateRulesMaxlength": "4096"
     },
     {
-      "fieldName": "previousProductId",
+      "fieldName": "previousProjectId",
       "fieldType": "Integer"
     },
     {
@@ -78,13 +78,13 @@
   ],
   "fluentMethods": true,
   "jpaMetamodelFiltering": true,
-  "name": "Product",
+  "name": "Project",
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "libraryPerProduct",
-      "otherEntityRelationshipName": "product",
+      "otherEntityName": "dependency",
+      "otherEntityRelationshipName": "project",
       "relationshipName": "library",
       "relationshipType": "one-to-many"
     }

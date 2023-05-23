@@ -401,7 +401,7 @@ public class LicenseService {
 
         license = license.trim();
         String[] identifiers;
-        identifiers = license.split(Constants.licenseSplitRegex);
+        identifiers = license.split(Constants.LICENSE_SPLIT_REGEX);
 
         SortedSet<LicensePerLibrary> linkedLicenses = new TreeSet<>();
         int orderIdCounter = 0;
@@ -577,7 +577,7 @@ public class LicenseService {
                 LicenseConflict licenseConflict = new LicenseConflict()
                     .firstLicenseConflict(license)
                     .secondLicenseConflict(licenseEntity)
-                    .compatibility(CompatibilityState.Unknown);
+                    .compatibility(CompatibilityState.UNKNOWN);
 
                 license = license.addLicenseConflict(licenseConflict);
             }
@@ -595,7 +595,7 @@ public class LicenseService {
                 LicenseConflict licenseConflict = new LicenseConflict()
                     .firstLicenseConflict(licenseEntity)
                     .secondLicenseConflict(license)
-                    .compatibility(CompatibilityState.Unknown);
+                    .compatibility(CompatibilityState.UNKNOWN);
 
                 //licenseEntity = licenseEntity.addLicenseConflict(licenseConflict);
                 licenseConflictRepository.save(licenseConflict);

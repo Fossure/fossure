@@ -12,8 +12,8 @@ export const EntityNavbarItems = [
     route: 'requirement',
   },
   {
-    name: 'Product',
-    route: 'product',
+    name: 'Project',
+    route: 'project',
   },
   {
     name: 'LicenseNamingMapping',

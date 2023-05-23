@@ -8,7 +8,7 @@
     {
       "fieldName": "compatibility",
       "fieldType": "CompatibilityState",
-      "fieldValues": "Compatible (Compatible),Incompatible (Incompatible),Unknown (Unknown)"
+      "fieldValues": "COMPATIBLE (Compatible),INCOMPATIBLE (Incompatible),UNKNOWN (Unknown)"
     },
     {
       "fieldName": "comment",

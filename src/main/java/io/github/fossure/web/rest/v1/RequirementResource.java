@@ -61,7 +61,7 @@ public class RequirementResource {
         }
         Requirement result = requirementRepository.save(requirement);
         return ResponseEntity
-            .created(new URI("/api/requirements/" + result.getId()))
+            .created(new URI("/api/v1/requirements/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

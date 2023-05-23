@@ -98,7 +98,7 @@ export class LibraryUpdateComponent implements OnInit {
   setFileData(event: Event, field: string, isImage: boolean): void {
     this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
       error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('lucyApp.error', { message: err.message })),
+        this.eventManager.broadcast(new EventWithContent<AlertError>('fossureApp.error', { message: err.message })),
     });
   }
 

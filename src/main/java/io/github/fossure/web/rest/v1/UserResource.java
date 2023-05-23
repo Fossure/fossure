@@ -122,7 +122,7 @@ public class UserResource {
             User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity
-                .created(new URI("/api/admin/users/" + newUser.getLogin()))
+                .created(new URI("/api/v1/admin/users/" + newUser.getLogin()))
                 .headers(
                     HeaderUtil.createAlert(applicationName, "A user is created with identifier " + newUser.getLogin(), newUser.getLogin())
                 )

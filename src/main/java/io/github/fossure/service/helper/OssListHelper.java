@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import io.github.fossure.domain.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.lang3.StringUtils;
@@ -25,11 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
 import io.github.fossure.config.Constants;
-import io.github.fossure.domain.Library;
-import io.github.fossure.domain.License;
-import io.github.fossure.domain.LicenseRisk;
-import io.github.fossure.domain.Product;
-import io.github.fossure.domain.Requirement;
+import io.github.fossure.domain.Project;
 
 public class OssListHelper {
 
@@ -71,7 +68,7 @@ public class OssListHelper {
     private final Map<String, List<Library>> libraries;
 
     private File htmlTemplate;
-    private Product product;
+    private Project project;
     private String html;
     private String tableHeader = "";
     private boolean withGroupId = false;
@@ -82,8 +79,8 @@ public class OssListHelper {
         this.libraries = groupLibraryDuplicates(libraries);
     }
 
-    public OssListHelper(Product product, List<Library> libraries, boolean distinct) throws FileNotFoundException {
-        this.product = product;
+    public OssListHelper(Project project, List<Library> libraries, boolean distinct) throws FileNotFoundException {
+        this.project = project;
 
         long numberOfLibrariesWithGroupId = libraries.stream().filter(library -> !library.getGroupId().isEmpty()).count();
         if (numberOfLibrariesWithGroupId > 0) this.withGroupId = true;
@@ -109,8 +106,8 @@ public class OssListHelper {
         this.htmlTemplate = ResourceUtils.getFile(DEFAULT_HTML_TEMPLATE);
     }
 
-    public OssListHelper(Product product, List<Library> libraries, String htmlTemplate) throws FileNotFoundException {
-        this.product = product;
+    public OssListHelper(Project project, List<Library> libraries, String htmlTemplate) throws FileNotFoundException {
+        this.project = project;
         this.libraries = groupLibraryDuplicates(libraries);
         this.htmlTemplate = ResourceUtils.getFile(htmlTemplate);
     }
@@ -194,7 +191,7 @@ public class OssListHelper {
             log.error("Error while reading HTML template : {}", e.getMessage());
         }
 
-        html = html.replace("%{product}%", product.getName() + " " + product.getVersion());
+        html = html.replace("%{project}%", project.getName() + " " + project.getVersion());
         html = addTableContent(createTableContent(distinct));
         html = html.replace("%{tableHeader}%", tableHeader);
     }
@@ -377,10 +374,10 @@ public class OssListHelper {
 
         libraries.forEach((key, value) -> {
 
-            for (Library libraryPerProduct : value) {
-                String groupId = libraryPerProduct.getGroupId();
-                String artifactId = libraryPerProduct.getArtifactId();
-                String version = libraryPerProduct.getVersion();
+            for (Library dependency : value) {
+                String groupId = dependency.getGroupId();
+                String artifactId = dependency.getArtifactId();
+                String version = dependency.getVersion();
 
                 // Changing the button value when is pressed is defined in the collapse JS function in the ossList/default.html
                 String beforeData =
@@ -389,25 +386,25 @@ public class OssListHelper {
                     "<p>";
                 String afterData = "</p>\n" + "</div>";
 
-                String comment = !StringUtils.isBlank(libraryPerProduct.getComment())
-                    ? beforeData + libraryPerProduct.getComment() + afterData
+                String comment = !StringUtils.isBlank(dependency.getComment())
+                    ? beforeData + dependency.getComment() + afterData
                     : "No comment";
 
-                String complianceComment = !StringUtils.isBlank(libraryPerProduct.getComplianceComment())
-                    ? beforeData + libraryPerProduct.getComplianceComment() + afterData
+                String complianceComment = !StringUtils.isBlank(dependency.getComplianceComment())
+                    ? beforeData + dependency.getComplianceComment() + afterData
                     : "No comment";
 
-                String licenseRisk = libraryPerProduct.getLicenseRisk(libraryPerProduct.getLicenseToPublishes()).getName();
+                String licenseRisk = dependency.getLicenseRisk(dependency.getLicenseToPublishes()).getName();
                 List<String> requirements = new ArrayList<>(16);
 
                 for (String ignored : requirementsLookup) {
                     requirements.add("");
                 }
 
-                libraryPerProduct.getLicenses().forEach(e -> totalLicenses.add(e.getLicense().getShortIdentifier()));
+                dependency.getLicenses().forEach(e -> totalLicenses.add(e.getLicense().getShortIdentifier()));
 
-                if (libraryPerProduct.getLicenseToPublishes() != null && !libraryPerProduct.getLicenseToPublishes().isEmpty()) {
-                    for (License licenseToPublish : libraryPerProduct.getLicenseToPublishes()) {
+                if (dependency.getLicenseToPublishes() != null && !dependency.getLicenseToPublishes().isEmpty()) {
+                    for (License licenseToPublish : dependency.getLicenseToPublishes()) {
                         if (licenseToPublish.getRequirements() != null) {
                             for (Requirement requirement : licenseToPublish.getRequirements()) {
                                 if (requirementsLookup.contains(requirement.getShortText())) {
@@ -425,7 +422,7 @@ public class OssListHelper {
                     groupId,
                     artifactId,
                     "V" + version,
-                    libraryPerProduct.printLinkedLicenses(),
+                    dependency.printLinkedLicenses(),
                     licenseRisk,
                     String.valueOf(totalLicenses.size()),
                     comment,
@@ -461,7 +458,7 @@ public class OssListHelper {
             log.error("Error while reading HTML template : {}", e.getMessage());
         }
 
-        html = html.replace("%{product}%", product.getName() + " " + product.getVersion());
+        html = html.replace("%{project}%", project.getName() + " " + project.getVersion());
         html = addTableContent(content.toString());
         html = html.replace("%{tableHeader}%", tableHeader);
     }

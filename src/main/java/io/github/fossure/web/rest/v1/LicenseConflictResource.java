@@ -58,7 +58,7 @@ public class LicenseConflictResource {
         }
         LicenseConflict result = licenseConflictRepository.save(licenseConflict);
         return ResponseEntity
-            .created(new URI("/api/license-conflicts/" + result.getId()))
+            .created(new URI("/api/v1/license-conflicts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }

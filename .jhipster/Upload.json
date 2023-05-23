@@ -16,7 +16,7 @@
     {
       "fieldName": "entityToUpload",
       "fieldType": "EntityUploadChoice",
-      "fieldValues": "PRODUCT (Product),LIBRARY (Library),LICENSE (License)"
+      "fieldValues": "PROJECT (Project),LIBRARY (Library),LICENSE (License)"
     },
     {
       "fieldName": "record",

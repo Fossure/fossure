@@ -1,0 +1,254 @@
+<jhi-alert-error></jhi-alert-error>
+
+<jhi-alert></jhi-alert>
+<div class="jh-card card">
+  <div class="row">
+    <div class="col-md">
+      <h2 data-cy="ProjectHeading" id="page-heading">
+        <fa-icon icon="sitemap"></fa-icon>
+        <span
+          >Projects<span class="badge bg-secondary" style="color: white">{{ totalItems }}</span></span
+        >
+      </h2>
+    </div>
+
+    <div class="col-md-auto">
+      <ng-template #compareModal let-modal>
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Compare two projects
+            <fa-icon
+              icon="question-circle"
+              placement="down"
+              ngbTooltip="When comparing two projects, the differences of the contained libraries are displayed. The libraries that are only available in the first or second selected project or the libraries that are available in both projects are shown. Various views can be created using different options."
+              container="body"
+            ></fa-icon>
+          </h5>
+          <button type="button" class="btn-close" (click)="modal.close('Close difference view')" data-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <jhi-difference-view #differenceViewComponent></jhi-difference-view>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="modal.close('Close difference view')" data-dismiss="modal">Close</button>
+          <button
+            [disabled]="
+              differenceViewComponent.isLoading ||
+              (differenceViewComponent?.projectComparisonForm?.get('firstProject'))!.invalid ||
+              (differenceViewComponent?.projectComparisonForm?.get('secondProject'))!.invalid
+            "
+            type="button"
+            class="btn btn-primary"
+            (click)="differenceViewComponent?.compare()"
+          >
+            Compare
+          </button>
+          <div
+            *ngIf="
+              (differenceViewComponent?.projectComparisonForm?.get('firstProject'))!.invalid ||
+              (differenceViewComponent?.projectComparisonForm?.get('secondProject'))!.invalid
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="
+                (differenceViewComponent?.projectComparisonForm?.get('firstProject'))!.errors?.required ||
+                (differenceViewComponent?.projectComparisonForm?.get('secondProject'))!.errors?.required
+              "
+            >
+              Select two projects.
+            </small>
+          </div>
+        </div>
+      </ng-template>
+      <button (click)="openDifferenceViewModal(compareModal)" class="btn btn-primary">Compare Projects</button>
+    </div>
+
+    <div class="col-md-auto">
+      <button class="btn btn-info me-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+      </button>
+
+      <button
+        *jhiHasAnyAuthority="['ROLE_USER', 'ROLE_ADMIN']"
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        [routerLink]="['/project/new']"
+        class="btn btn-primary jh-create-entity create-project"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Project </span>
+      </button>
+    </div>
+  </div>
+  <hr />
+  <h5>Search</h5>
+  <div class="row">
+    <div class="col">
+      <form name="searchForm" role="form" novalidate (ngSubmit)="search()" [formGroup]="searchForm">
+        <div class="row mb-2">
+          <div class="col-md mb-2">
+            <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" placeholder="Name" />
+          </div>
+          <div class="col-md mb-2">
+            <input
+              type="text"
+              class="form-control"
+              data-cy="label"
+              formControlName="label"
+              id="field_label"
+              name="label"
+              placeholder="Label"
+            />
+          </div>
+          <div class="col-md mb-2">
+            <input
+              type="text"
+              class="form-control"
+              name="version"
+              id="field_version"
+              data-cy="version"
+              formControlName="version"
+              placeholder="Version"
+            />
+          </div>
+          <div class="col-sm-auto">
+            <button type="submit" id="save-entity" data-cy="entityCreateSaveButton" class="btn btn-primary">
+              <fa-icon icon="search"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-check form-switch">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="field_hideDelivered"
+                name="hideDelivered"
+                data-cy="hideDelivered"
+                formControlName="hideDelivered"
+                (change)="search()"
+              />
+              <label class="form-check-label" for="field_hideDelivered">Hide delivered projects</label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="projects?.length === 0" class="jh-card card">
+  <div class="alert alert-warning" id="no-result">
+    <span>No projects found</span>
+  </div>
+</div>
+
+<div *ngIf="projects && projects.length > 0" class="table-responsive jh-card card" id="entities">
+  <table class="table table-sm" aria-describedby="page-heading">
+    <thead>
+      <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+        <th scope="col" jhiSortBy="uploadState">
+          <span placement="right" ngbTooltip="Last Upload Status">U</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="name">
+          <span>Name</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th jhiSortBy="label" scope="col">
+          <span>Label</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="version">
+          <span>Version</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="createdDate">
+          <span>Creation Date</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col" jhiSortBy="lastUpdatedDate">
+          <span>Last Upload</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th class="text-center" scope="col" jhiSortBy="delivered">
+          <span>Delivery Status</span>
+          <fa-icon icon="sort"></fa-icon>
+        </th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects; trackBy: trackId" data-cy="entityTable">
+        <td>
+          <span [ngSwitch]="project.uploadState">
+            <span *ngSwitchCase="'OK'" class="rectangle-sm bg-success" ngbTooltip="Ok" placement="top"></span>
+            <span *ngSwitchCase="'PROCESSING'" class="rectangle-sm bg-warning" placement="top" ngbTooltip="Processing"></span>
+            <span *ngSwitchCase="'FAILURE'" class="rectangle-sm bg-danger" placement="top" ngbTooltip="Failure"></span>
+          </span>
+        </td>
+        <td>
+          <a [routerLink]="['/project', project.id, 'view']">{{ project.name }}</a>
+        </td>
+        <td>{{ project.label }}</td>
+        <td>{{ project.version }}</td>
+        <td>{{ project.createdDate | formatMediumDate }}</td>
+        <td>{{ project.lastUpdatedDate | formatMediumDate }}</td>
+        <td class="text-center">
+          <span
+            *ngIf="project.delivered"
+            class="badge bg-success"
+            placement="top"
+            [ngbTooltip]="project.deliveredDate | formatMediumDatetime"
+            >Delivered</span
+          >
+          <span *ngIf="!project.delivered" class="badge bg-secondary">In Development</span>
+        </td>
+        <td class="text-right" *jhiHasAnyAuthority="['ROLE_USER', 'ROLE_ADMIN']">
+          <div class="btn-group">
+            <button
+              type="submit"
+              [routerLink]="['/project', project.id, 'edit']"
+              class="btn btn-primary btn-sm w-50"
+              data-cy="entityEditButton"
+              placement="top"
+              ngbTooltip="Edit project"
+            >
+              <fa-icon icon="pencil-alt"></fa-icon>
+            </button>
+
+            <button
+              type="submit"
+              (click)="delete(project)"
+              class="btn btn-danger btn-sm w-50"
+              data-cy="entityDeleteButton"
+              placement="top"
+              ngbTooltip="Delete project"
+            >
+              <fa-icon icon="times"></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="projects && projects.length > 0">
+    <div class="row justify-content-center mb-2">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

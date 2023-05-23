@@ -4,8 +4,8 @@ export interface IDifferenceView {
   sameLibraries?: ILibrary[] | null;
   addedLibraries?: ILibrary[] | null;
   removedLibraries?: ILibrary[] | null;
-  firstProductNewLibraries?: ILibrary[] | null;
-  secondProductNewLibraries?: ILibrary[] | null;
+  firstProjectNewLibraries?: ILibrary[] | null;
+  secondProjectNewLibraries?: ILibrary[] | null;
 }
 
 export class DifferenceView implements IDifferenceView {
@@ -13,7 +13,7 @@ export class DifferenceView implements IDifferenceView {
     sameLibraries?: ILibrary[] | null,
     addedLibraries?: ILibrary[] | null,
     removedLibraries?: ILibrary[] | null,
-    firstProductLibraries?: ILibrary[] | null,
-    secondProductLibraries?: ILibrary[] | null
+    firstProjectLibraries?: ILibrary[] | null,
+    secondProjectLibraries?: ILibrary[] | null
   ) {}
 }

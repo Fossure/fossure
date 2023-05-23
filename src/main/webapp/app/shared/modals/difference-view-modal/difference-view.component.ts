@@ -3,9 +3,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
-import { ProductService } from '../../../entities/product/service/product.service';
+import { ProjectService } from '../../../entities/project/service/project.service';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { IProduct } from '../../../entities/product/product.model';
+import { IProject } from '../../../entities/project/project.model';
 import { ActivatedRoute } from '@angular/router';
 import { IDifferenceView } from './difference-view.model';
 import { ASC } from '../../../config/pagination.constants';
@@ -18,18 +18,18 @@ import { LibraryService } from '../../../entities/library/service/library.servic
 })
 export class DifferenceViewComponent implements OnInit {
   @Input()
-  showProductSelection = true;
+  showProjectSelection = true;
 
   differenceView?: IDifferenceView | null;
   noDifferenceViewPossible = false;
 
   isLoading = false;
   isCollapsed = true;
-  productsSharedCollection: IProduct[] = [];
+  projectsSharedCollection: IProject[] = [];
 
-  productComparisonForm = this.fb.group({
-    firstProduct: [null, [Validators.required]],
-    secondProduct: [null, [Validators.required]],
+  projectComparisonForm = this.fb.group({
+    firstProject: [null, [Validators.required]],
+    secondProject: [null, [Validators.required]],
   });
 
   optionsForm = this.fb.group({
@@ -42,7 +42,7 @@ export class DifferenceViewComponent implements OnInit {
   });
 
   constructor(
-    protected productService: ProductService,
+    protected projectService: ProjectService,
     protected fb: UntypedFormBuilder,
     protected activatedRoute: ActivatedRoute,
     protected libraryService: LibraryService
@@ -50,22 +50,22 @@ export class DifferenceViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(() => {
-      if (this.showProductSelection) {
+      if (this.showProjectSelection) {
         this.loadRelationshipsOptions();
       }
     });
   }
 
   compare(): void {
-    const firstProduct = this.productComparisonForm.get('firstProduct')!.value as unknown as IProduct;
-    const secondProduct = this.productComparisonForm.get('secondProduct')!.value as unknown as IProduct;
+    const firstProject = this.projectComparisonForm.get('firstProject')!.value as unknown as IProject;
+    const secondProject = this.projectComparisonForm.get('secondProject')!.value as unknown as IProject;
 
     this.isLoading = true;
 
-    this.productService
-      .compareProducts({
-        firstProductId: firstProduct.id,
-        secondProductId: secondProduct.id,
+    this.projectService
+      .compareProjects({
+        firstProjectId: firstProject.id,
+        secondProjectId: secondProject.id,
       })
       .subscribe({
         next: (res: HttpResponse<IDifferenceView>) => {
@@ -76,20 +76,20 @@ export class DifferenceViewComponent implements OnInit {
       });
   }
 
-  compareWithParameters(firstProductId: number | undefined | null, secondProductId: number | undefined | null): void {
+  compareWithParameters(firstProjectId: number | undefined | null, secondProjectId: number | undefined | null): void {
     this.isLoading = true;
 
-    if (firstProductId && secondProductId) {
-      this.productService
-        .compareProducts({
-          firstProductId,
-          secondProductId,
+    if (firstProjectId && secondProjectId) {
+      this.projectService
+        .compareProjects({
+          firstProjectId,
+          secondProjectId,
         })
         .subscribe({
           next: (res: HttpResponse<IDifferenceView>) => {
             this.differenceView = res.body;
 
-            this.loadRelationshipsOptionsAndInitProductComparisonForm(firstProductId, secondProductId);
+            this.loadRelationshipsOptionsAndInitProjectComparisonForm(firstProjectId, secondProjectId);
           },
           error: () => (this.isLoading = false),
         });
@@ -99,11 +99,11 @@ export class DifferenceViewComponent implements OnInit {
     }
   }
 
-  trackProductById(index: number, item: IProduct): number {
+  trackProjectById(index: number, item: IProject): number {
     return item.id!;
   }
 
-  getSingleProduct(option: IProduct, selectedVal?: IProduct): IProduct {
+  getSingleProject(option: IProject, selectedVal?: IProject): IProject {
     if (selectedVal) {
       if (option.id === selectedVal.id) {
         return selectedVal;
@@ -117,43 +117,43 @@ export class DifferenceViewComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
-    this.productService.count().subscribe((count: HttpResponse<number>) => {
-      this.productService
+    this.projectService.count().subscribe((count: HttpResponse<number>) => {
+      this.projectService
         .query({
           page: 0,
           size: count.body,
           sort: ['identifier' + ',' + ASC],
         })
-        .pipe(map((res: HttpResponse<IProduct[]>) => res.body ?? []))
-        .subscribe((products: IProduct[]) => {
-          this.productsSharedCollection = products;
+        .pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
+        .subscribe((projects: IProject[]) => {
+          this.projectsSharedCollection = projects;
         });
     });
   }
 
-  protected loadRelationshipsOptionsAndInitProductComparisonForm(
-    firstProductId: number | undefined | null,
-    secondProductId: number | undefined | null
+  protected loadRelationshipsOptionsAndInitProjectComparisonForm(
+    firstProjectId: number | undefined | null,
+    secondProjectId: number | undefined | null
   ): void {
-    this.productService.count().subscribe((count: HttpResponse<number>) => {
-      this.productService
+    this.projectService.count().subscribe((count: HttpResponse<number>) => {
+      this.projectService
         .query({
           page: 0,
           size: count.body,
           sort: ['identifier' + ',' + ASC],
         })
-        .pipe(map((res: HttpResponse<IProduct[]>) => res.body ?? []))
-        .subscribe((products: IProduct[]) => {
-          this.productsSharedCollection = products;
+        .pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
+        .subscribe((projects: IProject[]) => {
+          this.projectsSharedCollection = projects;
 
-          const firstProduct = this.productsSharedCollection.find(e => e.id === firstProductId);
-          if (firstProduct) {
-            this.productComparisonForm.get('firstProduct')?.setValue(firstProduct);
+          const firstProject = this.projectsSharedCollection.find(e => e.id === firstProjectId);
+          if (firstProject) {
+            this.projectComparisonForm.get('firstProject')?.setValue(firstProject);
           }
 
-          const secondProduct = this.productsSharedCollection.find(e => e.id === secondProductId);
-          if (secondProduct) {
-            this.productComparisonForm.get('secondProduct')?.setValue(secondProduct);
+          const secondProject = this.projectsSharedCollection.find(e => e.id === secondProjectId);
+          if (secondProject) {
+            this.projectComparisonForm.get('secondProject')?.setValue(secondProject);
           }
           this.isLoading = false;
         });
