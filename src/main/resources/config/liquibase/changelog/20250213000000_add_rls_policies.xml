@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="20250213000000-1" author="openai">
+        <sql dbms="postgresql">
+            ALTER TABLE project ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE library ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE dependency ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE upload ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE license ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE license_risk ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE requirement ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE license_per_library ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE license_conflict ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE generic_license_url ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE license_naming_mapping ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE library_error_log ENABLE ROW LEVEL SECURITY;
+            ALTER TABLE fossology ENABLE ROW LEVEL SECURITY;
+
+            CREATE POLICY authenticated_access ON project
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON library
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON dependency
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON upload
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON license
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON license_risk
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON requirement
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON license_per_library
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON license_conflict
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON generic_license_url
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON license_naming_mapping
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON library_error_log
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+
+            CREATE POLICY authenticated_access ON fossology
+                FOR ALL
+                USING (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                )
+                WITH CHECK (
+                    current_setting('request.jwt.claim.role', true) = 'service_role'
+                    OR current_setting('request.jwt.claim.sub', true) IS NOT NULL
+                );
+        </sql>
+    </changeSet>
+</databaseChangeLog>
